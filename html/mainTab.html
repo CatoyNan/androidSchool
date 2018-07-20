@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+		    <h1 class="mui-title">校园动态</h1>
+		</header>
+		<nav class="mui-bar mui-bar-tab">
+		    <a class="mui-tab-item mui-active">
+		        <span class="mui-icon mui-icon-home"></span>
+		        <span class="mui-tab-label">首页</span>
+		    </a>
+		    <a class="mui-tab-item">
+		        <span class="mui-icon mui-icon-phone"></span>
+		        <span class="mui-tab-label">电话</span>
+		    </a>
+		    <a class="mui-tab-item">
+		        <span class="mui-icon mui-icon-email"></span>
+		        <span class="mui-tab-label">邮件</span>
+		    </a>
+		    <a class="mui-tab-item">
+		        <span class="mui-icon mui-icon-gear"></span>
+		        <span class="mui-tab-label">设置</span>
+		    </a>
+		</nav>
+		
+		
+		
+		
+		
+		
+		
+		<!--js-->
+		<script src="../js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init({
+				subpages:[{
+					url:'news.html',
+					id:'newsPage',
+					styles:{
+						 top:'45px',//mui标题栏默认高度为45px；
+       					 bottom:'50px'//默认为0px，可不定义；
+					}
+				}]
+			});
+			mui.plusReady(function(){
+				
+			});//
+		</script>
+	</body>
+
+</html>

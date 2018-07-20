@@ -68,8 +68,6 @@
 	<!--登入按钮-->
 	<div style="margin-top:20px;text-align: center;"> 
 	  <button type="button"  id="loginBtn" class="mui-btn mui-btn-block mui-btn-primary">登入</button>
-   	 <!--<button class="mui-btn mui-btn-primary" id="loginBtn">登录</button>-->  
-   		 <!--&nbsp;&nbsp;<button class="mui-btn mui-btn-primary" id="regBtn">注册</button>  -->
 	</div>  
 </div>	
 
@@ -77,7 +75,7 @@
 	<!--js-->
 	 <script type="text/javascript" charset="utf-8">
       	mui.init();    
-     	mui.plusReady(    
+     	mui.plusReady(    //判断h5+页面加载完毕
        		function() {
        				
 				// 自动填充
@@ -110,12 +108,12 @@
      			    document.getElementById('username').value = "";   // 清空用户名，密码  
                     document.getElementById('userpassword').value = "";  
                    
-//   			    mui.openWindow(  // 打开下一个画面  
-//                     {  
-//                    	  	url:'main.html',  
-//        					id:'mainShow',  
-//      				}  
-//   				 );  
+     			    mui.openWindow(  // 打开下一个画面  
+                       {  
+                      	  	url:'html/mainTab.html',  
+          					id:'mainTab', 
+        				}  
+     				 );  
 //					
 					
 					},

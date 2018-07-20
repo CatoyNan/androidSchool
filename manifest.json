@@ -129,10 +129,22 @@
 	"dependencies": {
 		"pages": {
 			"index.html": {
-				"resources": [],
-				"refer": [
-					"main.html"
+				"resources": [
+					"/css/mui.min.css",
+					"/js/mui.min.js"
 				],
+				"refer": [
+					"main.html",
+					"mainTab.html",
+					"html/mainTab.html"
+				],
+				"priority": 0
+			},
+			"html/mainTab.html": {
+				"resources": [
+					"html/news.html"
+				],
+				"refer": [],
 				"priority": 0
 			}
 		},

@@ -1,7 +1,21 @@
 {
-	"index.html": {
-		"refer": [
-			"main.html"
-		]
-	}
+  "index.html": {
+    "refer": [
+      "main.html",
+      "mainTab.html",
+      "html/mainTab.html"
+    ],
+    "resources": [
+      "/css/mui.min.css",
+      "/js/mui.min.js"
+    ]
+  },
+  "html/mainTab.html": {
+    "resources": [
+      "html/news.html"
+    ],
+    "refer": [
+      "html/news.html"
+    ]
+  }
 }
