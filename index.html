@@ -7,9 +7,51 @@
     <script src="js/mui.min.js"></script>
     <script type="text/javascript" src="js/app.js" ></script>
     <link href="css/mui.min.css" rel="stylesheet"/>
+    <style type="text/css">
+    	.area {
+				margin: 20px auto 0px auto;
+			}
+		.mui-input-group {
+				border-radius: 5px;
+				width: 95%;
+				margin-left: auto;
+				margin-right: auto;
+		}
+		.mui-input-group {
+				margin-top: 10%;
+		}
+		.mui-card{
+				margin-top: 16%;
+				background-image:url(images/login/top.jpg);
+				background-repeat:no-repeat; 
+				background-size:100% 100%;			
+		}
+		#topImg {
+				height:15vw;
+				
+				margin-top: 40%;
+		}
+		#loginBtn {
+			margin-left:auto;
+			width: 92%;
+			margin-right: auto;			
+		}
+    </style>
 </head>
-<body>
-	   
+<body style=" background: rgba(105,105,105,.7);">
+	<!--头部标签-->
+	<header class="mui-bar mui-bar-nav">
+			<h1 class="mui-title">校园百事通</h1>
+	</header> 
+	
+	
+	<!--中间内容-->
+	<div id="center">	
+	<!--顶部图片-->
+	<div class="mui-card">
+		<div id="topImg"></div></div>
+
+	<!--form表单-->
 	<div class="mui-content-padded" style="margin: 5px;">  
     	<form class="mui-input-group">  
         	<div class="mui-input-row">  
@@ -21,17 +63,23 @@
            	 <input type="password" id="userpassword" placeholder="密码">  
        		 </div>  
     	</form>  
-	</div>  
-	<div style="margin-top:20px;text-align: center;">  
-   	 <button class="mui-btn mui-btn-primary" id="loginBtn">登录</button>  
-   		 &nbsp;&nbsp;<button class="mui-btn mui-btn-primary" id="regBtn">注册</button>  
-	</div>  
+	</div> 
 	
+	<!--登入按钮-->
+	<div style="margin-top:20px;text-align: center;"> 
+	  <button type="button"  id="loginBtn" class="mui-btn mui-btn-block mui-btn-primary">登入</button>
+   	 <!--<button class="mui-btn mui-btn-primary" id="loginBtn">登录</button>-->  
+   		 <!--&nbsp;&nbsp;<button class="mui-btn mui-btn-primary" id="regBtn">注册</button>  -->
+	</div>  
+</div>	
+
+
 	<!--js-->
 	 <script type="text/javascript" charset="utf-8">
       	mui.init();    
      	mui.plusReady(    
        		function() {
+       				
 				// 自动填充
 				if(localStorage.getItem("TOKEN_USER")!=null && localStorage.getItem("TOKEN_PASSWORD")!=null){
 					document.getElementById('username').value = localStorage.getItem("TOKEN_USER");
@@ -72,8 +120,8 @@
 					
 					},
 					error:function(xhr,type,errorThrown){
-						alert('error');
-					console.log(type);
+						wd.close();
+						mui.alert(type);
 					}
 				});
        			
