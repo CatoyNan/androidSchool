@@ -15,7 +15,8 @@
       "html/news.html"
     ],
     "refer": [
-      "html/news.html"
+      "html/news.html",
+      "html/advisory.html"
     ]
   }
 }

@@ -13,19 +13,19 @@
 		    <h1 class="mui-title">校园动态</h1>
 		</header>
 		<nav class="mui-bar mui-bar-tab">
-		    <a class="mui-tab-item mui-active">
+		    <a class="mui-tab-item mui-active" id="one">
 		        <span class="mui-icon mui-icon-home"></span>
 		        <span class="mui-tab-label">首页</span>
 		    </a>
-		    <a class="mui-tab-item">
+		    <a class="mui-tab-item" id="tow">
 		        <span class="mui-icon mui-icon-phone"></span>
 		        <span class="mui-tab-label">电话</span>
 		    </a>
-		    <a class="mui-tab-item">
+		    <a class="mui-tab-item" id="three">
 		        <span class="mui-icon mui-icon-email"></span>
 		        <span class="mui-tab-label">邮件</span>
 		    </a>
-		    <a class="mui-tab-item">
+		    <a class="mui-tab-item" id="four">
 		        <span class="mui-icon mui-icon-gear"></span>
 		        <span class="mui-tab-label">设置</span>
 		    </a>
@@ -41,18 +41,75 @@
 		<script src="../js/mui.min.js"></script>
 		<script type="text/javascript">
 			mui.init({
-				subpages:[{
+				subpages:[{//加载校园新闻动态页面
 					url:'news.html',
 					id:'newsPage',
 					styles:{
 						 top:'45px',//mui标题栏默认高度为45px；
        					 bottom:'50px'//默认为0px，可不定义；
 					}
-				}]
+				}],
+				
+				preloadPages:[
+					{
+						 url:'advisory.html', //预加载校园咨询页面 
+	                    id:'advisory',  
+	                    styles:{
+		                top:'45px',//mui标题栏默认高度为45px；
+       				    bottom:'50px'//默认为0px，可不定义；
+	                    }  
+					
+					},
+					{
+						 url:'http://lsu.jysd.com', //预加载就业速递页面 
+	                    id:'work',  
+	                    styles:{
+		                top:'45px',//mui标题栏默认高度为45px；
+       					bottom:'50px'//默认为0px，可不定义；
+	                    }  
+					
+					},
+					{
+						 url:'http://lsu.jysd.com', //预加载就业速递页面 
+	                    id:'setting',  
+	                    styles:{
+		                top:'45px',//mui标题栏默认高度为45px；
+       					bottom:'50px'//默认为0px，可不定义；
+	                    }  
+					
+					}
+					
+				]
 			});
 			mui.plusReady(function(){
+				plus.webview.currentWebview().opener().close();//关闭父页面
+				var newsPage = plus.webview.getWebviewById('newsPage');
+				var advisory = plus.webview.getWebviewById('advisory');
+				var work = plus.webview.getWebviewById('work');
+				var setting = plus.webview.getWebviewById('setting');
 				
-			});//
+				document.getElementById('one').addEventListener('tap',function(){
+					advisory.hide();
+					work.hide();
+					setting.hide();
+					mui.alert(newsPage.id);
+					
+				})
+				document.getElementById('tow').addEventListener('tap',function(){
+					advisory.show();
+					mui.alert(2);
+				})
+				document.getElementById('three').addEventListener('tap',function(){
+					work.show();
+					mui.alert(3);
+				})
+				document.getElementById('four').addEventListener('tap',function(){
+					setting.show();
+					mui.alert(4);
+				})
+				
+      });
+
 		</script>
 	</body>
 

@@ -144,7 +144,9 @@
 				"resources": [
 					"html/news.html"
 				],
-				"refer": [],
+				"refer": [
+					"html/advisory.html"
+				],
 				"priority": 0
 			}
 		},
