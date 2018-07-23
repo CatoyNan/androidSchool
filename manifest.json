@@ -148,6 +148,13 @@
 					"html/advisory.html"
 				],
 				"priority": 0
+			},
+			"html/news.html": {
+				"resources": [],
+				"refer": [
+					"html/newsDetal.html"
+				],
+				"priority": 0
 			}
 		},
 		"idle": {
