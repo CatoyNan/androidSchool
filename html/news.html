@@ -44,8 +44,11 @@
 			.mui-content>.mui-table-view:first-child {
 				margin-top: 1px;
 			}
+			.meta-info {	
+				bottom: 0px;	
+			}
 			#list {
-				margin-top: 240px;
+				margin-top: 10px;
 			}
 			
 		</style>
@@ -111,11 +114,11 @@
 							<a href="javascript:;" :data-guid="item.guid" @tap="open_detail(item)">
 								<img class="mui-media-object mui-pull-left" :src="item.cover">
 								<div class="mui-media-body">
-									<div class="mui-ellipsis-2">{{item.title}}</div>
+									<div class="mui-ellipsis-2">{{item.news_title}}</div>
 								</div>
 								<div class="meta-info">
-									<div class="author">{{item.author}}</div>
-									<div class="time">{{item.time}}</div>
+									<div class="type">{{item.news_type}}</div>
+									<div class="time">{{item.news_time}}</div>
 								</div>
 							</a>
 						</li>
@@ -133,8 +136,8 @@
 		<script src="../js/mui.min.js"></script>
 		<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
-			var lastId = '',
-				minId = ''; //最新新闻的id 
+//			var lastId = '',
+//				minId = ''; //最新新闻的id 
 			var webview_detail = null; //详情页webview
 			var titleNView = { //详情页原生导航配置
 				backgroundColor: '#f7f7f7', //导航栏背景色
@@ -158,7 +161,7 @@
 			mui.init({
 				//swipeBack:false //启用右滑关闭功能
 				pullRefresh: {//配置下拉刷新
-					container: '#list',
+					container: '#list',//下拉刷新标识
 					down: {
 						style: 'circle',
 						offset: '0px',
@@ -185,30 +188,35 @@
 					return;
 				}
 
+//				var data = {
+//					column: "id,post_id,title,author_name,cover,published_at" //需要的字段名
+//				}
+
 				var data = {
-					column: "id,post_id,title,author_name,cover,published_at" //需要的字段名
-				}
-
-				if(lastId) { //说明已有数据，目前处于下拉刷新，增加时间戳，触发服务端立即刷新，返回最新数据
-					data.lastId = lastId;
-					data.time = new Date().getTime() + "";
+					column: "state,result" //需要的字段名
 				}
 
 
+//				if(lastId) { //说明已有数据，目前处于下拉刷新，增加时间戳，触发服务端立即刷新，返回最新数据
+//					lastId = lastId;
+//					data.time = new Date().getTime() + "";
+//				}
+				
+//
 				//请求最新列表信息流
-				mui.getJSON("http://120.77.203.221:8082/demo/findAllNewsListtitleRecent", data, function(rsp) {
+				mui.getJSON("http://120.77.203.221:8082/demo/findAllNewsListtitleRecent", function(msg) {
 					mui('#list').pullRefresh().endPulldownToRefresh();//加载完新数据后，需要执行endPullupToRefresh()方法，结束转雪花进度条的“正在加载...”过程
-					if(rsp && rsp.length > 0) {
-						lastId = rsp[0].id; //保存最新消息的id，方便下拉刷新时使用
-						
-						if(!minId) {//首次拉取列表时保存最后一条消息的id，方便上拉加载时使用
-							minId = rsp[rsp.length - 1].id; 										
-						}
-						news.items = convert(rsp).concat(news.items);//数组拼接
+					if(msg.state) {	
+						 	if(news.items==''){
+						 		news.items = convert1(msg).concat(news.items);//数组拼接
+						 	}
+						 	else{
+						 		news.items = convert2(msg).concat(news.items);//数组拼接
+						 	}
 					}
 				});
 			}
-		
+	
 			/**
 			 * 上拉加载拉取历史列表 
 			 */
@@ -216,18 +224,26 @@
 				var data = {
 					column: "id,post_id,title,author_name,cover,published_at" //需要的字段名
 				};
-
-				if(minId) { //说明已有数据，目前处于上拉加载，传递当前minId 返回历史数据
-					data.minId = minId;
-					data.time = new Date().getTime() + "";
-					data.pageSize = 10;
-				}
+//
+//				if(minId) { //说明已有数据，目前处于上拉加载，传递当前minId 返回历史数据
+//					data.minId = minId;
+//					data.time = new Date().getTime() + "";
+//					data.pageSize = 10;
+//				}
 				//请求历史列表信息流
-				mui.getJSON("http://120.77.203.221:8082/demo/findAllNewsListtitleRecent", data, function(rsp) {
+				mui.getJSON("http://120.77.203.221:8082/demo/findAllNewsListtitleRecent", data, function(msg) {
 					mui('#list').pullRefresh().endPullupToRefresh();
-					if(rsp && rsp.length > 0) {
-						minId = rsp[rsp.length - 1].id; //保存最后一条消息的id，上拉加载时使用
-						news.items = news.items.concat(convert(rsp));
+//					if(rsp && rsp.length > 0) {
+//						minId = rsp[rsp.length - 1].id; //保存最后一条消息的id，上拉加载时使用
+//						news.items = news.items.concat(convert(rsp));
+//					}
+					if(msg.state) {	
+						 	if(news.items==''){
+						 		news.items = convert1(msg).concat(news.items);//数组拼接
+						 	}
+						 	else{
+						 		news.items = convert2(msg).concat(news.items);//数组拼接
+						 	}
 					}
 				});
 			}
@@ -280,62 +296,96 @@
 			 * 1、将服务端返回数据，转换成前端需要的格式
 			 * 2、若服务端返回格式和前端所需格式相同，则不需要改功能
 			 * 
-			 * @param {Array} items 
+			 * @param {Array} items
 			 */
-			function convert(items) {
+			function convert1(items) {
 				var newItems = [];
-				items.forEach(function(item) {
-					newItems.push({
-						guid: item.post_id,
-						title: item.title,
-						author: item.author_name,
-						cover: item.cover,
-						time: dateUtils.format(item.published_at)
-					});
-				});
+				for(var i=0;i<items.reslut.length;i++){
+					
+						var obj={
+						news_title: items.reslut[i].news_title,
+						news_type: items.reslut[i].news_type,
+						news_time: dateChange(new Date()),
+						news_id: items.reslut[i].news_id,
+					};	
+						newItems.push(obj);				
+				}
+			
+				
+//	//	//		alert(JSON.stringify(items));
+//				items.forEach(function(item) {
+//					newItems.push({
+//						news_title: item.news_title,
+//						news_type: item.news_type,
+//						time: dateUtils.format(item.published_at)
+//					});
+//				});
 				return newItems;
 			}
-
+			function convert2(items) {
+				var newItems = [];
+				for(var i=0;i<items.reslut.length;i++){
+					if(items.reslut[i].news_id>news.items[0].news_id){
+							var obj={
+								news_title: items.reslut[i].news_title,
+								news_type: items.reslut[i].news_type,
+								news_time: dateChange(new Date()),
+								news_id: items.reslut[i].news_id,
+						   };
+							newItems.push(obj);	
+					}											
+				}
+				return newItems;
+			}
 			/**
 			 * 格式化时间的辅助类，将一个时间转换成x小时前、y天前等
 			 */
-			var dateUtils = {
-				UNITS: {
-					'年': 31557600000,
-					'月': 2629800000,
-					'天': 86400000,
-					'小时': 3600000,
-					'分钟': 60000,
-					'秒': 1000
-				},
-				humanize: function(milliseconds) {
-					var humanize = '';
-					mui.each(this.UNITS, function(unit, value) {
-						if(milliseconds >= value) {
-							humanize = Math.floor(milliseconds / value) + unit + '前';
-							return false;
-						}
-						return true;
-					});
-					return humanize || '刚刚';
-				},
-				format: function(dateStr) {
-					var date = this.parse(dateStr)
-					var diff = Date.now() - date.getTime();
-					if(diff < this.UNITS['天']) {
-						return this.humanize(diff);
-					}
-
-					var _format = function(number) {
-						return(number < 10 ? ('0' + number) : number);
-					};
-					return date.getFullYear() + '/' + _format(date.getMonth() + 1) + '/' + _format(date.getDay()) + '-' + _format(date.getHours()) + ':' + _format(date.getMinutes());
-				},
-				parse: function(str) { //将"yyyy-mm-dd HH:MM:ss"格式的字符串，转化为一个Date对象
-					var a = str.split(/[^0-9]/);
-					return new Date(a[0], a[1] - 1, a[2], a[3], a[4], a[5]);
-				}
-			};
+//			var dateUtils = {
+//				UNITS: {
+//					'年': 31557600000,
+//					'月': 2629800000,
+//					'天': 86400000,
+//					'小时': 3600000,
+//					'分钟': 60000,
+//					'秒': 1000
+//				},
+//				humanize: function(milliseconds) {
+//					var humanize = '';
+//					mui.each(this.UNITS, function(unit, value) {
+//						if(milliseconds >= value) {
+//							humanize = Math.floor(milliseconds / value) + unit + '前';
+//							return false;
+//						}
+//						return true;
+//					});
+//					return humanize || '刚刚';
+//				},
+//				format: function(dateStr) {
+//					var date = this.parse(dateStr)
+//					var diff = Date.now() - date.getTime();
+//					if(diff < this.UNITS['天']) {
+//						return this.humanize(diff);
+//					}
+//
+//					var _format = function(number) {
+//						return(number < 10 ? ('0' + number) : number);
+//					};
+//					return date.getFullYear() + '/' + _format(date.getMonth() + 1) + '/' + _format(date.getDay()) + '-' + _format(date.getHours()) + ':' + _format(date.getMinutes());
+//				},
+//				parse: function(str) { //将"yyyy-mm-dd HH:MM:ss"格式的字符串，转化为一个Date对象
+//					var a = str.split(/[^0-9]/);
+//					return new Date(a[0], a[1] - 1, a[2], a[3], a[4], a[5]);
+//				}
+//			};
+			function dateChange(time){  
+			    var year=time.getFullYear(); 
+			    var mon = time.getMonth()+1; 
+			    var day = time.getDate(); 
+			    var hours = time.getHours(); 
+			    var minu = time.getMinutes(); 
+			    var sec = time.getSeconds(); 
+				return year+'-'+mon+'-'+day+' '+hours+':'+minu+':'+sec; 
+			}
 		   
 			
 			//轮播图控制时间
