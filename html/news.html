@@ -111,7 +111,7 @@
 				<div class="mui-scroll">
 					<ul class="mui-table-view">
 						<li class="mui-table-view-cell mui-media" v-for="item in items">
-							<a href="javascript:;" :data-guid="item.guid" @tap="open_detail(item)">
+							<a href="javascript:;"  @tap="open_detail(item)">
 								<img class="mui-media-object mui-pull-left" :src="item.cover">
 								<div class="mui-media-body">
 									<div class="mui-ellipsis-2">{{item.news_title}}</div>
@@ -140,13 +140,13 @@
 //				minId = ''; //最新新闻的id 
 			var webview_detail = null; //详情页webview
 			var titleNView = { //详情页原生导航配置
-				backgroundColor: '#f7f7f7', //导航栏背景色
-				titleText: '', //导航栏标题
-				titleColor: '#000000', //文字颜色
+				backgroundColor:'azure', //导航栏背景色
+				titleText: '123', //导航栏标题
+				titleColor: 'black', //文字颜色
 				type: 'transparent', //透明渐变样式
 				autoBackButton: true, //自动绘制返回箭头
 				splitLine: { //底部分割线
-					color: '#cccccc'
+				color: '#cccccc'
 				}
 			}
 			
@@ -275,15 +275,16 @@
 			function open_detail(item) {
 				//触发子窗口变更新闻详情
 				mui.fire(webview_detail, 'get_detail', {
-					guid: item.guid,
-					title: item.title,
-					author: item.author,
-					time: item.time,
-					cover: item.cover
+					guid: item.news_id,
+					title: item.news_title,
+					type: item.news_type,
+//					author: item.author,
+//					time: item.time,
+//					cover: item.cover
 				});
 
 				//更改详情页原生导航条信息
-				titleNView.titleText = item.title;
+				titleNView.titleText = item.news_title;
 				webview_detail.setStyle({
 					"titleNView": titleNView
 				});
