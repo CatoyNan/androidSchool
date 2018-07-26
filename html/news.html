@@ -141,7 +141,7 @@
 			var webview_detail = null; //详情页webview
 			var titleNView = { //详情页原生导航配置
 				backgroundColor:'azure', //导航栏背景色
-				titleText: '123', //导航栏标题
+				titleText: '', //导航栏标题
 				titleColor: 'black', //文字颜色
 				type: 'transparent', //透明渐变样式
 				autoBackButton: true, //自动绘制返回箭头
@@ -188,21 +188,11 @@
 					return;
 				}
 
-//				var data = {
-//					column: "id,post_id,title,author_name,cover,published_at" //需要的字段名
-//				}
-
 				var data = {
 					column: "state,result" //需要的字段名
 				}
-
-
-//				if(lastId) { //说明已有数据，目前处于下拉刷新，增加时间戳，触发服务端立即刷新，返回最新数据
-//					lastId = lastId;
-//					data.time = new Date().getTime() + "";
-//				}
 				
-//
+
 				//请求最新列表信息流
 				mui.getJSON("http://120.77.203.221:8082/demo/findAllNewsListtitleRecent", function(msg) {
 					mui('#list').pullRefresh().endPulldownToRefresh();//加载完新数据后，需要执行endPullupToRefresh()方法，结束转雪花进度条的“正在加载...”过程
@@ -224,19 +214,10 @@
 				var data = {
 					column: "id,post_id,title,author_name,cover,published_at" //需要的字段名
 				};
-//
-//				if(minId) { //说明已有数据，目前处于上拉加载，传递当前minId 返回历史数据
-//					data.minId = minId;
-//					data.time = new Date().getTime() + "";
-//					data.pageSize = 10;
-//				}
+
 				//请求历史列表信息流
 				mui.getJSON("http://120.77.203.221:8082/demo/findAllNewsListtitleRecent", data, function(msg) {
 					mui('#list').pullRefresh().endPullupToRefresh();
-//					if(rsp && rsp.length > 0) {
-//						minId = rsp[rsp.length - 1].id; //保存最后一条消息的id，上拉加载时使用
-//						news.items = news.items.concat(convert(rsp));
-//					}
 					if(msg.state) {	
 						 	if(news.items==''){
 						 		news.items = convert1(msg).concat(news.items);//数组拼接
@@ -278,9 +259,6 @@
 					guid: item.news_id,
 					title: item.news_title,
 					type: item.news_type,
-//					author: item.author,
-//					time: item.time,
-//					cover: item.cover
 				});
 
 				//更改详情页原生导航条信息
@@ -311,18 +289,9 @@
 					};	
 						newItems.push(obj);				
 				}
-			
-				
-//	//	//		alert(JSON.stringify(items));
-//				items.forEach(function(item) {
-//					newItems.push({
-//						news_title: item.news_title,
-//						news_type: item.news_type,
-//						time: dateUtils.format(item.published_at)
-//					});
-//				});
 				return newItems;
 			}
+			
 			function convert2(items) {
 				var newItems = [];
 				for(var i=0;i<items.reslut.length;i++){

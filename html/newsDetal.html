@@ -45,7 +45,6 @@
 			
 			function getDefaultData() {
 				return {
-//					cover: '',
 					title: '',
 					author: '',
 					time: '',
@@ -73,19 +72,16 @@
 				}
 				
 				//前页传入的数据，直接渲染，无需等待ajax请求详情后
-//				vm.cover = event.detail.cover;
 				vm.title = event.detail.title;
 				vm.type = event.detail.type;
-//				vm.author = event.detail.author;
-//				vm.time = event.detail.time;
-//				alert(vm.title+vm.type)
 				//向服务端请求文章详情内容
 				mui.ajax('http://120.77.203.221:8082/demo/findAllNewsListcontentRecent/?title=' + vm.title, {
 					type:'GET',
 					dataType: 'json', //服务器返回json格式数据
 					timeout: 15000, //15秒超时
 					success: function(rsp) {
-						vm.content = rsp.reslut.news_content;
+						vm.content = rsp.reslut.news_content.split(' ').join('&nbsp;');//显示空格
+						vm.content = vm.content.split('\r').join('<br/>');//显示换行
 						vm.author = rsp.reslut.news_author;
 						vm.time = rsp.reslut.news_date;
 					},
@@ -95,20 +91,19 @@
 					}
 				});
 			});
-
-//			//重写返回逻辑
-//			mui.back = function() {
-//				plus.webview.currentWebview().hide("auto", 300);
-//			}
-//			
-//			//窗口隐藏时，重置页面数据
-//			mui.plusReady(function () {
-//				var self = plus.webview.currentWebview();
-//				self.addEventListener("hide",function (e) {
-//					window.scrollTo(0, 0);
-//					vm.resetData();
-//				},false);
-//			})
+			//重写返回逻辑
+			mui.back = function() {
+				plus.webview.currentWebview().hide("fade-out", 300);
+			}
+		
+			//窗口隐藏时，重置页面数据
+			mui.plusReady(function () {
+				var self = plus.webview.currentWebview();
+				self.addEventListener("hide",function (e) {
+					window.scrollTo(0, 0);
+					vm.resetData();
+				},false);
+			})
 		</script>
 	</body>
 
