@@ -9,7 +9,8 @@
 			"/css/mui.min.css",
 			"/js/mui.min.js",
 			"images/login/1.png",
-			"images/login/学校.png"
+			"images/login/学校.png",
+			"images/login/background.png"
 		]
 	},
 	"html/mainTab.html": {
