@@ -101,7 +101,7 @@
 				var self = plus.webview.currentWebview();
 				self.addEventListener("hide",function (e) {
 					window.scrollTo(0, 0);
-					vm.resetData();
+					vm=null;
 				},false);
 			})
 		</script>

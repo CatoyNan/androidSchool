@@ -7,7 +7,9 @@
 		],
 		"resources": [
 			"/css/mui.min.css",
-			"/js/mui.min.js"
+			"/js/mui.min.js",
+			"images/login/1.png",
+			"images/login/学校.png"
 		]
 	},
 	"html/mainTab.html": {

@@ -7,7 +7,7 @@
     <script src="js/mui.min.js"></script>
     <script type="text/javascript" src="js/app.js" ></script>
     <link href="css/mui.min.css" rel="stylesheet"/>
-    <style type="text/css">
+    <style type="text/css">    	
     	.area {
 				margin: 20px auto 0px auto;
 			}
@@ -17,19 +17,11 @@
 				margin-left: auto;
 				margin-right: auto;
 		}
-		.mui-input-group {
-				margin-top: 10%;
-		}
 		.mui-card{
 				margin-top: 16%;
-				background-image:url(images/login/top.jpg);
+				background-image:url(images/login/top.png);
 				background-repeat:no-repeat; 
 				background-size:100% 100%;			
-		}
-		#topImg {
-				height:15vw;
-				
-				margin-top: 40%;
 		}
 		#loginBtn {
 			margin-left:auto;
@@ -38,18 +30,18 @@
 		}
     </style>
 </head>
-<body style=" background: rgba(105,105,105,.7);">
+<body>
 	<!--头部标签-->
 	<header class="mui-bar mui-bar-nav">
 			<h1 class="mui-title">校园百事通</h1>
-	</header> 
-	
-	
+	</header>
 	<!--中间内容-->
+	<img src="images/login/background.png" style="width: 100%; height: 100%; position: absolute; opacity: 0.2;" />
 	<div id="center">	
 	<!--顶部图片-->
-	<div class="mui-card">
-		<div id="topImg"></div></div>
+	<img src="images/login/top.png" style="width: 100%; height: 100%;" />
+	<!--<div class="mui-card">
+		<div id="topImg"></div></div>-->
 
 	<!--form表单-->
 	<div class="mui-content-padded" style="margin: 5px;">  
@@ -76,8 +68,7 @@
 	 <script type="text/javascript" charset="utf-8">
       	mui.init();    
      	mui.plusReady(    //判断h5+页面加载完毕
-       		function() {
-       				
+       		function() {	
 				// 自动填充
 				if(localStorage.getItem("TOKEN_USER")!=null && localStorage.getItem("TOKEN_PASSWORD")!=null){
 					document.getElementById('username').value = localStorage.getItem("TOKEN_USER");
@@ -88,76 +79,38 @@
        				var userN = document.getElementById('username').value;
    				    var userP = document.getElementById('userpassword').value; 	
 					var wd = plus.nativeUI.showWaiting();// 显示一个等待的对话框  
-   				    mui.ajax('http://120.77.203.221:8082/demo/userlogn',{
+   				   
+   				 mui.ajax('http://120.77.203.221:8082/demo/userlogn',{
 					data:{account:userN,password:userP},
 					dataType:'json',//服务器返回json格式数据
 					type:'get',//HTTP请求类型
 					timeout:10000,//超时时间设置为10秒；
 					              
 					success:function(data){//服务器返回响应，根据响应结果，分析是否登录成功；					
-						 	wd.close();
-						 	if(data.state != true) {       				 
-      					    mui.alert("用户名或密码错误", "登录错误", "关闭");  // 如果密码错误，提示一下信息  
-        					return;  
-      						}  
-							
-     				localStorage.setItem("TOKEN_USER", userN);   // 保存token，以便于下次自动登录  
-     				localStorage.setItem("TOKEN_PASSWORD", userP);  
-     				
-                                            
-     			    document.getElementById('username').value = "";   // 清空用户名，密码  
-                    document.getElementById('userpassword').value = "";  
-           
-                   
-     			    mui.openWindow(  // 打开下一个画面  
-                       {  
-                      	  	url:'html/mainTab.html',  
-          					id:'mainTab', 
-        				}  
-     				 );  
-     				
+						wd.close();
+						if(data.state != true) {       				 
+	      					mui.alert("用户名或密码错误", "登录错误", "关闭");  // 如果密码错误，提示一下信息  
+	        			    return;  
+      					}  
+		     		    localStorage.setItem("TOKEN_USER", userN);   // 保存token，以便于下次自动登录  
+		     			localStorage.setItem("TOKEN_PASSWORD", userP);                            
+	     			    document.getElementById('username').value = "";   // 清空用户名，密码  
+	                    document.getElementById('userpassword').value = "";     
+	     			    mui.openWindow(  // 打开下一个画面  
+	                       {  
+	                      	  	url:'html/mainTab.html',  
+	          					id:'mainTab', 
+	        				}  
+	     				 );  	
+					},
 					
-				},
 					error:function(xhr,type,errorThrown){
 						wd.close();
 						mui.alert(type);
 					}
-				});
-       			
-       			
-       			
-       			});
-       			
-       		}
-       		
-       		
-       		
-       	
-       		
-       		
-       		// 登录处理，还记得我们上一篇写得的按钮关联的事件吧  
-//document.getElementById("loginBtn").addEventListener('tap', function(){  
-//	alert(333);
-//// 显示一个等待的对话框  
-////  var wd = plus.nativeUI.showWaiting();  
-//// 构造要传递的json数据  
-//// $id 是一个通过 id 取得对象的方法，  
-//// 内容就是 return document.getElementById();  
-//  
-// 
-//123
- 
-//'http://120.77.203.221:8082/demo/userlogn'
-  
-       		
-       		
-       		
-       		
-       		
-       		
-       		
-	
-        );
+				 });      			      			
+       		   });     			
+       	});
     </script>
 </body>
 </html>

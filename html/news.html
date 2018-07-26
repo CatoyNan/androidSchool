@@ -63,37 +63,37 @@
 				<!-- 额外增加的一个节点(循环轮播：第一个节点是最后一张轮播) -->
 				<div class="mui-slider-item mui-slider-item-duplicate">
 					<a href="#">
-						<img src="../images/login/top.jpg">
+						<img src="../images/school_img/school_1.jpg">
 					</a>
 				</div>
 				<!-- 第一张 -->
 				<div class="mui-slider-item">
 					<a href="#">
-						<img src="../images/login/top.jpg">
+						<img src="../images/school_img/school_2.jpg">
 					</a>
 				</div>
 				<!-- 第二张 -->
 				<div class="mui-slider-item">
 					<a href="#">
-						<img src="../images/login/top.jpg">
+						<img src="../images/school_img/school_4.jpg">
 					</a>
 				</div>
 				<!-- 第三张 -->
 				<div class="mui-slider-item">
 					<a href="#">
-						<img src="../images/login/top.jpg">
+						<img src="../images/school_img/school_3.jpg">
 					</a>
 				</div>
 				<!-- 第四张 -->
 				<div class="mui-slider-item">
 					<a href="#">
-						<img src="../images/login/top.jpg">
+						<img src="../images/school_img/school_1.jpg">
 					</a>
 				</div>
 				<!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
 				<div class="mui-slider-item mui-slider-item-duplicate">
 					<a href="#">
-						<img src="../images/login/top.jpg">
+						<img src="../images/school_img/school_2.jpg">
 					</a>
 				</div>
 			</div>
@@ -136,13 +136,11 @@
 		<script src="../js/mui.min.js"></script>
 		<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
-//			var lastId = '',
-//				minId = ''; //最新新闻的id 
 			var webview_detail = null; //详情页webview
 			var titleNView = { //详情页原生导航配置
 				backgroundColor:'azure', //导航栏背景色
 				titleText: '', //导航栏标题
-				titleColor: 'black', //文字颜色
+				titleColor: '#000000', //文字颜色
 				type: 'transparent', //透明渐变样式
 				autoBackButton: true, //自动绘制返回箭头
 				splitLine: { //底部分割线
@@ -159,7 +157,6 @@
 
 		
 			mui.init({
-				//swipeBack:false //启用右滑关闭功能
 				pullRefresh: {//配置下拉刷新
 					container: '#list',//下拉刷新标识
 					down: {
