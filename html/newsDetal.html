@@ -52,21 +52,18 @@
 					type: ''
 				}
 			}
-			
 			var vm = new Vue({
 				el: '.mui-content',
 				data: getDefaultData(),
 				methods: {
 					resetData: function() {//重置数据
-						Object.assign(this.$data, getDefaultData());
+						Object.assign(this.$data, getDefaultData());//将数据合并
 					}
 				}
 			});
-			
 			//监听自定义事件，获取新闻详情
 			document.addEventListener('get_detail', function(event) {
 				var guid = event.detail.guid;
-//				alert(guid);
 				if(!guid) {
 					return;
 				}
@@ -81,7 +78,7 @@
 					timeout: 15000, //15秒超时
 					success: function(rsp) {
 						vm.content = rsp.reslut.news_content.split(' ').join('&nbsp;');//显示空格
-						vm.content = vm.content.split('\r').join('<br/>');//显示换行
+						vm.content = vm.content.split('\r').join('<br/>');//显示换行			
 						vm.author = rsp.reslut.news_author;
 						vm.time = rsp.reslut.news_date;
 					},
@@ -101,7 +98,11 @@
 				var self = plus.webview.currentWebview();
 				self.addEventListener("hide",function (e) {
 					window.scrollTo(0, 0);
-					vm=null;
+					vm.time='';
+					vm.type='';
+					vm.author='';
+					vm.content='';
+					vm.title='';
 				},false);
 			})
 		</script>
