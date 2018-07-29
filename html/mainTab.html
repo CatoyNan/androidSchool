@@ -82,6 +82,9 @@
 				]
 			});
 			mui.plusReady(function(){
+//				var currentView = plus.webview.currentWebview();
+//				currentView.show('slide-in-right', 300);
+//				plus.nativeUI.closeWaiting();
 				plus.webview.currentWebview().opener().close();//关闭父页面
 				var newsPage = plus.webview.getWebviewById('newsPage');
 				var advisory = plus.webview.getWebviewById('advisory');

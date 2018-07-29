@@ -1,0 +1,124 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<style>
+			span {
+				color: red;
+			}
+			.mui-input-group {
+				width: 94%;
+				margin: auto;
+				border-left: solid;
+				border-color: deepskyblue;
+				/*margin-left: 90%;
+				margin-right: 90%;*/
+			}
+			#center {
+				border-top-style: solid;
+				border-color: deepskyblue;
+			}
+			#header a{
+				margin-left:auto;
+				margin-right:auto;	
+			}
+			#tel {
+				margin-top: 50%;
+				text-align: center;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="content">
+			<!--余额-->
+			<div id='center' class="mui-card">
+					<div id='header' class="mui-card-footer">
+						<a class="mui-card-link">校园卡余额<span>{{card_balance}}</span>元</a>
+					</div>					
+			</div>
+			<!--账号信息-->
+			<div class="mui-card">				
+					<div class="mui-card-content">
+						<div class="mui-card-header"><p>姓名</p><p>{{stu_name}}</p></div>
+						<div class="mui-card-header"><p>账号</p><p>{{stu_account}}</p></div>
+						<div class="mui-card-header"><p>收费机构</p><p>{{free_unit}}</p></div>
+				   </div>
+		   </div>
+		   <!--充值-->
+		   <form class="mui-input-group">		   			
+					<div class="mui-input-row">
+						<label>充值：</label>
+						<input type="text" class="mui-input-clear" placeholder="请输入充值金额">
+					</div>
+		   </form>
+		   <!--按钮-->
+		   <div class="mui-content-padded">
+		        <button type="button" class="mui-btn mui-btn-primary mui-btn-block">立即充值</button>
+		    </div>
+		    <!--电话号码-->
+		    <div id="tel">
+		    	<p id="tip">如果有问题，请拨打客服热线<span>400-100-9591</span></p>
+		    </div>
+		
+		</div>
+	
+	
+	
+	
+	
+		<script src="../js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			
+			function getDefaultData() {
+				return {
+					card_balance: '',
+					chargetime: '',
+					free_unit: '',
+					stu_account: '',
+					stu_name: ''
+				}
+			}
+			
+			var vm = new Vue({
+				el: '#content',
+				data: getDefaultData(),
+			});
+			
+			
+			mui.plusReady(function(){
+				mui.ajax('http://120.77.203.221:8082/demo/findCardInfo/?studentNumber='+localStorage.getItem("TOKEN_USER"),{
+						dataType:'json',//服务器返回json格式数据
+						type:'get',//HTTP请求类型
+						timeout:10000,//超时时间设置为10秒；
+						headers:{'Content-Type':'application/json'},	              
+						success:function(data){
+							vm.card_balance = data.result.card_balance;
+							vm.chargetime = data.result.chargetime;
+							vm.free_unit = data.result.free_unit;
+							vm.stu_account = data.result.stu_account;
+							vm.stu_name = data.result.stu_name;
+//							mui.alert(JSON.stringify(data));
+							//服务器返回响应，根据响应结果，分析是否登录成功；
+						},
+						error:function(xhr,type,errorThrown){
+							//异常处理；
+							console.log(errorThrown);
+						}
+				});
+				
+				
+				
+				
+				
+			})
+		</script>
+	</body>
+
+</html>

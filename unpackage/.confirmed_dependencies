@@ -26,5 +26,10 @@
 		"refer": [
 			"html/newsDetal.html"
 		]
+	},
+	"html/advisory.html": {
+		"refer": [
+			"html/mealCard.html"
+		]
 	}
 }

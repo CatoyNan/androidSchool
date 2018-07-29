@@ -158,6 +158,13 @@
 					"html/newsDetal.html"
 				],
 				"priority": 0
+			},
+			"html/advisory.html": {
+				"resources": [],
+				"refer": [
+					"html/mealCard.html"
+				],
+				"priority": 0
 			}
 		},
 		"idle": {

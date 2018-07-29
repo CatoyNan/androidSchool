@@ -9,19 +9,74 @@
 	</head>
 
 	<body>
-		　很久都不曾写过文章了，上一篇文章还是四个月之前的。以此去命题，并非有什么轻生的念头，只是有感而发，勿念。其实我很想做个自私的人，因为这会让你吃尽苦头又吃足了甜头。而你却依然活的天真活的开心——序。
-
-　　 如果我死了
-
-　　如果我死了，那些愧对我的人会很开心：终于不用还钱了，哎呀，不然真不知道怎么办那，不敢见他，吓得我朋友圈都不敢发了！不对，我这样的人怕他干嘛？反正也不能把我怎么样。我每天活的多潇洒，灯红酒绿左拥右抱的。怕他干嘛，我是没错的，我怎么能委屈自己那？我要活的开心就不能在乎那么多，人这一辈子就是有舍有得，凭自己本事借的钱为什么要还？——不用还。
-
-　　如果我死了，那些我曾追求的人会很开心：每天烦我，我怎么知道喜不喜欢他？可能喜欢吧，可能不喜欢？无所谓了反正他都死了。哎呀，他一死去，就没人对我嘘寒问暖请我吃饭了，没人每天担心我了！算了，毕竟我这么漂亮，比不
+		<div class="mui-content">
+		        <ul class="mui-table-view mui-grid-view mui-grid-9">
+		            <li id='stu-card' class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><a href="#">
+		                    <span class="mui-icon mui-icon-home"></span>
+		                    <div class="mui-media-body">Home</div></a></li>
+		            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><a href="#">
+		                    <span class="mui-icon mui-icon-email"><span class="mui-badge">5</span></span>
+		                    <div class="mui-media-body">Email</div></a></li>
+		            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><a href="#">
+		                    <span class="mui-icon mui-icon-chatbubble"></span>
+		                    <div class="mui-media-body">Chat</div></a></li>
+		            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><a href="#">
+		                    <span class="mui-icon mui-icon-location"></span>
+		                    <div class="mui-media-body">location</div></a></li>
+		            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><a href="#">
+		                    <span class="mui-icon mui-icon-search"></span>
+		                    <div class="mui-media-body">Search</div></a></li>
+		            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><a href="#">
+		                    <span class="mui-icon mui-icon-phone"></span>
+		                    <div class="mui-media-body">Phone</div></a></li>
+		            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><a href="#">
+		                    <span class="mui-icon mui-icon-gear"></span>
+		                    <div class="mui-media-body">Setting</div></a></li>
+		            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><a href="#">
+		                    <span class="mui-icon mui-icon-info"></span>
+		                    <div class="mui-media-body">about</div></a></li>
+		           <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><a href="#">
+		                    <span class="mui-icon mui-icon-more"></span>
+		                    <div class="mui-media-body">more</div></a></li>
+		        </ul> 
+		</div>
 		
 		
 		
 		<script src="../js/mui.min.js"></script>
 		<script type="text/javascript">
-			mui.init()
+			mui.init();
+			mui.plusReady(function(){
+				document.getElementById('stu-card').addEventListener('tap',function(){				
+					mui.openWindow({
+					    url:'mealCard.html',
+					    id:'mealCard',
+					    styles:{
+						      titleNView: {                       // 窗口的标题栏控件
+						      titleText:"饭卡充值",                // 标题栏文字,当不设置此属性时，默认加载当前页面的标题，并自动更新页面的标题
+						      titleColor:"#000000",             // 字体颜色,颜色值格式为"#RRGGBB",默认值为"#000000"
+						      titleSize:"17px",                 // 字体大小,默认17px
+						      autoBackButton: true,             //自动绘制返回箭头
+						      backgroundColor:"#87CEFA",        // 控件背景颜色,颜色值格式为"#RRGGBB",默认值为"#F7F7F7"
+//						      progress:{                        // 标题栏控件的进度条样式
+//						        color:"#00FF00",                // 进度条颜色,默认值为"#00FF00"  
+//						        height:"2px"                    // 进度条高度,默认值为"2px"         
+//						      },
+						      splitLine:{                       // 标题栏控件的底部分割线，类似borderBottom
+						        color:"#CCCCCC",                // 分割线颜色,默认值为"#CCCCCC"  
+						        height:"1px"                    // 分割线高度,默认值为"2px"
+						      }
+						    }
+					    },
+					})
+				})
+				
+				
+				
+				
+				
+				
+			})
 		</script>
 	</body>
 
