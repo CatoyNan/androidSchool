@@ -31,5 +31,10 @@
 		"refer": [
 			"html/mealCard.html"
 		]
+	},
+	"html/mealCard.html": {
+		"refer": [
+			"html/mealCard.html"
+		]
 	}
 }

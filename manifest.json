@@ -165,6 +165,13 @@
 					"html/mealCard.html"
 				],
 				"priority": 0
+			},
+			"html/mealCard.html": {
+				"resources": [],
+				"refer": [
+					"html/mealCard.html"
+				],
+				"priority": 0
 			}
 		},
 		"idle": {

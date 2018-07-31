@@ -54,12 +54,12 @@
 		   <form class="mui-input-group">		   			
 					<div class="mui-input-row">
 						<label>充值：</label>
-						<input type="text" class="mui-input-clear" placeholder="请输入充值金额">
+						<input id='money' type="text" class="mui-input-clear" placeholder="请输入充值金额">
 					</div>
 		   </form>
 		   <!--按钮-->
 		   <div class="mui-content-padded">
-		        <button type="button" class="mui-btn mui-btn-primary mui-btn-block">立即充值</button>
+		        <button id='recharge' type="button" class="mui-btn mui-btn-primary mui-btn-block">立即充值</button>
 		    </div>
 		    <!--电话号码-->
 		    <div id="tel">
@@ -91,21 +91,46 @@
 				data: getDefaultData(),
 			});
 			
+			/*
+			 * 输入金额格式验证
+			 */
+			function isMoney(money){
+				var reg = /^-?\d+$/;
+					if (money.length!=0 && reg.test(money) && money>0 && money<=1000) {
+				          return true;
+				     }else{
+				     	if(money.length==0){
+				     		mui.alert('金额不能为空');
+				     		return false;
+				     	}
+				     	else if(reg.test(money) && money>100){
+				     		mui.alert('充值金额必须小于1000');
+				     		return false;
+				     	}
+				     	else{
+				     		mui.alert('格式错误');
+				     		return false;
+				     	}				         
+				     };
+			}
 			
 			mui.plusReady(function(){
+				
+				/*
+				 * 查询饭卡信息
+			     */
+				
 				mui.ajax('http://120.77.203.221:8082/demo/findCardInfo/?studentNumber='+localStorage.getItem("TOKEN_USER"),{
 						dataType:'json',//服务器返回json格式数据
 						type:'get',//HTTP请求类型
 						timeout:10000,//超时时间设置为10秒；
 						headers:{'Content-Type':'application/json'},	              
-						success:function(data){
+						success:function(data){//服务器返回响应，根据响应结果
 							vm.card_balance = data.result.card_balance;
 							vm.chargetime = data.result.chargetime;
 							vm.free_unit = data.result.free_unit;
 							vm.stu_account = data.result.stu_account;
-							vm.stu_name = data.result.stu_name;
-//							mui.alert(JSON.stringify(data));
-							//服务器返回响应，根据响应结果，分析是否登录成功；
+							vm.stu_name = data.result.stu_name;							
 						},
 						error:function(xhr,type,errorThrown){
 							//异常处理；
@@ -114,6 +139,36 @@
 				});
 				
 				
+				/*
+				 * 给按钮添加事件
+				 */
+			
+			document.getElementById('recharge').addEventListener('tap',function(){
+					var money = document.getElementById('money').value;
+					var flag = isMoney(money);
+					if(flag){
+						mui.ajax('http://120.77.203.221:8082/demo/cardFreeCharage/?studentaccount='+localStorage.getItem("TOKEN_USER")+'&&chargemonet='+money,{
+							dataType:'json',//服务器返回json格式数据
+							type:'get',//HTTP请求类型
+							timeout:10000,//超时时间设置为10秒；
+							headers:{'Content-Type':'application/json'},	              
+							success:function(data){//服务器返回响应，根据响应结果
+								if(data.code){
+									mui.alert('充值成功');	
+									mui.back();
+								}
+								else{
+									mui.alert('充值失败');
+								}
+							},
+							error:function(xhr,type,errorThrown){
+								//异常处理；
+								mui.alert(errorThrown);
+							}
+						});
+					}
+					
+				})
 				
 				
 				
