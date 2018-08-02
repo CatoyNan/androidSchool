@@ -19,7 +19,8 @@
 		],
 		"refer": [
 			"html/news.html",
-			"html/advisory.html"
+			"html/advisory.html",
+			"html/mySetting.html"
 		]
 	},
 	"html/news.html": {

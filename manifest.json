@@ -148,7 +148,8 @@
 					"html/news.html"
 				],
 				"refer": [
-					"html/advisory.html"
+					"html/advisory.html",
+					"html/mySetting.html"
 				],
 				"priority": 0
 			},
