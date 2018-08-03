@@ -105,7 +105,11 @@
 	        			    return;  
       					}  
 		     		    localStorage.setItem("TOKEN_USER", userN);   // 保存token，以便于下次自动登录  
-		     			localStorage.setItem("TOKEN_PASSWORD", userP);                            
+		     			localStorage.setItem("TOKEN_PASSWORD", userP);
+		     			localStorage.setItem("userAddress",data.Student.studentAddress);
+		     			localStorage.setItem("userClass",data.Student.studentClass);
+		     			localStorage.setItem("userName",data.Student.studentName);
+		     			localStorage.setItem("userStay",data.Student.studentStay);
 	     			    document.getElementById('username').value = "";   // 清空用户名，密码  
 	                    document.getElementById('userpassword').value = "";     
 	     			    mui.openWindow(  // 打开下一个画面  

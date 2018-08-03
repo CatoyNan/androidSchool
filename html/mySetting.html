@@ -5,6 +5,7 @@
 		<meta charset="UTF-8">
 		<title></title>
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
 		<link href="../css/mui.min.css" rel="stylesheet" />
 		<style type="text/css">
 			.mui-table-view-cell {
@@ -27,15 +28,15 @@
 	</head>
 
 	<body>				
-		<div class="mui-content">
+		<div id='info' class="mui-content">
 			<div id='top' class="mui-card">
 				<ul class="mui-table-view">
 					<li class="mui-table-view-cell mui-media">
 					<a href="javascript:;">
 						<img class="mui-media-object mui-pull-left" src="../images/mySetting/head Portrait.png">
 						<div class="mui-media-body">
-							幸福
-							<p class='mui-ellipsis'>能和心爱的人一起睡觉，是件幸福的事情；可是，打呼噜怎么办？</p>
+							{{studentName}}
+							<p class='mui-ellipsis'>{{studentClass}}</p>
 						</div>
 					</a>
 				</li>
@@ -78,7 +79,7 @@
 							<span class="contextText">我的收藏</span>
 						</a>
 					</li>
-					<li class="mui-table-view-cell">
+					<li id='li_share' class="mui-table-view-cell">
 						<a class="mui-navigate-right">	
 							<img class="icon" src="../images/mySetting/share.png"/>
 							<span class="contextText">我的分享</span>
@@ -88,7 +89,7 @@
 			</div>
 			<div class="mui-card">
 				<ul class="mui-table-view">
-					<li class="mui-table-view-cell">						
+					<li id='li_version' class="mui-table-view-cell">						
 						<a class="mui-navigate-right">	
 							<img class="icon"src="../images/mySetting/version.png"/>
 							<span class="contextText">版本信息</span>
@@ -112,7 +113,123 @@
 		
 		<script src="../js/mui.min.js"></script>
 		<script type="text/javascript">
-			mui.init()
+			mui.init();
+			
+			function getDefaultData() {
+				return {
+					studentAddress:localStorage.getItem('userAddress'),
+					studentClass:localStorage.getItem('userClass'),
+					studentName:localStorage.getItem('userName'),
+					studentNumber:localStorage.getItem('TOKEN_USER'),
+					studentPassword:localStorage.getItem('TOKEN_PASSWORD'),
+					studentStay:localStorage.getItem('userStay')
+				}
+			}
+			
+			var info = new Vue({
+				el: '#info',
+				data: getDefaultData(),
+			});
+			
+			
+			var shares = {};
+			
+			mui.plusReady(function(){
+				//获取本地分享服务列表
+				plus.share.getServices(function(s) {
+					if (s && s.length > 0) {
+						for (var i = 0; i < s.length; i++) {
+							var t = s[i];
+							shares[t.id] = t;
+						}
+					}
+				}, function() {
+					console.log("获取分享服务列表失败");
+				});
+				
+				//版本信息事件
+				document.getElementById('li_version').addEventListener('tap',function(){
+					mui.alert('版本号：' + plus.runtime.version,plus.runtime.appid);
+				})
+				
+				
+				
+				
+				 
+			
+	       
+			 //分享链接点击事件
+			document.getElementById("li_share").addEventListener('tap', function() {
+				var ids = [{
+						id: "weixin",
+						ex: "WXSceneSession"
+					}, {
+						id: "weixin",
+						ex: "WXSceneTimeline"
+					}, {
+						id: "sinaweibo"
+					}, {
+						id: "tencentweibo"
+					}, {
+						id: "qq"
+					}],
+					bts = [{
+						title: "发送给微信好友"
+					}, {
+						title: "分享到微信朋友圈"
+					}, {
+						title: "分享到新浪微博"
+					}, {
+						title: "分享到腾讯微博"
+					}, {
+						title: "分享到QQ"
+					}];
+				plus.nativeUI.actionSheet({
+					cancel: "取消",
+					buttons: bts
+				}, function(e) {
+					var i = e.index;
+					if (i > 0) {
+						var s_id = ids[i - 1].id;
+						var share = shares[s_id];
+						if (share.authenticated) {
+							shareMessage(share, ids[i - 1].ex);
+						} else {
+							share.authorize(function() {
+								shareMessage(share, ids[i - 1].ex);
+							}, function(e) {
+								console.log("认证授权失败：" + e.code + " - " + e.message);
+							});
+						}
+					}
+				});
+			});
+	        
+	        // 分享执行动作
+			function shareMessage(share, ex) {
+					var msg = {
+						extra: {
+							scene: ex
+						}
+					};
+					msg.href = "http://www.baidu.com/";
+					msg.title = "校园信息服务平台";
+					msg.content = "我正在体验校园信息服务平台，果然很实用";
+					if (~share.id.indexOf('weibo')) {
+						msg.content += "；体验地址：http://www.baidu.com";
+					}
+					msg.thumbs = ["../images/login/appicon.png"];
+					share.send(msg, function() {
+						console.log("分享到\"" + share.description + "\"成功！ ");
+					}, function(e) {
+						console.log("分享到\"" + share.description + "\"失败: " + e.code + " - " + e.message);
+					});
+				}
+					
+					
+					
+				});
+			
 		</script>
 	</body>
 
