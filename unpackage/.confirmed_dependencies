@@ -37,5 +37,10 @@
 		"refer": [
 			"html/mealCard.html"
 		]
+	},
+	"html/mySetting.html": {
+		"refer": [
+			"html/myInfo.html"
+		]
 	}
 }

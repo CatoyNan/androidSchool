@@ -32,7 +32,7 @@
 	</head>
 
 	<body>
-		<div id="content">
+		<div id="info">
 			<!--标题-->
 			<div id='center' class="mui-card">
 					<div id='header' class="mui-card-footer">
@@ -42,12 +42,11 @@
 			<!--账号信息-->
 			<div class="mui-card">				
 					<div class="mui-card-content">
-						<div class="mui-card-header"><p>姓名</p><p>{{stu_name}}</p></div>
-						<div class="mui-card-header"><p>账号</p><p>{{stu_account}}</p></div>
-						<div class="mui-card-header"><p>收费机构</p><p>{{free_unit}}</p></div>
-						<div class="mui-card-header"><p>收费机构</p><p>{{free_unit}}</p></div>
-						<div class="mui-card-header"><p>收费机构</p><p>{{free_unit}}</p></div>
-						<div class="mui-card-header"><p>收费机构</p><p>{{free_unit}}</p></div>
+						<div class="mui-card-header"><p>姓名</p><p>{{studentName}}</p></div>
+						<div class="mui-card-header"><p>账号</p><p>{{studentNumber}}</p></div>
+						<div class="mui-card-header"><p>班级</p><p>{{studentClass}}</p></div>
+						<div class="mui-card-header"><p>住址</p><p>{{studentAddress}}</p></div>
+						<div class="mui-card-header"><p>寝室</p><p>{{studentStay}}</p></div>
 				   </div>
 		   </div>
 		   <!--充值-->
@@ -69,16 +68,29 @@
 		</div>
 	
 	
-	
+	<!---->
 	
 	
 		<script src="../js/mui.min.js"></script>
 		<script type="text/javascript">
 			mui.init();
+			function getDefaultData() {
+				return {
+					studentAddress:localStorage.getItem('userAddress'),
+					studentClass:localStorage.getItem('userClass'),
+					studentName:localStorage.getItem('userName'),
+					studentNumber:localStorage.getItem('TOKEN_USER'),
+					studentPassword:localStorage.getItem('TOKEN_PASSWORD'),
+					studentStay:localStorage.getItem('userStay')
+				}
+			}
 			
-			mui.plusReady(function(){			
-				
-			})
+			var info = new Vue({
+				el: '#info',
+				data: getDefaultData(),
+			});
+			
+			
 		</script>
 	</body>
 

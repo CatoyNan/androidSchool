@@ -173,6 +173,13 @@
 					"html/mealCard.html"
 				],
 				"priority": 0
+			},
+			"html/mySetting.html": {
+				"resources": [],
+				"refer": [
+					"html/myInfo.html"
+				],
+				"priority": 0
 			}
 		},
 		"idle": {
