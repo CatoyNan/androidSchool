@@ -6,36 +6,53 @@
 		<title></title>
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<link href="../css/mui.min.css" rel="stylesheet" />
+		<style>
+			#barTab img{
+				width: 35px;
+				height: 35px;
+				position: absolute;
+				top: 8px;
+				margin-left: -10px;
+			}
+			
+			#barTab span{
+				position: absolute;
+				font-size: 10px;
+				bottom: 0px;
+				margin-left:-8px;
+				
+			}
+			.one,.two,.three,.four {
+				position: relative;
+				background-color: red;
+			}
+			
+		</style>
 	</head>
 
 	<body>
 		<header class="mui-bar mui-bar-nav">
 		    <h1 class="mui-title">校园信息综合服务平台</h1>
 		</header>
-		<nav class="mui-bar mui-bar-tab">
+		<nav id='barTab' class="mui-bar mui-bar-tab">
 		    <a class="mui-tab-item mui-active" id="one">
-		        <span class="mui-icon mui-icon-home"></span>
-		        <span class="mui-tab-label">首页</span>
+		        <img id='homeicon' src="../images/tabicon/home_hover.png" style="top: 2px;"/>
+		        <span class="mui-tab-label">校园动态</span>
 		    </a>
 		    <a class="mui-tab-item" id="tow">
-		        <span class="mui-icon mui-icon-phone"></span>
-		        <span class="mui-tab-label">电话</span>
+		        <img id='advidoryicon' src="../images/tabicon/advidory.png" style="width: 25px;height: 25px;"/>
+		        <span class="mui-tab-label" style="margin-left: -15px;">校园咨询</span>
 		    </a>
-		    <a class="mui-tab-item" id="three">
-		        <span class="mui-icon mui-icon-email"></span>
-		        <span class="mui-tab-label">邮件</span>
+		     <a class="mui-tab-item" id="three">
+		        <img id='jobicon' src="../images/tabicon/job.png" style="width: 25px;height: 25px;"/>
+		        <span class="mui-tab-label" style="margin-left: -15px;">就业速递</span>
 		    </a>
-		    <a class="mui-tab-item" id="four">
-		        <span class="mui-icon mui-icon-gear"></span>
-		        <span class="mui-tab-label">设置</span>
+		     <a class="mui-tab-item" id="four">
+		        <img id='settingicon' src="../images/tabicon/setting.png" style="width: 27px;height: 27px;"/>
+		        <span class="mui-tab-label" style="margin-left: -16px;">个人设置</span>
 		    </a>
 		</nav>
-		
-		
-		
-		
-		
-		
+	
 		
 		<!--js-->
 		<script src="../js/mui.min.js"></script>
@@ -90,24 +107,43 @@
 				var advisory = plus.webview.getWebviewById('advisory');
 				var work = plus.webview.getWebviewById('work');
 				var setting = plus.webview.getWebviewById('setting');
-				
+				var homeicon = document.getElementById('homeicon');
+				var advidoryicon = document.getElementById('advidoryicon');
+				var jobicon = document.getElementById('jobicon');
+				var settingicon = document.getElementById('settingicon');
 				document.getElementById('one').addEventListener('tap',function(){
 					advisory.hide();
 					work.hide();
 					setting.hide();
+					homeicon.src='../images/tabicon/home_hover.png';
+					advidoryicon.src='../images/tabicon/advidory.png';
+					jobicon.src='../images/tabicon/job.png';
+					settingicon.src='../images/tabicon/setting.png';
 //					mui.alert(newsPage.id);
 					
 				})
 				document.getElementById('tow').addEventListener('tap',function(){
 					advisory.show();
+					advidoryicon.src='../images/tabicon/advidory_hover.png';
+					homeicon.src='../images/tabicon/home.png';
+					jobicon.src='../images/tabicon/job.png';
+					settingicon.src='../images/tabicon/setting.png';
 //					mui.alert(2);
 				})
 				document.getElementById('three').addEventListener('tap',function(){
 					work.show();
+					advidoryicon.src='../images/tabicon/advidory.png';
+					homeicon.src='../images/tabicon/home.png';
+					jobicon.src='../images/tabicon/jab_hover.png';
+					settingicon.src='../images/tabicon/setting.png';
 //					mui.alert(3);
 				})
 				document.getElementById('four').addEventListener('tap',function(){
 					setting.show();
+					advidoryicon.src='../images/tabicon/advidory.png';
+					homeicon.src='../images/tabicon/home.png';
+					jobicon.src='../images/tabicon/job.png';
+					settingicon.src='../images/tabicon/setting_hover.png';
 //					mui.alert(4);
 				})
 				
