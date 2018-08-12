@@ -163,7 +163,8 @@
 			"html/advisory.html": {
 				"resources": [],
 				"refer": [
-					"html/mealCard.html"
+					"html/mealCard.html",
+					"html/book.html"
 				],
 				"priority": 0
 			},

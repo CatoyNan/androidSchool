@@ -1,0 +1,129 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<div id="book" class="mui-content">
+			<!--列表信息流 开始-->
+			<div id="list" class="mui-scroll-wrapper">
+				<div class="mui-scroll">
+					<ul class="mui-table-view">
+						<li class="mui-table-view-cell mui-media" v-for="item in items">
+							<a href="javascript:;"  @tap="open_detail(item)">
+								<div v-html="item.book_image">{{item.book_image}}</div>
+								<div class="mui-media-body">
+									<div class="mui-ellipsis-2">{{item.book_name}}</div>
+								</div>
+								<div class="meta-info">
+									<div class="type">{{item.book_name}}</div>
+									<div class="time">{{item.book_out_time}}</div>
+								</div>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<!--列表信息流 结束-->	
+		</div>
+			
+		
+		
+		
+		
+		
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">	
+			var bookinfo = new Vue({
+				el: '#book',
+				data: {
+					items:[]//列表信息流数据
+				}
+			});
+
+			
+			mui.init({
+				pullRefresh: {//配置下拉刷新
+					container: '#list',//下拉刷新标识
+					down: {
+						style: 'circle',
+						offset: '0px',
+						auto: true,
+						callback: pulldownRefresh
+					},
+					up: {
+
+					}
+				}
+			});
+			
+			/**
+			 *  下拉刷新获取最新列表 
+			 */
+			function pulldownRefresh() {
+				//判断扩展API是否准备好&&判断网络类型为无网络
+				if(window.plus && plus.networkinfo.getCurrentType() === plus.networkinfo.CONNECTION_NONE) {
+					plus.nativeUI.toast('似乎已断开与互联网的连接', {
+						verticalAlign: 'top'
+					});
+					return;
+				}
+				
+				/*
+				 * 查询图书信息
+			     */		
+				mui.ajax('http://120.77.203.221:8082/demo/getStuBorrow_bookInfo',{
+					data:{
+						stu_account:'16103450118',
+						page:'1',
+						rows:'100'
+					},
+					dataType:'json',//服务器返回json格式数据
+					type:'post',//HTTP请求类型
+					timeout:10000,//超时时间设置为10秒；              
+					success:function(data){
+						bookinfo.items.length=0;
+						for(var i=0;i<data.total;i++){
+							var books = {
+								book_image:'<img class="mui-media-object mui-pull-left" src='+JSON.stringify(data.rows[i].book_image)+'>',
+								book_int_time:data.rows[i].book_int_time,
+								book_name:data.rows[i].book_name,
+								book_out_time:data.rows[i].book_out_time,
+								book_state:data.rows[i].book_state,
+								book_type:data.rows[i].book_type,
+								book_uid:data.rows[i].book_uid,
+							}
+							bookinfo.items.push(books);								
+						}					
+					},
+					error:function(xhr,type,errorThrown){
+						//异常处理；
+						console.log(xhr);
+					}
+				});	
+				setTimeout(function(){
+					mui('#list').pullRefresh().endPulldown();
+				},2000);				
+			}
+			
+			
+			
+			
+			
+			
+			mui.plusReady(function(){
+//				 mui.fire(detailPage,'haha',{
+//				    mui('#list').pullRefresh().endPulldown();
+//				 });
+				
+			})
+		</script>
+	</body>
+
+</html>

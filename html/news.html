@@ -214,7 +214,6 @@
 
 				//请求历史列表信息流
 				mui.getJSON("http://120.77.203.221:8082/demo/findAllNewsListtitleRecent", data, function(msg) {
-					mui('#list').pullRefresh().endPullupToRefresh();
 					if(msg.state) {	
 						 	if(news.items==''){
 						 		news.items = convert1(msg).concat(news.items);//数组拼接
@@ -223,6 +222,10 @@
 						 		news.items = convert2(msg).concat(news.items);//数组拼接
 						 	}
 					}
+					setTimeout(function(){
+						mui('#list').pullRefresh().endPullupToRefresh();
+					},2000);
+					
 				});
 			}
 			
@@ -276,8 +279,7 @@
 			 */
 			function convert1(items) {
 				var newItems = [];
-				for(var i=0;i<items.reslut.length;i++){
-					
+				for(var i=0;i<items.reslut.length;i++){					
 						var obj={
 						news_title: items.reslut[i].news_title,
 						news_type: items.reslut[i].news_type,
