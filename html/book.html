@@ -6,6 +6,49 @@
 		<title></title>
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<link href="../css/mui.min.css" rel="stylesheet" />
+		<style type="text/css">
+			body {
+				background-color: #EEE3DF;
+			}
+			#book {
+				background-color: #EEE3DF;
+			}
+			
+			#boolUl {
+				/*border-style: solid;
+				border-color: red;*/
+				margin-left: -30px;
+			}
+			
+			#boolUl li{
+				width: 100px;
+				height: 190px;
+				/*border-style: solid;*/
+				float: left;
+				position: relative;
+				list-style: none;
+				margin-left: 10px;
+				margin-top: 14px;
+			}
+			
+			#boolUl li img {
+				width: 90px;
+				height: 130px;
+				position: absolute;				
+			}
+			
+			#bookName {
+				width: 90px;
+				/*border-style: solid;*/
+				position: absolute;
+				top: 130px;
+				font-size: 16px;
+				font-family: "微软雅黑";
+				color: black;
+				margin-left: auto;
+			}
+			
+		</style>
 	</head>
 
 	<body>
@@ -13,17 +56,15 @@
 			<!--列表信息流 开始-->
 			<div id="list" class="mui-scroll-wrapper">
 				<div class="mui-scroll">
-					<ul class="mui-table-view">
-						<li class="mui-table-view-cell mui-media" v-for="item in items">
+					<ul id='boolUl'>
+						<li v-for="item in items">
 							<a href="javascript:;"  @tap="open_detail(item)">
-								<div v-html="item.book_image">{{item.book_image}}</div>
-								<div class="mui-media-body">
-									<div class="mui-ellipsis-2">{{item.book_name}}</div>
-								</div>
-								<div class="meta-info">
+								<div id="bookImg" v-html="item.book_image">{{item.book_image}}</div>
+								<div id="bookName">{{item.book_name}}</div>
+								<!--<div class="meta-info">
 									<div class="type">{{item.book_name}}</div>
 									<div class="time">{{item.book_out_time}}</div>
-								</div>
+								</div>-->
 							</a>
 						</li>
 					</ul>
