@@ -181,6 +181,13 @@
 					"html/myInfo.html"
 				],
 				"priority": 0
+			},
+			"html/book.html": {
+				"resources": [],
+				"refer": [
+					"html/bookDetal.html"
+				],
+				"priority": 0
 			}
 		},
 		"idle": {

@@ -5,13 +5,13 @@
 		<meta charset="UTF-8">
 		<title></title>
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../css/list-to-detail.css" />
 		<style type="text/css">
 			body {
-				background-color: #EEE3DF;
-			}
-			#book {
-				background-color: #EEE3DF;
+				background-color:#FAFAFA;
 			}
 			
 			#boolUl {
@@ -48,11 +48,46 @@
 				margin-left: auto;
 			}
 			
+			.laber {
+				border-left-style: solid;
+				border-color: deepskyblue;
+				position: absolute;
+				margin-left: 13px;
+				margin-top: 20px;
+				padding-left: 8px;
+			}
+			#quantity {
+				height: 60px;
+				background-color: #FAFAFA;
+			}
+			
+			.quantity-font{
+				font-family: SimHei;
+				font-weight: 700;
+				font-size: 20px;
+			}
+			
+			.font-red {
+				color: red;
+			}
+			
+			#list {
+				margin-top: 5px;
+				background-color: #FAFAFA;
+			}
+			
 		</style>
 	</head>
 
 	<body>
 		<div id="book" class="mui-content">
+			<!--图书借阅数量-->
+			<div id="quantity">
+				<div class="laber">
+				<div class="quantity-font">借阅图书<span class="font-red">{{quantity}}</span>本</div>
+			</div>
+			</div>
+			
 			<!--列表信息流 开始-->
 			<div id="list" class="mui-scroll-wrapper">
 				<div class="mui-scroll">
@@ -81,10 +116,23 @@
 		<script src="../js/mui.min.js"></script>
 		<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">	
+			var webview_detail = null; //详情页webview
+			var titleNView = { //详情页原生导航配置
+				backgroundColor:'#8E685B', //导航栏背景色
+				titleText: '借书详情', //导航栏标题
+				titleColor: '#000000', //文字颜色
+				type: 'transparent', //透明渐变样式
+				autoBackButton: true, //自动绘制返回箭头
+				splitLine: { //底部分割线
+				color: '#8E685B'
+				}
+			}
+			
 			var bookinfo = new Vue({
 				el: '#book',
 				data: {
-					items:[]//列表信息流数据
+					items:[],//列表信息流数据
+					quantity:''
 				}
 			});
 
@@ -141,7 +189,8 @@
 								book_uid:data.rows[i].book_uid,
 							}
 							bookinfo.items.push(books);								
-						}					
+						}
+						bookinfo.quantity=data.total;
 					},
 					error:function(xhr,type,errorThrown){
 						//异常处理；
@@ -153,16 +202,46 @@
 				},2000);				
 			}
 			
-			
-			
-			
-			
-			
-			mui.plusReady(function(){
-//				 mui.fire(detailPage,'haha',{
-//				    mui('#list').pullRefresh().endPulldown();
-//				 });
+			/*
+			 * 打开书本详情界面
+			 */
+			function open_detail(item) {
+//				触发子窗口变更新闻详情
+				mui.fire(webview_detail, 'get_detail', {
+					book_image: item.book_image,
+					book_int_time: item.book_int_time,
+					book_name:item.book_name,
+					book_out_time:item.book_out_time,
+					book_state:item.book_state,
+					book_type:item.book_type,
+					book_uid:item.book_uid,
+				});
+	//				mui.alert(item.news_title);
+					//更改详情页原生导航条信息
+				titleNView.titleText = item.book_name;
+				webview_detail.setStyle({
+					"titleNView": titleNView
+				});
+				setTimeout(function() {
+					webview_detail.show("slide-in-right", 300);
+				}, 600);
+			}
 				
+			mui.plusReady(function(){
+				/*
+				 * 预加载界面
+				 */
+				webview_detail = mui.preload({
+					url: 'bookDetal.html',
+					id: 'bookDetail',
+					styles: {
+						"render": "always",
+						"popGesture": "hide",
+						"bounce": "vertical",
+						"bounceBackground": "#efeff4",
+						"titleNView": titleNView
+					}
+				});							
 			})
 		</script>
 	</body>

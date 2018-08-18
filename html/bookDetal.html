@@ -1,0 +1,357 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+				background-color: #FFFFFF;
+			}
+			
+			.font-color-gray {
+				color: #6D6D72;
+				font-size: 16px;
+				font-weight: 800
+			}
+			
+			.font-color-black {
+				font-size: 16px;
+				font-weight: 800;
+				color: black;
+			}
+			
+			.mui-btn {
+				background-color: #FFEADA;
+				border-color: #DFC8B6;
+			}
+						
+			#banner {
+				margin-top: 40px;
+				width: 100%;
+				height: 73px;
+				/*height:30% ;*/
+				background-image: url(../images/book/banner-4.png);
+				background-size: cover;
+			}
+			
+			#book {
+				height: 230px;
+				/*border-style: solid;*/
+				padding-top: 20px;
+			}
+			
+			#book-name {
+				border-color: deepskyblue;
+				border-width: 5px;
+				padding-left: 3px;
+				border-left-style: solid;
+				margin-left: 18px;
+				font-size: 22px;
+				font-weight: 700;
+			}
+			
+			#book-img {
+				width: 43%;
+				height: 200px;
+				/*border-style: solid;*/
+				float: left;
+				position: relative;
+			}
+			
+			#book-img img {
+				position: absolute;
+				top: 20px;
+				left: 19px;
+				width: 120px;
+			}
+			
+			#bookdetail {
+				margin-top: 24px;
+				width: 57%;
+				height: 160px;
+				/*border-style: solid;*/
+				float: right;
+				border-left-style: solid;
+				border-color: #C8C7CC;
+				border-width: 1px;
+				position: relative;
+				padding-left: 5px;
+			}
+			
+			#detail-ul {
+				/*border-style: solid;*/
+				height: 200px;
+				position: absolute;
+				top: -5px;
+				/*position: relative;*/
+			}
+			
+			#detail-ul li{
+				list-style: none;
+				margin-top: 7px;
+			}
+			
+			.star {
+				/*border-style: solid;*/
+				margin-left: 43px;
+				margin-top: -29px;
+			}
+			
+			.star li {
+				float: left;
+			}
+			
+			.star img {
+				width: 20px;
+				height: 20px;
+			}
+			
+			#book-comment-top {
+				position: relative;
+				/*border-style: solid;*/
+				height: 50px;
+			}
+			
+			#book-comment {
+				padding-top: 30px;
+				/*border-style: solid;*/
+				height: 160px;
+			}
+			
+			#book-comment li{
+				float: left;
+				list-style: none;
+				/*margin-left: 10px;*/
+			}
+			
+			#button-list {
+				width: 60%;
+			}
+			
+			#comment-star {
+				position: relative;
+				width: 40%;
+				float: left;
+			}
+			
+			#button-list li{
+				margin-left: 18px;
+			}
+			
+			#comment-star-li {
+				position: absolute;
+				top: 8px;
+				left: 15px;
+			}
+			
+			#book-comment-center li{
+				margin-left: 25px;
+				margin-top: 15px;
+				
+			}
+			
+			#book-comment-center img{
+				height: 15px;
+				width: 15px;
+				src: url(../images/book/star.png);				
+			}
+			
+			
+			
+        	/*
+			li {
+				list-style: none;
+			}
+			
+			li img {
+				width: 120px;
+				height: 160px;
+				position: absolute;
+				top: 140px;
+				right: 20px;
+			}
+			
+			.font-color-white {
+				color: white;
+				font-family: "微软雅黑";
+			}
+			
+			.font-color-gold {
+				color: gold;
+				font-family: "微软雅黑";
+			}
+			
+			.font-weight {
+				font-weight: 100;
+			}*/
+			
+			/*#bookInfo {
+				width: 100%;
+				height: 280px;
+				border-style: solid;
+				margin-top: 42px;
+				background-color: #8E685B;
+			}
+			
+			#info {
+				width: 50%;
+				height: 280px;
+				border-style: solid;
+				float: left;
+				color: red;
+			}
+			
+			#img {
+				width: 50%;
+				height: 280px;
+				border-style: solid;
+				float: left;
+			}*/
+			
+			
+		</style>
+	</head>
+	<body>
+		<div class="mui-content">
+			<div id="banner"></div>
+			<div id="book">
+				<div id="book-name">
+					{{book_name}}
+				</div>
+				<div id="book-img">
+					<span id="img" v-html='book_image'>{{book_image}}</span>
+				</div>
+				<div id="bookdetail">
+					<ul id="detail-ul">
+						<li><span class="font-color-gray">分类:</span><span class="font-color-black">{{book_type}}</span></li>
+						<li><span class="font-color-gray">借书日期:</span><span class="font-color-black">{{book_out_time}}</span></li>
+						<li><span class="font-color-gray">还书日期:</span><span class="font-color-black">{{book_int_time}}</span></li>
+						<li><span class="font-color-gray">状态:</span><span id="state">{{book_state}}</span></li>	
+						<li><span class="font-color-gray">评价:</span>
+							<ul class="star">
+								<li v-for="n in book_star"><img src="../images/book/star.png" /></li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div id="book-comment">
+				<div id="book-comment-top">
+					<div id="button-list">
+						<ul>
+							<li><button type="button" class="mui-btn">续借</button></li>
+							<li><button type="button" class="mui-btn">还书</button></li>
+							<!--<li><button type="button" class="mui-btn">收藏</button></li>-->
+							
+						</ul>
+					</div>
+					<div id="comment-star">
+						<li id="comment-star-li"><span>评分:</span>
+								<ul class="star">
+									<li><img src="../images/book/star2.png" /></li>
+									<li><img src="../images/book/star2.png" /></li>
+									<li><img src="../images/book/star2.png" /></li>
+									<li><img src="../images/book/star2.png" /></li>
+									<li><img src="../images/book/star2.png" /></li>
+								</ul>
+						</li>
+					</div>
+					
+				</div>
+				<div id="book-comment-center">
+					<ul>
+						<li><img src="../images/book/pen.png"/><a>写笔记</a></li>
+						<li><img src="../images/book/pen.png"/><a>写书评</a></li>
+						<li><a>分享</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+		
+		
+		<script src="../js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			
+			function getDefaultData() {
+				return {
+					book_image: '',
+					book_int_time: '',
+					book_name: '',
+					book_out_time: '',
+					book_state: '',
+					book_type: '',
+					book_uid: '',
+					book_star:''
+				}
+			}
+			
+			var bookDetal = new Vue({
+				el: '.mui-content',
+				data: getDefaultData(),
+			});
+			
+			//监听自定义事件，获取图书详情
+			document.addEventListener('get_detail', function(event) {				
+				//前页传入的数据，直接渲染，无需等待ajax请求详情后
+				bookDetal.book_image = event.detail.book_image;
+				bookDetal.book_int_time = dateChange(event.detail.book_int_time);
+				bookDetal.book_name = event.detail.book_name;
+				bookDetal.book_out_time = dateChange(event.detail.book_out_time);
+				bookDetal.book_state = ifBack(event.detail.book_state);
+				bookDetal.book_type = event.detail.book_type;
+				bookDetal.book_uid = event.detail.book_uid;
+//				bookDetal.book_star = event.detail.book_star;
+				bookDetal.book_star = 4;
+			});
+			
+			//重写返回逻辑
+			mui.back = function() {
+				plus.webview.currentWebview().hide("slide-out-right", 700);
+			}
+	
+			//窗口隐藏时，重置页面数据
+			mui.plusReady(function () {
+				var self = plus.webview.currentWebview();
+				self.addEventListener("hide",function (e) {
+					window.scrollTo(0, 0);
+					bookDetal.book_image='';
+					bookDetal.book_int_time='';
+					bookDetal.book_name='';
+					bookDetal.book_out_time='';
+					bookDetal.book_state='';
+					bookDetal.book_type='';
+					bookDetal.book_uid=';'
+				},false);
+			})
+			
+			//时间格式转换
+			function dateChange(time){  
+				var date=/\d{4}-\d{1,2}-\d{1,2}/g.exec(time)
+			    return date.toLocaleString();
+			}
+			
+			//判断是否归还
+			function ifBack(flag){  
+				var oState = document.getElementById('state');
+				if(flag==0){
+					oState.style.color='red';
+					return '未归还';
+				}
+				else {
+					oState.style.color='lawngreen';
+					return '已还';
+				}
+			}
+		</script>
+	</body>
+
+</html>

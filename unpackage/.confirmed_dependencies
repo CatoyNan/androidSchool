@@ -1,51 +1,56 @@
 {
-  "index.html": {
-    "refer": [
-      "main.html",
-      "mainTab.html",
-      "html/mainTab.html"
-    ],
-    "resources": [
-      "/css/mui.min.css",
-      "/js/mui.min.js",
-      "images/login/1.png",
-      "images/login/f!.png",
-      "images/login/background.png"
-    ]
-  },
-  "html/mainTab.html": {
-    "resources": [
-      "html/news.html"
-    ],
-    "refer": [
-      "html/news.html",
-      "html/advisory.html",
-      "html/mySetting.html"
-    ]
-  },
-  "html/news.html": {
-    "refer": [
-      "html/newsDetal.html"
-    ],
-    "resources": []
-  },
-  "html/advisory.html": {
-    "refer": [
-      "html/mealCard.html",
-      "html/book.html"
-    ],
-    "resources": []
-  },
-  "html/mealCard.html": {
-    "refer": [
-      "html/mealCard.html"
-    ],
-    "resources": []
-  },
-  "html/mySetting.html": {
-    "refer": [
-      "html/myInfo.html"
-    ],
-    "resources": []
-  }
+	"index.html": {
+		"refer": [
+			"main.html",
+			"mainTab.html",
+			"html/mainTab.html"
+		],
+		"resources": [
+			"/css/mui.min.css",
+			"/js/mui.min.js",
+			"images/login/1.png",
+			"images/login/f!.png",
+			"images/login/background.png"
+		]
+	},
+	"html/mainTab.html": {
+		"resources": [
+			"html/news.html"
+		],
+		"refer": [
+			"html/news.html",
+			"html/advisory.html",
+			"html/mySetting.html"
+		]
+	},
+	"html/news.html": {
+		"refer": [
+			"html/newsDetal.html"
+		],
+		"resources": []
+	},
+	"html/advisory.html": {
+		"refer": [
+			"html/mealCard.html",
+			"html/book.html"
+		],
+		"resources": []
+	},
+	"html/mealCard.html": {
+		"refer": [
+			"html/mealCard.html"
+		],
+		"resources": []
+	},
+	"html/mySetting.html": {
+		"refer": [
+			"html/myInfo.html"
+		],
+		"resources": []
+	},
+	"html/book.html": {
+		"refer": [
+			"html/bookDetal.html"
+		]
+	}
 }
