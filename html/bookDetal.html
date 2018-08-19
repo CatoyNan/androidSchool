@@ -6,6 +6,7 @@
 		<title></title>
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../css/list-to-detail.css" />
 		<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
 		<style type="text/css">
 			*{
@@ -97,12 +98,6 @@
 				margin-top: 7px;
 			}
 			
-			.star {
-				/*border-style: solid;*/
-				margin-left: 43px;
-				margin-top: -29px;
-			}
-			
 			.star li {
 				float: left;
 			}
@@ -132,6 +127,11 @@
 			
 			#button-list {
 				width: 60%;
+			}
+			
+			#myStars {
+				margin-left: 43px;
+				margin-top: -29px;
 			}
 			
 			#comment-star {
@@ -233,7 +233,7 @@
 						<li><span class="font-color-gray">借书日期:</span><span class="font-color-black">{{book_out_time}}</span></li>
 						<li><span class="font-color-gray">还书日期:</span><span class="font-color-black">{{book_int_time}}</span></li>
 						<li><span class="font-color-gray">状态:</span><span id="state">{{book_state}}</span></li>	
-						<li><span class="font-color-gray">评价:</span>
+						<li><span class="font-color-gray">综合评价:</span>
 							<ul class="star">
 								<li v-for="n in book_star"><img src="../images/book/star.png" /></li>
 							</ul>
@@ -245,20 +245,20 @@
 				<div id="book-comment-top">
 					<div id="button-list">
 						<ul>
-							<li><button type="button" class="mui-btn">续借</button></li>
-							<li><button type="button" class="mui-btn">还书</button></li>
+							<li><button id="renew-button" type="button" class="mui-btn">续借</button></li>
+							<li><button id="comment-button" type="button" class="mui-btn">评价</button></li>
 							<!--<li><button type="button" class="mui-btn">收藏</button></li>-->
 							
 						</ul>
 					</div>
 					<div id="comment-star">
 						<li id="comment-star-li"><span>评分:</span>
-								<ul class="star">
-									<li><img src="../images/book/star2.png" /></li>
-									<li><img src="../images/book/star2.png" /></li>
-									<li><img src="../images/book/star2.png" /></li>
-									<li><img src="../images/book/star2.png" /></li>
-									<li><img src="../images/book/star2.png" /></li>
+								<ul class="star" id="myStars">
+									<li><img id="star0" src="../images/book/star2.png" /></li>
+									<li><img id="star1" src="../images/book/star2.png" /></li>
+									<li><img id="star2" src="../images/book/star2.png" /></li>
+									<li><img id="star3" src="../images/book/star2.png" /></li>
+									<li><img id="star4" src="../images/book/star2.png" /></li>
 								</ul>
 						</li>
 					</div>
@@ -272,6 +272,17 @@
 					</ul>
 				</div>
 			</div>
+			<ul class="mui-table-view">
+			    <li class="mui-table-view-cell mui-media">
+			        <a href="javascript:;">
+			            <!--<img class="mui-media-object mui-pull-left" src="http://placehold.it/40x30">-->
+			            <div class="mui-media-body">
+			                幸福
+			                <p class="mui-ellipsis">能和心爱的人一起睡觉，是件幸福的事情；可是，打呼噜怎么办？</p>
+			            </div>
+			        </a>
+			    </li>
+			</ul>
 		</div>
 		
 	</div>
@@ -313,11 +324,6 @@
 				bookDetal.book_star = 4;
 			});
 			
-			//重写返回逻辑
-			mui.back = function() {
-				plus.webview.currentWebview().hide("slide-out-right", 700);
-			}
-	
 			//窗口隐藏时，重置页面数据
 			mui.plusReady(function () {
 				var self = plus.webview.currentWebview();
@@ -332,6 +338,94 @@
 					bookDetal.book_uid=';'
 				},false);
 			})
+			
+			//重写返回逻辑
+			mui.back = function() {
+				plus.webview.currentWebview().hide("fade-out", 300);
+			}
+			
+			//续借按钮事件
+			document.getElementById('renew-button').addEventListener('tap',function(){
+				if(bookDetal.book_state=='已归还'){
+					mui.alert('该书已归还，无法续借');
+				}
+				else{
+					var array = new Array('确定','取消');
+					mui.confirm('我还没看完,还书日期延后3个月',array, function(e) {
+	                    if (e.index != 1) {
+	                    	mui.ajax('http://120.77.203.221:8082/demo/book_renewal',{
+								data:{
+									stu_account:localStorage.getItem("TOKEN_USER"),
+									book_name:bookDetal.book_name
+								},
+								dataType:'json',//服务器返回json格式数据
+								type:'post',//HTTP请求类型
+								timeout:10000,//超时时间设置为10秒；	              
+								success:function(data){//服务器返回响应，根据响应结果
+									if(data.success){
+										mui.toast('续借成功')
+									}
+									else{
+										mui.alert('续借失败!');
+									}										
+								},
+								error:function(xhr,type,errorThrown){
+									//异常处理；
+									mui.alert(type);
+								}
+							});
+	                    } else {
+	                       
+	                    }
+	                })
+				}
+				
+			});
+	
+			//星星评价事件
+			var oStar=new Array();
+			var oStar = document.getElementById('comment-star-li').getElementsByTagName('img');
+			for(var i=0;i<oStar.length;i++){
+				oStar[i].addEventListener('tap',function(){
+					for(var i=0;i<oStar.length;i++){
+						oStar[i].src = '../images/book/star2.png';
+					}
+					lightStar(this,oStar);
+				})
+			}
+			
+			//点亮星星函数 
+			localStorage.setItem("myStars", -1); 
+			function lightStar(obj,oStar){
+				var str = obj.getAttribute('id');
+				var number =str.charAt(str.length-1);
+				if(localStorage.getItem("myStar")!=-1){
+					localStorage.setItem("myStars", parseInt(number)+1);
+				}
+				else{
+					localStorage.setItem("myStars", 0);
+				}
+				while(number!=-1){
+					oStar[number].src='../images/book/star.png';
+					number--;
+				}
+			}
+			
+			//确定评价按钮事件
+			document.getElementById('comment-button').addEventListener('tap',function(){
+				var array = new Array('确定','取消');
+				if(localStorage.getItem("myStars")==-1){
+					localStorage.setItem("myStars", 0);
+				}
+				mui.confirm('将本书评价为'+localStorage.getItem("myStars")+'星?','我的评价' ,array, function(e) {
+                    if (e.index != 1) {
+                    	mui.alert('确定');
+//                     mui.ajax()
+                    } else {
+                       
+                    }
+                })
+			});
 			
 			//时间格式转换
 			function dateChange(time){  
@@ -348,7 +442,7 @@
 				}
 				else {
 					oState.style.color='lawngreen';
-					return '已还';
+					return '已归还';
 				}
 			}
 		</script>

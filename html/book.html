@@ -169,7 +169,7 @@
 			     */		
 				mui.ajax('http://120.77.203.221:8082/demo/getStuBorrow_bookInfo',{
 					data:{
-						stu_account:'16103450118',
+						stu_account:localStorage.getItem("TOKEN_USER"),
 						page:'1',
 						rows:'100'
 					},
@@ -187,6 +187,7 @@
 								book_state:data.rows[i].book_state,
 								book_type:data.rows[i].book_type,
 								book_uid:data.rows[i].book_uid,
+//								book_star:data.rows[i].book_star,
 							}
 							bookinfo.items.push(books);								
 						}
@@ -199,7 +200,7 @@
 				});	
 				setTimeout(function(){
 					mui('#list').pullRefresh().endPulldown();
-				},2000);				
+				},1000);				
 			}
 			
 			/*
@@ -224,7 +225,7 @@
 				});
 				setTimeout(function() {
 					webview_detail.show("slide-in-right", 300);
-				}, 600);
+				}, 150);
 			}
 				
 			mui.plusReady(function(){
