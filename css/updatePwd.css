@@ -1,0 +1,16 @@
+body{
+	background-color: rgb(255,255,255);
+}
+
+.btn{
+	margin-top: 10px;
+	width: 96%;
+}
+
+.password{
+	margin-top: 60px;
+}
+.title{	
+	background-color:rgb(255,255,255) !important;
+}
+
