@@ -1235,6 +1235,7 @@ input[type='submit'],
 .mui-btn-blue
 {
     color: #fff;
+   
     border: 1px solid #007aff;
     background-color: #007aff;
 }
