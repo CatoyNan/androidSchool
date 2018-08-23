@@ -120,7 +120,7 @@
 				 * 查询饭卡信息
 			     */
 				
-				mui.ajax('http://120.77.203.221:8082/demo/findCardInfo/?studentNumber='+localStorage.getItem("TOKEN_USER"),{
+				mui.ajax(localStorage.getItem("url")+'/demo/findCardInfo/?studentNumber='+localStorage.getItem("TOKEN_USER"),{
 						dataType:'json',//服务器返回json格式数据
 						type:'get',//HTTP请求类型
 						timeout:10000,//超时时间设置为10秒；
@@ -147,7 +147,7 @@
 					var money = document.getElementById('money').value;
 					var flag = isMoney(money);
 					if(flag){
-						mui.ajax('http://120.77.203.221:8082/demo/cardFreeCharage/?studentaccount='+localStorage.getItem("TOKEN_USER")+'&&chargemonet='+money,{
+						mui.ajax(localStorage.getItem("url")+'/demo/cardFreeCharage/?studentaccount='+localStorage.getItem("TOKEN_USER")+'&&chargemonet='+money,{
 							dataType:'json',//服务器返回json格式数据
 							type:'get',//HTTP请求类型
 							timeout:10000,//超时时间设置为10秒；

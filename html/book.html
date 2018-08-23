@@ -167,7 +167,7 @@
 				/*
 				 * 查询图书信息
 			     */		
-				mui.ajax('http://120.77.203.221:8082/demo/getStuBorrow_bookInfo',{
+				mui.ajax(localStorage.getItem("url")+'/demo/getStuBorrow_bookInfo',{
 					data:{
 						stu_account:localStorage.getItem("TOKEN_USER"),
 						page:'1',

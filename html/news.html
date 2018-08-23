@@ -191,7 +191,7 @@
 				
 
 				//请求最新列表信息流
-				mui.getJSON("http://120.77.203.221:8082/demo/findAllNewsListtitleRecent", function(msg) {
+				mui.getJSON(localStorage.getItem("url")+'/demo/findAllNewsListtitleRecent', function(msg) {
 					mui('#list').pullRefresh().endPulldownToRefresh();//加载完新数据后，需要执行endPullupToRefresh()方法，结束转雪花进度条的“正在加载...”过程
 					if(msg.state) {	
 						 	if(news.items==''){
@@ -213,7 +213,7 @@
 				};
 
 				//请求历史列表信息流
-				mui.getJSON("http://120.77.203.221:8082/demo/findAllNewsListtitleRecent", data, function(msg) {
+				mui.getJSON(localStorage.getItem("url")+'/demo/findAllNewsListtitleRecent', data, function(msg) {
 					if(msg.state) {	
 						 	if(news.items==''){
 						 		news.items = convert1(msg).concat(news.items);//数组拼接

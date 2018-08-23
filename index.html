@@ -78,13 +78,14 @@
 
 	<!--js-->
 	 <script type="text/javascript" charset="utf-8">
-      	mui.init();    
+      	mui.init(); 
      	mui.plusReady(    //判断h5+页面加载完毕
-       		function() {	
+       		function() {
+       			localStorage.setItem("url", 'http://120.77.203.221:8082');
 				// 自动填充
 				if(localStorage.getItem("TOKEN_USER")!=null && localStorage.getItem("TOKEN_PASSWORD")!=null){
 					document.getElementById('username').value = localStorage.getItem("TOKEN_USER");
-					document.getElementById('userpassword').value = localStorage.getItem("TOKEN_PASSWORD")
+					document.getElementById('userpassword').value = localStorage.getItem("TOKEN_PASSWORD");
 				}
        			
        			document.getElementById("loginBtn").addEventListener('tap', function(){ 
@@ -92,7 +93,7 @@
    				    var userP = document.getElementById('userpassword').value; 	
 					var wd = plus.nativeUI.showWaiting();// 显示一个等待的对话框  
    				   
-   				 mui.ajax('http://120.77.203.221:8082/demo/userlogn',{
+   				 mui.ajax(localStorage.getItem("url")+'/demo/userlogn',{
 					data:{account:userN,password:userP},
 					dataType:'json',//服务器返回json格式数据
 					type:'get',//HTTP请求类型

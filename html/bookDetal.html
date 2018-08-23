@@ -160,61 +160,7 @@
 				height: 15px;
 				width: 15px;
 				src: url(../images/book/star.png);				
-			}
-			
-			
-			
-        	/*
-			li {
-				list-style: none;
-			}
-			
-			li img {
-				width: 120px;
-				height: 160px;
-				position: absolute;
-				top: 140px;
-				right: 20px;
-			}
-			
-			.font-color-white {
-				color: white;
-				font-family: "微软雅黑";
-			}
-			
-			.font-color-gold {
-				color: gold;
-				font-family: "微软雅黑";
-			}
-			
-			.font-weight {
-				font-weight: 100;
-			}*/
-			
-			/*#bookInfo {
-				width: 100%;
-				height: 280px;
-				border-style: solid;
-				margin-top: 42px;
-				background-color: #8E685B;
-			}
-			
-			#info {
-				width: 50%;
-				height: 280px;
-				border-style: solid;
-				float: left;
-				color: red;
-			}
-			
-			#img {
-				width: 50%;
-				height: 280px;
-				border-style: solid;
-				float: left;
-			}*/
-			
-			
+			}	
 		</style>
 	</head>
 	<body>
@@ -236,6 +182,7 @@
 						<li><span class="font-color-gray">综合评价:</span>
 							<ul class="star">
 								<li v-for="n in book_star"><img src="../images/book/star.png" /></li>
+								<li v-for="n in book_star_half"><img src="../images/book/starHalf.png" /></li>
 							</ul>
 						</li>
 					</ul>
@@ -272,17 +219,32 @@
 					</ul>
 				</div>
 			</div>
-			<ul class="mui-table-view">
-			    <li class="mui-table-view-cell mui-media">
-			        <a href="javascript:;">
-			            <!--<img class="mui-media-object mui-pull-left" src="http://placehold.it/40x30">-->
-			            <div class="mui-media-body">
-			                幸福
-			                <p class="mui-ellipsis">能和心爱的人一起睡觉，是件幸福的事情；可是，打呼噜怎么办？</p>
-			            </div>
-			        </a>
-			    </li>
-			</ul>
+				<div class="mui-card" v-for="item in items">
+					<div class="mui-card-header mui-card-media">
+						<img src="../images/mySetting/head Portrait.png" />
+						<div class="mui-media-body">
+							{{item.comment_author}}
+							<p>发表于 2016-06-30 15:30</p>
+							<div class="mui-card-content" >
+							{{item.comment_content}}
+							</div>
+						</div>
+					</div>
+					<div class="mui-card-footer">
+						<a class="mui-card-link">点赞</a>
+						<!--<a class="mui-card-link">Comment</a>-->
+						<a class="mui-card-link">评论</a>
+					</div>
+				</div>	
+				<div v-for="n in isNoComment">
+					<div class="mui-card-header mui-card-media">
+						<div class="mui-media-body">
+							<div class="mui-card-content" >
+							<p>暂时没有书评</p>
+							</div>
+						</div>
+					</div>
+				</div>	
 		</div>
 		
 	</div>
@@ -301,7 +263,10 @@
 					book_state: '',
 					book_type: '',
 					book_uid: '',
-					book_star:''
+					book_star:'',
+					book_star_half:'',
+					isNoComment: 0,
+					items:[]
 				}
 			}
 			
@@ -311,7 +276,7 @@
 			});
 			
 			//监听自定义事件，获取图书详情
-			document.addEventListener('get_detail', function(event) {				
+			document.addEventListener('get_detail', function(event) {	
 				//前页传入的数据，直接渲染，无需等待ajax请求详情后
 				bookDetal.book_image = event.detail.book_image;
 				bookDetal.book_int_time = dateChange(event.detail.book_int_time);
@@ -320,8 +285,20 @@
 				bookDetal.book_state = ifBack(event.detail.book_state);
 				bookDetal.book_type = event.detail.book_type;
 				bookDetal.book_uid = event.detail.book_uid;
-//				bookDetal.book_star = event.detail.book_star;
-				bookDetal.book_star = 4;
+				//向服务端请求书本综合评分和评论
+				mui.ajax(localStorage.getItem("url")+'/demo/getBookScoreAndComments/?book_name=' + bookDetal.book_name, {
+					type:'GET',
+					dataType: 'json', //服务器返回json格式数据
+					timeout: 15000, //15秒超时
+					success: function(data) {
+						getComment(data);
+					},
+					error: function(xhr, type, errorThrown) {
+						bookDetal.isNoComment=1;
+//						mui.toast('评论内容获取失败');
+						//TODO 此处可以向服务端告警
+					}
+				});
 			});
 			
 			//窗口隐藏时，重置页面数据
@@ -335,7 +312,15 @@
 					bookDetal.book_out_time='';
 					bookDetal.book_state='';
 					bookDetal.book_type='';
-					bookDetal.book_uid=';'
+					bookDetal.book_uid='';
+					bookDetal.items.length='';
+					bookDetal.isNoComment='';
+					for(var i=0;i<oStar.length;i++){
+						oStar[i].src = '../images/book/star2.png';//评分星星清空
+					}
+					bookDetal.book_star_half=0;//综合评价星星清空
+					bookDetal.book_star = 0;//综合评价星星清空
+					localStorage.setItem("myStars", -1); //评价初始化为-1
 				},false);
 			})
 			
@@ -353,7 +338,7 @@
 					var array = new Array('确定','取消');
 					mui.confirm('我还没看完,还书日期延后3个月',array, function(e) {
 	                    if (e.index != 1) {
-	                    	mui.ajax('http://120.77.203.221:8082/demo/book_renewal',{
+	                    	mui.ajax(localStorage.getItem("url")+'/demo/book_renewal',{
 								data:{
 									stu_account:localStorage.getItem("TOKEN_USER"),
 									book_name:bookDetal.book_name
@@ -418,9 +403,21 @@
 					localStorage.setItem("myStars", 0);
 				}
 				mui.confirm('将本书评价为'+localStorage.getItem("myStars")+'星?','我的评价' ,array, function(e) {
-                    if (e.index != 1) {
-                    	mui.alert('确定');
-//                     mui.ajax()
+                    if (e.index == 0) {
+                    	mui.ajax(localStorage.getItem("url")+'/demo/giveBookStar?studentNumber='+localStorage.getItem("TOKEN_USER")+'&book_name='+bookDetal.book_name+'&stu_score='+localStorage.getItem("myStars"),{
+							dataType:'json',//服务器返回json格式数据
+							type:'get',//HTTP请求类型
+							timeout:10000,//超时时间设置为10秒；
+							headers:{'Content-Type':'application/json'},	              
+							success:function(data){//服务器返回响应，根据响应结果
+								alert(data.msg);					
+							},
+							error:function(xhr,type,errorThrown){
+								//异常处理；
+								console.log(type);
+							}
+						});
+                       
                     } else {
                        
                     }
@@ -443,6 +440,36 @@
 				else {
 					oState.style.color='lawngreen';
 					return '已归还';
+				}
+			}
+			//读取评论内容
+			function getComment(data){
+				var items = [];
+				var score = data.score.toFixed(1);
+				var decimal = score-parseInt(score);
+				bookDetal.items.length=0;
+				bookDetal.book_star = parseInt(score);
+				for(var i=0;i<data.comment.length;i++){//获取评论的内容、头像、时间、账号
+					if(data.comment[i].stu_comment){
+							var obj = {
+	//						comment_headImg: data.comment[i].headImg,
+	//						comment_time: data.comment[i].comment_time,
+							comment_author: data.comment[i].stu_account,
+							comment_content: data.comment[i].stu_comment
+						};					
+						bookDetal.items.push(obj);						
+					}
+					else{						
+					}					
+				}
+				if(bookDetal.items.length==0){
+					bookDetal.isNoComment=1;
+				}
+				if(decimal>0){//定义半星数
+					bookDetal.book_star_half=1;
+				}
+				else{
+					bookDetal.book_star_half=0;
 				}
 			}
 		</script>
