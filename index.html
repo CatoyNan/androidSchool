@@ -66,7 +66,7 @@
        		 </div>  
     	</form>  
 	</div> 
-	
+
 	<!--登入按钮-->
 	<div style="margin-top:20px;text-align: center;"> 
 	  <button type="button"  id="loginBtn" class="mui-btn mui-btn-block mui-btn-primary">登入</button>
@@ -82,7 +82,8 @@
      	mui.plusReady(    //判断h5+页面加载完毕
        		function() {	
 				// 自动填充
-				if(localStorage.getItem("TOKEN_USER")!=null && localStorage.getItem("TOKEN_PASSWORD")!=null){
+				if(localStorage.getItem("TOKEN_USER")!=null && localStorage.getItem("TOKEN_PASSWORD")!=null)
+				{
 					document.getElementById('username').value = localStorage.getItem("TOKEN_USER");
 					document.getElementById('userpassword').value = localStorage.getItem("TOKEN_PASSWORD")
 				}
@@ -97,7 +98,7 @@
 					dataType:'json',//服务器返回json格式数据
 					type:'get',//HTTP请求类型
 					timeout:10000,//超时时间设置为10秒；
-					              
+					            
 					success:function(data){//服务器返回响应，根据响应结果，分析是否登录成功；					
 						wd.close();
 						if(data.state != true) {       				 
@@ -106,6 +107,7 @@
       					}  
 		     		    localStorage.setItem("TOKEN_USER", userN);   // 保存token，以便于下次自动登录  
 		     			localStorage.setItem("TOKEN_PASSWORD", userP);
+		     			
 		     			localStorage.setItem("userAddress",data.Student.studentAddress);
 		     			localStorage.setItem("userClass",data.Student.studentClass);
 		     			localStorage.setItem("userName",data.Student.studentName);
@@ -132,7 +134,9 @@
 					
 					error:function(xhr,type,errorThrown){
 						wd.close();
-						mui.alert(type);
+						console.log(false);
+						//mui.alert(type);
+						console.log(errorThrown);
 					}
 				 });      			      			
        		   });     			

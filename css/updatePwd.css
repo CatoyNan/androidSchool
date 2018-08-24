@@ -8,9 +8,12 @@ body{
 }
 
 .password{
-	margin-top: 60px;
+	margin-top:10px;
+	
 }
 .title{	
 	background-color:rgb(255,255,255) !important;
 }
-
+/*.input{
+	margin:0px;
+}*/
