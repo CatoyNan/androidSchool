@@ -178,7 +178,8 @@
 			"html/mySetting.html": {
 				"resources": [],
 				"refer": [
-					"html/myInfo.html"
+					"html/myInfo.html",
+					"html/updatePwd.html"
 				],
 				"priority": 0
 			},
@@ -186,6 +187,13 @@
 				"resources": [],
 				"refer": [
 					"html/bookDetal.html"
+				],
+				"priority": 0
+			},
+			"html/updatePwd.html": {
+				"resources": [],
+				"refer": [
+					"html/mySetting.html"
 				],
 				"priority": 0
 			}

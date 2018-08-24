@@ -50,7 +50,7 @@
 							<span class="contextText">个人资料</span>
 						</a>
 					</li>
-					<li class="mui-table-view-cell">
+					<li id='li_mypwd' class="mui-table-view-cell">
 						<a class="mui-navigate-right">	
 							<img class="icon" src="../images/mySetting/password.png"/>
 							<span class="contextText">修改密码</span>
@@ -149,6 +149,39 @@
 						}
 					    
 				});
+				updatePwd =mui.preload({//预加载
+					    url:'updatePwd.html', //预加载
+	                    id:'updatePwd',  
+	                    styles:{
+						      titleNView: {                       // 窗口的标题栏控件
+							      titleText:"校园信息综合服务平台",                // 标题栏文字,当不设置此属性时，默认加载当前页面的标题，并自动更新页面的标题
+							      titleColor:"#000000",             // 字体颜色,颜色值格式为"#RRGGBB",默认值为"#000000"
+							      titleSize:"17px",                 // 字体大小,默认17px
+							      autoBackButton: true,             //自动绘制返回箭头
+							      backgroundColor:"#87CEFA",        // 控件背景颜色,颜色值格式为"#RRGGBB",默认值为"#F7F7F7"
+							      splitLine:{                       // 标题栏控件的底部分割线，类似borderBottom
+							        color:"#CCCCCC",                // 分割线颜色,默认值为"#CCCCCC"  
+							        height:"1px"                    // 分割线高度,默认值为"2px"
+							      }
+						      }
+						}
+//						 url:'updatePwd.html', //预加载
+//	                    id:'updatePwd',  
+//	                    styles:{
+//						      titleNView: {                       // 窗口的标题栏控件
+//							      titleText:"校园信息综合服务平台",  // 标题栏文字,当不设置此属性时，默认加载当前页面的标题，并自动更新页面的标题
+//							      titleColor:"#000000",             // 字体颜色,颜色值格式为"#RRGGBB",默认值为"#000000"
+//							      titleSize:"17px",                 // 字体大小,默认17px
+//							      autoBackButton: true,             //自动绘制返回箭头
+//							      backgroundColor:"#87CEFA",        // 控件背景颜色,颜色值格式为"#RRGGBB",默认值为"#F7F7F7"
+//							      splitLine:{                       // 标题栏控件的底部分割线，类似borderBottom
+//							        color:"#CCCCCC",                // 分割线颜色,默认值为"#CCCCCC"  
+//							        height:"1px"                    // 分割线高度,默认值为"2px"
+//							      }
+//						      }
+//						}
+//					    
+				});
 				//获取本地分享服务列表
 				plus.share.getServices(function(s) {
 					if (s && s.length > 0) {
@@ -161,11 +194,7 @@
 					console.log("获取分享服务列表失败");
 				});
 				
-				//版本信息事件
-				document.getElementById('li_version').addEventListener('tap',function(){
-					mui.alert('版本号：' + plus.runtime.version,plus.runtime.appid);
-				})
-				
+				 
 				//个人资料事件
 				document.getElementById('li_myinfo').addEventListener('tap',function(){
 					mui.fire(myInfo,'myInfo',{
@@ -182,7 +211,22 @@
 					
 				})
 				
+				//修改密码事件
+				document.getElementById('li_mypwd').addEventListener('tap',function(){
+				mui.fire(updatePwd,'updatePwd',{
+						oldPswd:localStorage.getItem('TOKEN_PASSWORD'),
+						
+					});
+					setTimeout(function() {
+					updatePwd.show("slide-in-right",300);
+				},150);
+				})
 				
+				//版本信息事件
+				document.getElementById('li_version').addEventListener('tap',function(){
+					mui.alert('版本号：' + plus.runtime.version,plus.runtime.appid);
+					
+				})
 				
 				
 				 
@@ -190,30 +234,42 @@
 	       
 			 //分享链接点击事件
 			document.getElementById("li_share").addEventListener('tap', function() {
-				var ids = [{
+				var ids = [
+					{
 						id: "weixin",
 						ex: "WXSceneSession"
-					}, {
+					},
+					{
 						id: "weixin",
 						ex: "WXSceneTimeline"
-					}, {
+					}, 
+					{
 						id: "sinaweibo"
-					}, {
+					}, 
+					{
 						id: "tencentweibo"
-					}, {
+					}, 
+					{
 						id: "qq"
-					}],
-					bts = [{
+					}
+					],
+					bts = [
+					{
 						title: "发送给微信好友"
-					}, {
+					},
+					{
 						title: "分享到微信朋友圈"
-					}, {
+					}, 
+					{
 						title: "分享到新浪微博"
-					}, {
+					}, 
+					{
 						title: "分享到腾讯微博"
-					}, {
+					}, 
+					{
 						title: "分享到QQ"
-					}];
+					}
+					];
 				plus.nativeUI.actionSheet({
 					cancel: "取消",
 					buttons: bts
