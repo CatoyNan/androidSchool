@@ -160,7 +160,30 @@
 				height: 15px;
 				width: 15px;
 				src: url(../images/book/star.png);				
+			}
+			
+			#commentInput {
+				display: none;
+			}
+			
+			.bottom5{
+				margin-bottom:5px ;
+			}
+			
+			.bottomBtn{
+				font-size: 20px;
+				position: relative;
+				top: 5px;
+			}
+			
+			.editInput{
+				padding: 8px 15px;
+				line-height: 1.2;
+				margin: 0 0 10px 15px;
+				font-size: 14px;
+				width: 72%;
 			}	
+			
 		</style>
 	</head>
 	<body>
@@ -214,9 +237,14 @@
 				<div id="book-comment-center">
 					<ul>
 						<li><img src="../images/book/pen.png"/><a>写笔记</a></li>
-						<li><img src="../images/book/pen.png"/><a>写书评</a></li>
+						<li><img src="../images/book/pen.png"/><a id="xieShuPing">写书评</a></li>
 						<li><a>分享</a></li>
 					</ul>
+				</div>
+				<div class="editComment bottom5 bg_ededed" id="commentInput">
+					<textarea class="editInput" id="edit" name="" rows="1" cols="" placeholder="你的书评"></textarea>
+					<button type="button" class="commentBtn" id="submit">提交</button>
+					<span id="oneComment"></span>
 				</div>
 			</div>
 				<div class="mui-card" v-for="item in items">
@@ -224,7 +252,7 @@
 						<img src="../images/mySetting/head Portrait.png" />
 						<div class="mui-media-body">
 							{{item.comment_author}}
-							<p>发表于 2016-06-30 15:30</p>
+							<p>发表于 2018-08-30 15:30</p>
 							<div class="mui-card-content" >
 							{{item.comment_content}}
 							</div>
@@ -286,19 +314,7 @@
 				bookDetal.book_type = event.detail.book_type;
 				bookDetal.book_uid = event.detail.book_uid;
 				//向服务端请求书本综合评分和评论
-				mui.ajax(localStorage.getItem("url")+'/demo/getBookScoreAndComments/?book_name=' + bookDetal.book_name, {
-					type:'GET',
-					dataType: 'json', //服务器返回json格式数据
-					timeout: 15000, //15秒超时
-					success: function(data) {
-						getComment(data);
-					},
-					error: function(xhr, type, errorThrown) {
-						bookDetal.isNoComment=1;
-//						mui.toast('评论内容获取失败');
-						//TODO 此处可以向服务端告警
-					}
-				});
+				commentAjax();
 			});
 			
 			//窗口隐藏时，重置页面数据
@@ -321,6 +337,7 @@
 					bookDetal.book_star_half=0;//综合评价星星清空
 					bookDetal.book_star = 0;//综合评价星星清空
 					localStorage.setItem("myStars", -1); //评价初始化为-1
+					document.getElementById('commentInput').style.display='none';
 				},false);
 			})
 			
@@ -332,12 +349,12 @@
 			//续借按钮事件
 			document.getElementById('renew-button').addEventListener('tap',function(){
 				if(bookDetal.book_state=='已归还'){
-					mui.alert('该书已归还，无法续借');
+					mui.toast('该书已归还，无法续借');
 				}
 				else{
 					var array = new Array('确定','取消');
 					mui.confirm('我还没看完,还书日期延后3个月',array, function(e) {
-	                    if (e.index != 1) {
+	                    if (e.index == 0) {
 	                    	mui.ajax(localStorage.getItem("url")+'/demo/book_renewal',{
 								data:{
 									stu_account:localStorage.getItem("TOKEN_USER"),
@@ -348,7 +365,7 @@
 								timeout:10000,//超时时间设置为10秒；	              
 								success:function(data){//服务器返回响应，根据响应结果
 									if(data.success){
-										mui.toast('续借成功')
+										mui.toast('续借成功');
 									}
 									else{
 										mui.alert('续借失败!');
@@ -410,7 +427,7 @@
 							timeout:10000,//超时时间设置为10秒；
 							headers:{'Content-Type':'application/json'},	              
 							success:function(data){//服务器返回响应，根据响应结果
-								alert(data.msg);					
+								mui.toast(data.msg);				
 							},
 							error:function(xhr,type,errorThrown){
 								//异常处理；
@@ -422,6 +439,52 @@
                        
                     }
                 })
+			});
+			
+			//弹出书评输入框事件
+			document.getElementById('xieShuPing').addEventListener('tap',function(){
+				var oInput = document.getElementById('commentInput');
+				oInput.style.display='block';
+			});
+			
+			//提交书评
+			document.getElementById("submit").addEventListener('tap',function(){
+				var oInput = document.getElementById('commentInput');
+				var oEdit = document.getElementById("edit");
+				var text = oEdit.value;
+				if(!text){
+					mui.toast("评论内容不能为空");
+					oInput.style.display='none';
+				}
+				else{
+					mui.ajax(localStorage.getItem("url")+'/demo/giveComments/?book_name=' + bookDetal.book_name + '&studentNumber=' + localStorage.getItem("TOKEN_USER") + '&comment=' + text, {
+					type:'GET',
+					dataType: 'json', //服务器返回json格式数据
+					timeout: 15000, //15秒超时
+					success: function(data) {
+						if(data.state){
+							mui.toast("评价成功");
+							oInput.style.display='none';
+							oEdit.value='';
+							commentAjax();
+						}
+						else{
+							oInput.style.display='none';
+							oEdit.value='';
+							mui.toast("评价失败");
+						}
+						
+//						mui.fire('get_detail');
+					},
+					error: function(xhr, type, errorThrown) {
+						oInput.style.display='none';
+						oEdit.value='';
+						mui.toast("服务器开小差");
+//						mui.toast('评论内容获取失败');
+						//TODO 此处可以向服务端告警
+					}
+				});
+				}
 			});
 			
 			//时间格式转换
@@ -449,7 +512,7 @@
 				var decimal = score-parseInt(score);
 				bookDetal.items.length=0;
 				bookDetal.book_star = parseInt(score);
-				for(var i=0;i<data.comment.length;i++){//获取评论的内容、头像、时间、账号
+				for(var i=data.comment.length-1;i>=0;i--){//获取评论的内容、头像、时间、账号
 					if(data.comment[i].stu_comment){
 							var obj = {
 	//						comment_headImg: data.comment[i].headImg,
@@ -471,6 +534,22 @@
 				else{
 					bookDetal.book_star_half=0;
 				}
+			}
+			//评论ajax请求
+			function commentAjax(){
+				mui.ajax(localStorage.getItem("url")+'/demo/getBookScoreAndComments/?book_name=' + bookDetal.book_name, {
+					type:'GET',
+					dataType: 'json', //服务器返回json格式数据
+					timeout: 15000, //15秒超时
+					success: function(data) {
+						getComment(data);
+					},
+					error: function(xhr, type, errorThrown) {
+						bookDetal.isNoComment=1;
+//						mui.toast('评论内容获取失败');
+						//TODO 此处可以向服务端告警
+					}
+				});
 			}
 		</script>
 	</body>
