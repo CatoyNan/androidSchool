@@ -32,7 +32,8 @@
 		#loginBtn {
 			margin-left:auto;
 			width: 92%;
-			margin-right: auto;			
+			margin-right: auto;		
+			
 		}
 		#formBox {
 			margin-top: 80%;
@@ -69,7 +70,7 @@
 
 	<!--登入按钮-->
 	<div style="margin-top:20px;text-align: center;"> 
-	  <button type="button"  id="loginBtn" class="mui-btn mui-btn-block mui-btn-primary">登入</button>
+	  <button type="button"  id="loginBtn" class="mui-btn mui-btn-block mui-btn-primary">登录</button>
 	</div>  
 </div>	
 	</div>
@@ -107,7 +108,7 @@
 	        			    return;  
       					}  
 		     		    localStorage.setItem("TOKEN_USER", userN);   // 保存token，以便于下次自动登录  
-		     			localStorage.setItem("TOKEN_PASSWORD", userP);
+		     			localStorage.setItem("TOKEN_PASSWORD",data.Student.studentPassword);
 		     			
 		     			localStorage.setItem("userAddress",data.Student.studentAddress);
 		     			localStorage.setItem("userClass",data.Student.studentClass);
@@ -136,7 +137,7 @@
 					error:function(xhr,type,errorThrown){
 						wd.close();
 						console.log(false);
-						//mui.alert(type);
+						mui.alert(type);
 						console.log(errorThrown);
 					}
 				 });      			      			

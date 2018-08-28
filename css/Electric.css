@@ -1,0 +1,41 @@
+body{
+	background-color:rgb(255,255,255);
+}
+
+.readtext
+{
+	font:"微软雅黑";
+	font-size:initial;
+	color:rgb(77,150,204);
+}
+.readtext1
+{
+	font:"微软雅黑";
+	font-size:initial;
+	color:rgb(101,120,135);
+}
+.mui-input-row label 
+{
+font: "微软雅黑";
+font-size: initial;
+color:black;
+}
+
+.one
+{
+	margin-top: 15px;
+}
+.mui-button-row:active
+{
+	/*position: relative;
+
+    padding-top: 5px;
+
+    text-align: center;
+	border-top-style: solid;*/
+	border-color:rgb(255,123,124);
+	/*//margin-top: 10px;
+	width: 98%;*/
+	height: 45px;;
+	//background-color:rgb(255,123,124);
+}
