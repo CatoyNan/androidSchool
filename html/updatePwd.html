@@ -19,16 +19,13 @@
 			#header a{
 				color: black;
 				font: "微软雅黑";
-				font-size: 15px;
+				font-size:initial;
 				margin-left:auto;
 				margin-right:auto;	
 			}
 	</style>
 	<body>
-		<!--<header class="mui-bar mui-bar-nav title">
-		    <a class="mui-action-back mui-icon "></a>
-		    <h1 class="mui-title">密码修改</h1>
-		</header>-->
+
 		 <div id='center' class="mui-card">
 					<div id='header' class="mui-card-footer">
 						<a class="mui-card-link">密码修改</a>
@@ -37,7 +34,7 @@
  <form class="mui-input-group input">
  	<div class="mui-input-row password">
 		<label>现密码</label>
-    <input type="text" id="oldpwd"  class="mui-input" value="" readonly="true">
+    <input type="text" id="oldpwd"  class="mui-input"  readonly="true">
 	</div>
     <div class="mui-input-row">
         <label>新密码</label>
@@ -52,15 +49,15 @@
         <button type="button" id='confirmpBtn'class="mui-btn mui-btn-primary btn" >确认</button>
 
     </div>
+ 
 		<script src="../js/mui.js"></script>
 		
 		
 		<script type="text/javascript">
 			mui.init()
-			mui.plusReady(
-				function(){
-			
-					document.getElementById('oldpwd').value = localStorage.getItem("TOKEN_PASSWORD");
+			mui.plusReady(function(){
+				document.getElementById('oldpwd').value = localStorage.getItem("TOKEN_PASSWORD");
+				console.log(localStorage.getItem("TOKEN_PASSWORD"));
 				//确认按钮事件
 				document.getElementById('confirmpBtn').addEventListener('tap',function()
 				{
@@ -83,7 +80,7 @@
 										timeout:10000,//超时时间设置为10秒；
 										success:function(data){
 										//wd.close();	
-										console.log("success");
+//										console.log("success!");
 										if(data.success!=true)
 										{       				 
 	      									mui.alert("修改失败！", "温馨提示：", "关闭");  // 如果密码错误，提示一下信息  
@@ -94,6 +91,7 @@
 	                    				mui.toast('修改成功',{duration:'long', type:'div'});
 	                    				localStorage.setItem("CURRENT_PASSWORD", Pswd);
 	                    				document.getElementById('oldpwd').value = localStorage.getItem("CURRENT_PASSWORD");
+										console.log(localStorage.getItem("CURRENT_PASSWORD"));
 										},
 										error:function(xhr,type,errorThrown){
 											//异常处理；

@@ -1,0 +1,155 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/Electric.css" rel="stylesheet" />
+	</head>
+<style>
+			#center {
+				border-top-style: solid;
+				border-color: deepskyblue;
+			}
+			#header a{
+				color:purple;
+				font: "微软雅黑";
+				font-size:initial;
+				margin-left:auto;
+				margin-right:auto;	
+			}
+			#confirmpBtn
+			{
+				border-top-style: solid;
+				border-color:rgb(255,123,124);
+				margin-top: 10px;
+				width: 96%;
+				background-color:rgb(255,123,124);	
+			}
+			#mySelect
+		{
+			width: 65%;
+			//height:28px;
+		}
+	</style>
+	<body>
+		<div id='center' class="mui-card">
+					<div id='header' class="mui-card-footer">
+						<a class="mui-card-link">电费</a>
+					</div>	
+		</div>
+		
+	<form class="mui-input-group">
+    <div class="mui-input-row">
+        <label>缴费项目</label>
+    <input type="text" class="mui-input readtext" value=" 丽水学院学生公寓电费" readonly>
+    </div>
+    <div class="mui-input-row">
+        <label>收费机构</label>
+     <!--  <input type="text" class="mui-input-clear readtext" value="丽水市万达科教实业有限公司" readonly>-->
+     <select id="mySelect" class="readtext">
+	<option>丽水学院后勤服务中心</option>
+	<option>国家电网中心</option>
+</select>
+    </div>
+    	 <div class="mui-input-row user readtext">
+        <label>寝室号*</label>
+    <input type="text" id="eUser" class="mui-input-clear" placeholder=" 请输入寝室号">
+    </div>
+    
+</form>
+	<div class="mui-button-row">
+        <button type="button" id='confirmpBtn'class="mui-btn mui-btn-primary" >下一步</button>
+
+    </div>
+		
+		<script src="../js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+			function isLegal(eUser){
+	
+				if(eUser.length!=0)
+				return true;
+				else if(eUser.length==0)
+				{
+					mui.alert("寝室号不能为空！","温馨提示","关闭");
+					return false;
+				}
+			}
+			// 自动填充
+				if(localStorage.getItem("TOKEN_ELEMENTNAME")!=null)
+				{
+					document.getElementById('eUser').value = localStorage.getItem("TOKEN_ELEMENTNAME");
+					
+				}
+			mui.plusReady(function(){
+				if(localStorage.getItem("userStay")!=null)
+				{
+					document.getElementById('eUser').value = localStorage.getItem("userStay");
+				}
+				document.getElementById("confirmpBtn").addEventListener('tap',function(){
+					var x=document.getElementById("mySelect");
+					localStorage.setItem("chargeStation",x.options[mySelect.selectedIndex].text);
+					var stay=document.getElementById("eUser").value;
+					var flag=isLegal(stay);
+					if(flag)
+					{
+							mui.ajax(localStorage.getItem("url")+'/demo/findElement',{
+						data:{stay_number:stay},
+						dateType:'json',
+						type:'get',
+						timeout:10000,
+						success:function(data){
+							if(data.state!=true)
+							{
+								mui.alert("所属用户不存在！", "错误", "关闭");  // 如果密码错误，提示一下信息  
+	        			        return;  
+							}
+							//记住寝室号
+							localStorage.setItem("electricUser",stay);
+							
+							//localStorage.setItem("userAddress",data.Student.studentAddress);
+							
+							localStorage.setItem("TOKEN_ELEMENTNUMBER",data.result.elementNumber);
+							localStorage.setItem("TOKEN_ELEMENTNAME",data.result.elmentuser);
+							localStorage.setItem("TOKEN_CURRENTELEMENT",data.result.currentelement);
+							console.log(localStorage.getItem("TOKEN_CURRENTELEMENT"));
+							//清空信息
+//							document.getElementById("eUser").value="";
+							mui.openWindow({  
+	                      	  	url:'electricityCharge.html',  
+	          					id:'electricityCharge',
+	          					styles:{
+						      titleNView: {                       // 窗口的标题栏控件
+						      titleText:"电费充值",                // 标题栏文字,当不设置此属性时，默认加载当前页面的标题，并自动更新页面的标题
+						      titleColor:"#000000",             // 字体颜色,颜色值格式为"#RRGGBB",默认值为"#000000"
+						      titleSize:"17px",                 // 字体大小,默认17px
+						      autoBackButton: true,             //自动绘制返回箭头
+						      backgroundColor:"#87CEFA",        // 控件背景颜色,颜色值格式为"#RRGGBB",默认值为"#F7F7F7"
+//						      progress:{                        // 标题栏控件的进度条样式
+//						        color:"#00FF00",                // 进度条颜色,默认值为"#00FF00"  
+//						        height:"2px"                    // 进度条高度,默认值为"2px"         
+//						      },
+						      splitLine:{                       // 标题栏控件的底部分割线，类似borderBottom
+						        color:"#CCCCCC",                // 分割线颜色,默认值为"#CCCCCC"  
+						        height:"1px"                    // 分割线高度,默认值为"2px"
+						      }
+						    }
+					    },
+	     				 })
+						
+					},
+						error:function(xhr,type,errorThrown){
+							console.log(type)
+					}
+				 })
+				};
+				      			      			
+       		   });     			
+       	});
+		</script>
+	</body>
+
+</html>

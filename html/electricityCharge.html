@@ -1,0 +1,158 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/Electric.css" rel="stylesheet" />
+	</head>
+	<style>
+		#center
+		{
+			border-top-style: solid;
+			border-top-color: deepskyblue;
+		}
+		#header
+		a{
+			color: purple;
+			font: "微软雅黑";
+			font-size: initial;
+			margin-left: auto;
+			margin-right: auto;
+			
+		}
+		#chargeBtn
+			{
+				border-top-style: solid;
+				border-color:rgb(255,123,124);
+				margin-top: 10px;
+				width: 96%;
+				background-color:rgb(255,123,124);	
+			}
+	</style>
+
+	<body>
+		<div id='center' class="mui-card">
+					<div id='header' class="mui-card-footer">
+						<a class="mui-card-link">电费</a>
+					</div>	
+		</div>
+<form class="mui-input-group">
+    <div class="mui-input-row">
+        <label>缴费项目</label>
+    <input type="text" class="mui-inputr readtext1" value=" 丽水学院学生公寓电费" readonly>
+    </div>
+    <div class="mui-input-row">
+        <label>收费机构</label>
+        <input type="text" id="Station" class="mui-input readtext1"  readonly>
+       
+    </div>
+    	 <div class="mui-input-row">
+        <label>缴费日期</label>
+    <input type="text" id="chargeDate" class="mui-input readtext1" value=" 丽水市万达科教实业有限公司" readonly >
+    </div>
+</form>
+
+<form class="mui-input-group one">
+    <div class="mui-input-row">
+        <label>用户号</label>
+    <input type="text" id="euserNumber" class="mui-input-clear readtext1" readonly>
+    </div>
+    <div class="mui-input-row">
+        <label>用户名称</label>
+        <input type="text" id="euserName" class="mui-input-clear readtext1" readonly>
+    </div>
+    	 <div class="mui-input-row user">
+        <label>剩余电量(度)</label>
+    <input type="text" id="balance" class="mui-input readtext1"  readonly="true">
+    </div>
+</form>
+
+<form class="mui-input-group one">
+    <div class="mui-input-row user">
+        <label>缴费金额</label>
+    <input type="text" id="eChargeMoney" class="mui-input-clear readtext1" placeholder="请输入">
+    </div>
+</form>
+<div class="mui-button-row">
+        <button type="button" id='chargeBtn'class="mui-btn mui-btn-primary" >缴费</button>
+
+    </div>
+  
+		<script>
+				window.onload = function(){
+				var myDate = new Date();
+				localStorage.setItem("prestentDate",myDate.getFullYear()+'-'+(myDate.getMonth()+1)+'-'+myDate.getDate());
+				document.getElementById('chargeDate').value = localStorage.getItem("prestentDate");
+				
+			}
+		</script>
+		<script src="../js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+			function isLegal(eChargeMoney){
+				var reg = /^-?\d+$/;
+				if(eChargeMoney.length!=0&&reg.test(eChargeMoney)&&eChargeMoney>0)
+				return true;
+				else if(eChargeMoney.length==0)
+				{
+					mui.alert("缴费金额不能为空！","温馨提示","关闭");
+					return false;
+				}
+				else 
+				{
+					mui.alert("请输入正确的数字","格式错误","关闭");
+					return false;
+				}
+			}
+			document.getElementById('balance').value = localStorage.getItem("TOKEN_CURRENTELEMENT");
+			mui.plusReady(function(){
+				document.getElementById('balance').value = localStorage.getItem("TOKEN_CURRENTELEMENT");
+				document.getElementById('Station').value =localStorage.getItem("chargeStation");
+				document.getElementById('euserNumber').value = localStorage.getItem("TOKEN_ELEMENTNUMBER");
+				document.getElementById('euserName').value = localStorage.getItem("TOKEN_ELEMENTNAME");
+						
+				
+				document.getElementById("chargeBtn").addEventListener('tap',function(){
+					var enumber=localStorage.getItem("TOKEN_ELEMENTNUMBER");
+					var echarge=document.getElementById('eChargeMoney').value;
+					var flag=isLegal(echarge);
+					if(flag)
+					{
+						mui.ajax(localStorage.getItem("url")+'/demo/ElementCharage',{
+						data:{element_number:enumber,chargemoney:echarge},
+						dataType:'json',
+						type:'GET',
+						timeout:10000,
+						success:function(data){
+							mui.alert("充值成功", "温馨提示", "关闭"); ;
+
+							document.getElementById('eChargeMoney').value="";	
+							
+							//localStorage.setItem("TOKEN_CURRENTELECTRICITY",data.result.currentelement);
+	                    	//document.getElementById('oldpwd').value = localStorage.getItem("TOKEN_CURRENTELECTRICITY");
+//							localStorage.setItem("TOKEN_CURRENTELECTRICITY",data.result.currentelement);
+//							console.log( localStorage.getItem("TOKEN_CURRENTELECTRICITY"));
+//							console.log(data.result.currentelement);
+//							console.log(localStorage.getItem("TOKEN_CURRENTELEMENT"));
+							mui.back();
+						},
+						error:function(xhr,type,errorThrown){
+							console.log(xhr);
+							console.log(type);
+							console.log(errorThrown);
+						}
+					})
+					}
+				
+					
+				})
+				
+			})
+		</script>
+		
+	</body>
+
+</html>

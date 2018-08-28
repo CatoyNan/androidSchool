@@ -164,7 +164,8 @@
 				"resources": [],
 				"refer": [
 					"html/mealCard.html",
-					"html/book.html"
+					"html/book.html",
+					"html/apartmentElectricity.html"
 				],
 				"priority": 0
 			},
@@ -194,6 +195,13 @@
 				"resources": [],
 				"refer": [
 					"html/mySetting.html"
+				],
+				"priority": 0
+			},
+			"html/apartmentElectricity.html": {
+				"resources": [],
+				"refer": [
+					"html/electricityCharge.html"
 				],
 				"priority": 0
 			}
