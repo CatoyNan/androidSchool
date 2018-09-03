@@ -17,12 +17,16 @@
 				height: 23px;
 				margin-top: auto;
 			}
-			.contextText{
-				
+			.contextText{				
 				margin-left: 30px;
 			}
 			#top {
 				margin-bottom: 20px;
+			}
+			#headImage {
+				width: 50px;
+				height: 50px;
+				border-radius: 50% 50%;
 			}
 		</style>
 	</head>
@@ -33,7 +37,7 @@
 				<ul class="mui-table-view">
 					<li class="mui-table-view-cell mui-media">
 					<a href="javascript:;">
-						<img class="mui-media-object mui-pull-left" src="../images/mySetting/head Portrait.png">
+						<img id="headImage" class="mui-media-object mui-pull-left" src="../images/mySetting/head Portrait.png">
 						<div class="mui-media-body">
 							{{studentName}}
 							<p class='mui-ellipsis'>{{studentClass}}</p>
@@ -310,11 +314,116 @@
 					}, function(e) {
 						console.log("分享到\"" + share.description + "\"失败: " + e.code + " - " + e.message);
 					});
-				}
-					
-					
-					
-				});
+				 }					
+			});
+			
+			//点击头像事件
+			document.getElementById('headImage').addEventListener('tap', function() {
+		    if (mui.os.plus) {
+		        var buttonTit = [{
+		            title: "拍照"
+		        }, {
+		            title: "从手机相册选择"
+		        }];
+		        
+		        plus.nativeUI.actionSheet({
+		            cancel: "取消",
+		            buttons: buttonTit
+		        }, function(b) { /*actionSheet 按钮点击事件*/
+		            switch (b.index) {
+		                case 0:
+		                    break;
+		                case 1:
+		                    getImage(); /*拍照*/
+		                    break;
+		                case 2:
+		                    galleryImg();/*打开相册*/
+		                    break;
+		                default:
+		                    break;
+		            }
+		        })
+		    }        
+		}, false);
+
+		// 拍照获取图片
+		function getImage() {
+		    var c = plus.camera.getCamera();
+		    c.captureImage(function(e) {
+		        plus.io.resolveLocalFileSystemURL(e, function(entry) {
+		        	var imgSrc = entry.toLocalURL() + "?version=" + new Date().getTime(); //拿到图片路径		        	
+		            setHtml(imgSrc);
+		            upload();
+		        }, function(e) {
+		            console.log("读取拍照文件错误：" + e.message);
+		        });
+		    }, function(s) {
+		        console.log("error" + s);
+		    }, {
+		        filename: "_doc/camera/"
+		    })
+		}
+		
+		// 从相册中选择图片 
+		function galleryImg(){
+			// 从相册中选择图片
+		    plus.gallery.pick( function(e){
+		    	for(var i in e.files){
+			    	var fileSrc = e.files[i]
+			    	setHtml(fileSrc);
+			    	upload();
+		    	}
+		    }, function ( e ) {
+		    	console.log( "取消选择图片" );
+		    },{
+		    	filter: "image",
+		    	multiple: true,
+		    	maximum: 1,
+		    	system: false,
+		    	onmaxed: function() {
+		    		plus.nativeUI.alert('最多只能选择1张图片');
+		    	}
+		    });
+		}
+		
+		//将头像设置为选择的图片
+		function setHtml(myImg){
+			var oHeadImage = document.getElementById("headImage");
+			oHeadImage.src = myImg;
+		}
+		
+		
+		// 上传头像
+		function upload(){
+		   	var files = document.getElementById('headImage')
+//		   	MicroTaskGUID = common.guid();		   	
+		   	var rul = "服务器地址"		   	
+//		   	var imgsArr = mui(".task-img");
+		   	
+//		   	mui.each(imgsArr, function(index, item){
+//		// 		console.log(index)
+//		// 		console.log(item.src)
+//		   		createUp(item)
+//		   	})
+			
+			function createUp (files) {
+			    var task = plus.uploader.createUpload(url,
+			        {method:"POST"},
+			        function(t,status){ //上传完成
+			            if(status==200){
+			            	console.log("上传成功："+t.responseText);
+			            }else{
+			                console.log("上传失败："+status);
+			            }
+			        }
+			    );
+			    //添加其他参数
+		//	    task.addData("name","test");
+			    task.addFile(files.src,{key:files.src});
+			    task.start();
+			}
+		}
+
 			
 		</script>
 	</body>
