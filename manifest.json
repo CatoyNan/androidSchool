@@ -165,7 +165,8 @@
 				"refer": [
 					"html/mealCard.html",
 					"html/book.html",
-					"html/apartmentElectricity.html"
+					"html/apartmentElectricity.html",
+					"html/myClass.html"
 				],
 				"priority": 0
 			},

@@ -1,0 +1,452 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		 <style>
+        *{
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+body{
+    font-family: Helvetica;
+    -webkit-font-smoothing: antialiased;
+    background: rgba( 255, 255, 255, 1);
+}
+h2{
+    text-align: center;
+    font-size: 18px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: white;
+    padding: 30px 0;
+}
+HR {
+	position: absolute;
+	top: 28px;
+	left: 8px;
+	box-shadow: 5px 2px 5px #888888;
+}
+select {
+	text-shadow: 2px 2px 1px #888888;
+}
+/* Table Styles */
+
+.table-wrapper{
+    margin: 10px 2px 170px;
+    box-shadow: 0px 35px 50px rgba( 0, 0, 0, 0.4 );
+}
+th:first-child, td:first-child {
+	height: 40px !important;  	
+}
+td:first-child {
+	font-size: 16px !important;
+	color: #8F8F94;
+	line-height: 10px;
+}
+th:first-child {
+	/*line-height: 5px !important;*/
+	/*background-color: white !important;*/
+}
+
+.my-table {
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: normal;
+    border: none;
+    border-collapse: collapse;
+    width: 100%;
+    max-width: 100%;
+    white-space: nowrap;
+    background-color: white;
+}
+
+.my-table td, .my-table th {
+    text-align: center;
+    padding: 8px;
+}
+
+.my-table td {
+    border-right: 1px solid #f8f8f8;
+    font-size: 12px;
+}
+
+.my-table thead th {
+    color: #ffffff;
+    background: #585454;
+}
+
+
+.my-table thead th:nth-child(odd) {
+    color: #ffffff;
+    background: #3f7ebc;
+}
+
+.my-table tr:nth-child(even) {
+    background: #3f7ebc;
+}
+
+/* Responsive */
+
+@media (max-width: 767px) {
+    
+    .my-table {
+        display: block;
+        width: 100%;
+    }
+    .table-wrapper:before{
+        display: block;
+        text-align: right;
+        font-size: 11px;
+        color: white;
+        padding: 0 0 10px;
+    }
+    .my-table thead, .my-table tbody, .my-table thead th {
+        display: block;
+    }
+    .my-table thead th:last-child{
+        border-bottom: none;
+    }
+    .my-table thead {
+        float: left;
+    }
+    .my-table tbody {
+        width: auto;
+        position: relative;
+        overflow-x: auto;
+        /*border-style: solid;*/
+    }
+    .my-table td, .my-table th {
+        padding: 20px .625em .625em .625em;
+        height: 150px;
+        vertical-align: middle;
+        box-sizing: border-box;
+        /*overflow-x: hidden;
+        overflow-y: auto;*/
+        white-space:pre-line;
+	    word-wrap: break-word;
+        word-break: break-all;
+        width: 70px;
+        font-size: 13px;
+        text-overflow: ellipsis;
+        
+    }
+    .my-table thead th {
+        text-align: left;
+        border-bottom: 1px solid #f7f7f9;
+        width: 40px;
+        line-height: 100px;
+    }
+    .my-table tbody tr {
+        display: table-cell;
+    }
+    .my-table tbody tr:nth-child(odd) {
+        background: none;
+    }
+    .my-table tr:nth-child(even) {
+        background: transparent;
+    }
+    .my-table tr td:nth-child(odd) {
+       background-color:aliceblue; 
+        border-right: 1px solid #E6E4E4;
+    }
+    .my-table tr td:nth-child(even) {
+        border-right: 1px solid #E6E4E4;
+    }
+    .my-table tbody td {
+        display: block;
+        text-align: center;
+    }
+    .edit {
+    /*	display: none;*/
+    	width: 250px;
+    	height: 140px;
+    	background-color: rgba(0,0,0,0.2);
+    	border-radius: 10px 10px;
+    	position: fixed;
+    	top: 250px;
+    	left: 20%;
+    	
+    }
+     .edit ul {
+     	list-style: none;
+     	margin-top: 50px;
+     }
+     .edit ul li {
+     	float: left;
+     	margin-right: 35px;
+     }
+     /*.text-input {
+     	position: fixed;
+    	top: 50px;
+    	left: 65px;  	
+    	
+     }*/
+     /*.text-input textarea {
+     	width: 250px;
+    	height: 140px;
+    	border-style: solid;
+    	border-color: #8F8F94;
+    	
+     }*/
+    .input-group {
+    	background-color: rgba(0,0,0,0.2);
+   		width: 95%;
+   		height: 260px;
+   		position: fixed;
+   		top: 100px;
+   		padding-top: 50px;
+   		border-radius: 15px;
+   		left: 10px;
+		
+    }
+    .input-group button {
+    	border-radius: 10px;
+    	width: 250px;
+    	height: 40px;
+    	margin-left: 50%;
+    	left: -125px;
+    	margin-top: 20px;
+    }
+    .mui-input-row {
+    	width: 100%;
+    	height: 45px;
+    	margin-bottom: 10px;
+    	/*border-color: red;
+    	border-style: solid;*/
+    }
+    .mui-input-row input {
+    	width: 100%;
+    	height: 40px;
+    	border-radius: 5px;
+    }
+    
+    
+}
+    </style>
+	</head>
+
+	<body>
+		<select id="b-select" class="mui-btn mui-btn-block mui-select" style="height:50px;">
+				<option value="item-1">大一第1学期</option>
+				<option value="item-2">大一第2学期</option>
+				<option value="item-3">大二第1学期</option>
+				<option value="item-4">大二第2学期</option>
+				<option value="item-5">大三第1学期</option>
+				<option value="item-5">大三第2学期</option>
+				<option value="item-5">大四第1学期</option>
+				<option value="item-5">大四第2学期</option>
+		</select>
+		<HR style="border:1 dashed #987cb9" width="25%" color=#987cb9 SIZE=23>
+		<div class="table-wrapper">
+		    <table class="my-table">
+		        <thead>
+		        <tr>
+		        	<th></th>
+		            <th>1</th>
+		            <th>2</th>
+		            <th>3</th>
+		            <th>4</th>
+		            <th>5</th>
+		            <th>6</th>
+		            <th>7</th>
+		            <th>8</th>
+		            <th>9</th>
+		        </tr>
+		        </thead>
+		        <tbody>
+		        <tr>
+		            <td>星期一</td>
+		            <td></td>
+		            <td></td>
+		            <td></td>
+		            <td></td>
+		            <td></td>
+		            <td></td>
+		            <td></td>
+		            <td></td>
+		            <td></td>
+		        </tr>
+		        <tr>
+		            <td>星期二</td>
+		            <td></td>
+		            <td></td>
+		            <td></td>
+		            <td></td>
+		            <td></td>
+		            <td></td>
+		            <td></td>
+		            <td></td>
+		            <td></td>
+		        </tr>
+		        <tr>
+		            <td>星期三</td>
+		            <td></td>
+		            <td></td>
+		            <td></td>
+		            <td></td>
+		            <td></td>
+		            <td></td>
+		            <td></td>
+		            <td></td>
+		            <td></td>
+		        </tr>
+		        <tr>
+		            <td>星期四</td>
+		            <td></td>
+		            <td></td>
+		            <td></td>
+		            <td></td>
+		            <td></td>
+		            <td></td>
+		            <td></td>
+		            <td></td>
+		            <td></td>
+		        </tr>
+		        <tr>
+		            <td>星期五</td>
+		            <td></td>
+		            <td></td>
+		            <td></td>
+		            <td></td>
+		            <td></td>
+		            <td></td>
+		            <td></td>
+		            <td></td>
+		            <td></td>
+		        </tr>
+		        <tr>
+		            <td>星期六</td>
+		            <td></td>
+		            <td></td>
+		            <td></td>
+		            <td></td>
+		            <td></td>
+		            <td></td>
+		            <td></td>
+		            <td></td>
+		            <td></td>
+		        </tr>
+		        <tr>
+		            <td>星期日</td>
+		            <td></td>
+		            <td></td>
+		            <td></td>
+		            <td></td>
+		            <td></td>
+		            <td></td>
+		            <td></td>
+		            <td></td>
+		            <td></td>
+		        </tr>
+		        <tbody>
+		    </table>
+		</div>
+		<div id="myEdit" class="edit" style="display:none">
+			<ul>
+				<li><img src="../images/myClass/edit.png"/></li>
+				<li><img src="../images/myClass/trash.png"/></li>
+				<li><img src="../images/myClass/clock.png"/></li>
+			</ul>
+		</div>
+		<!--<div id="mytxta">
+			<textarea class="editInput" id="edit" name="" rows="1" cols="" placeholder="你的书评"></textarea>
+			<button type="button" class="commentBtn" id="submit">提交</button>
+		</div>-->
+		<div id="class-info-input" class="input-group" style="display: none;">
+			<div class="mui-input-row">
+				<input id='class-name' type="text" maxlength="16" placeholder="请输入课程名">
+			</div>
+			<div class="mui-input-row">
+				<input id='class-place' type="text" maxlength="16" placeholder="请输入教室地点">
+			</div>
+		  <button id="button-ok" type="button" class="mui-btn mui-btn-royal">确认</button>
+		</div>
+		
+		
+		<script src="../js/mui.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			
+			var oTds = document.getElementsByTagName("td");
+			var oMyEdit = document.getElementById("myEdit");	
+			var oClass_info_input = document.getElementById("class-info-input");
+			var oButton = document.getElementById("button-ok");
+			var oSelect = oMyEdit.getElementsByTagName("li");
+			var a = new Array();
+            for(var i=1;i<10;i++){        //一维长度为9
+                a[i] = new Array();
+                for(var j=1;j<8;j++){    //二维长度为7
+                    a[i][j] = i+j;
+                }
+            }
+			//给每个单元格增加点击事件
+			for(var i=1;i<=7;i++){
+				for(var j=i*10-1;j>i*10-10;j--){
+					oTds[j].addEventListener("tap",function(){
+						if(oMyEdit.style.display=="block"){
+							oMyEdit.style.display="none";						
+						}
+						else if(oMyEdit.style.display=="none" && oClass_info_input.style.display=="none"){
+							oMyEdit.style.display="block";
+							edit(this);
+						}						
+					});
+				}
+			
+			}
+			
+			//编辑单元格事件
+			function edit(Cell){
+				var oBianJi = oSelect[0];
+				oBianJi.addEventListener("tap",function(){
+					if(oMyEdit.style.display=="block"){
+						oClass_info_input.style.display="block";
+						oMyEdit.style.display="none";
+					}
+				
+				});
+			}
+			
+			
+			//删除单元格事件
+			
+			//设置闹钟事件
+			function setClock(){
+				var oClock = oSelect[1];
+				oClock.addEventListener("tap",function(){
+					
+				});
+			}
+			
+			//课程输入窗口确认按钮事件
+			function button_ok(){
+				oButton.addEventListener("tap",function(){
+				var className = document.getElementById("class-name").value;
+				var classRoom = document.getElementById("class-place").value;
+				if(className==""){
+					oClass_info_input.style.display="none";
+					mui.toast("课程名不能为空");
+				}
+				else if(classRoom==""){
+					oClass_info_input.style.display="none";
+					mui.toast("教师地点不能为空");				
+				}
+				else {
+					
+				}
+			});
+			}
+			
+			
+			
+			
+		</script>
+	</body>
+
+</html>
