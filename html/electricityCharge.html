@@ -5,8 +5,13 @@
 		<meta charset="UTF-8">
 		<title></title>
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../css/mui.min.css">
 		<link href="../css/Electric.css" rel="stylesheet" />
+		<script src="../js/mui.min.js"></script>
+		<script type="text/javascript" charset="utf-8">
+		mui.init(); 
+		</script>
+		
 	</head>
 	<style>
 		#center
@@ -31,6 +36,54 @@
 				width: 96%;
 				background-color:rgb(255,123,124);	
 			}
+		.mui-content-padded {
+				padding: 10px;
+			}
+			body,
+			body .mui-content {
+				background-color: #fff !important;
+			}
+			#total {
+				-webkit-user-select: text;
+				text-align: right;
+				padding: 0 1em;
+				border: 0px;
+				border-bottom: 1px solid #007aff;
+				border-radius: 0;
+				font-size: 16px;
+				width: 30%;
+				outline: none;
+			}
+			textarea{
+				margin-top: 10px;
+			}
+			.mui-btn-block{
+				padding: 8px 5px;
+			}
+			.mui-content-padded {
+				padding: 10px;
+			}
+			body,
+			body .mui-content {
+				background-color: #fff !important;
+			}
+			#total {
+				-webkit-user-select: text;
+				text-align: right;
+				padding: 0 1em;
+				border: 0px;
+				border-bottom: 1px solid #007aff;
+				border-radius: 0;
+				font-size: 16px;
+				width: 30%;
+				outline: none;
+			}
+			textarea{
+				margin-top: 10px;
+			}
+			.mui-btn-block{
+				padding: 8px 5px;
+			}	
 	</style>
 
 	<body>
@@ -42,7 +95,7 @@
 <form class="mui-input-group">
     <div class="mui-input-row">
         <label>缴费项目</label>
-    <input type="text" class="mui-inputr readtext1" value=" 丽水学院学生公寓电费" readonly>
+    <input type="text" class="mui-inputr readtext1" value="丽水学院学生公寓电费" readonly>
     </div>
     <div class="mui-input-row">
         <label>收费机构</label>
@@ -51,7 +104,7 @@
     </div>
     	 <div class="mui-input-row">
         <label>缴费日期</label>
-    <input type="text" id="chargeDate" class="mui-input readtext1" value=" 丽水市万达科教实业有限公司" readonly >
+    <input type="text" id="chargeDate" class="mui-input readtext1" value="丽水市万达科教实业有限公司" readonly >
     </div>
 </form>
 
@@ -73,71 +126,121 @@
 <form class="mui-input-group one">
     <div class="mui-input-row user">
         <label>缴费金额</label>
-    <input type="text" id="eChargeMoney" class="mui-input-clear readtext1" placeholder="请输入">
+    <input type="text" id='eChargeMoney'class="mui-input-clear readtext1" placeholder="请输入">
     </div>
 </form>
 <div class="mui-button-row">
-        <button type="button" id='chargeBtn'class="mui-btn mui-btn-primary" >缴费</button>
+        <button type="button" id='chargeBtn'class="mui-btn mui-btn-primary btn" >缴费</button>
 
-    </div>
-  
+</div>
+<div id="dcontent" class="mui-content">
+			<div class="mui-content-padded">
+				<!--<p style="text-indent: 22px;">
+					这是mui无后端开发示例，集成BeeCloud云支付服务，通过js连接云端支付服务器，实现支付功能的全流程开发。 如下为一个支付示例，为DCloud提供的免费、开源软件进行捐赠吧
+				</p>-->
+				<!--<div style="padding: 0 1em;text-align:center">
+					支付金额：
+					<input id="total" type="number" value="1.0" style="text-align:center" /> 元
+				</div>-->
+				<div class="mui-content-padded oauth-area" style="display: none;">
+					<!--探测本机软件，自动显示支付宝和微信支付方式-->
+					<!--银联在线一直显示-->
+					<!--<div id='UN_WEB' class="mui-btn mui-btn-blue mui-btn-block pay" style="display: none;">
+						银联在线
+					</div>-->
+				</div>
+				<!--<ul class="mui-table-view">
+					<li class="mui-table-view-cell">
+						支付方式: <span id="channel"></span>
+					</li>
+					<li class="mui-table-view-cell">
+						订单号: <span id="bill_no"></span>
+					</li>
+					<li class="mui-table-view-cell">
+						支付金额: <span id="total_fee"></span>
+					</li>
+					<li class="mui-table-view-cell">
+						支付状态:<span id="status"></span>
+					</li>
+					<!--<textarea name="" id="status_msg" cols="20" rows="5"></textarea>-->
+				</ul>
+			</div>
+		</div>  
+</body>		
 		<script>
 				window.onload = function(){
 				var myDate = new Date();
 				localStorage.setItem("prestentDate",myDate.getFullYear()+'-'+(myDate.getMonth()+1)+'-'+myDate.getDate());
 				document.getElementById('chargeDate').value = localStorage.getItem("prestentDate");
-				
-			}
-		</script>
-		<script src="../js/mui.min.js"></script>
-		<script type="text/javascript">
-			mui.init()
-			function isLegal(eChargeMoney){
-				var reg = /^-?\d+$/;
-				if(eChargeMoney.length!=0&&reg.test(eChargeMoney)&&eChargeMoney>0)
-				return true;
-				else if(eChargeMoney.length==0)
-				{
-					mui.alert("缴费金额不能为空！","温馨提示","关闭");
-					return false;
-				}
-				else 
-				{
-					mui.alert("请输入正确的数字","格式错误","关闭");
-					return false;
-				}
-			}
-			document.getElementById('balance').value = localStorage.getItem("TOKEN_CURRENTELEMENT");
-			mui.plusReady(function(){
-				document.getElementById('balance').value = localStorage.getItem("TOKEN_CURRENTELEMENT");
+				document.getElementById('balance').value = localStorage.getItem("TOKEN_CURRENTELEMENT1");
 				document.getElementById('Station').value =localStorage.getItem("chargeStation");
 				document.getElementById('euserNumber').value = localStorage.getItem("TOKEN_ELEMENTNUMBER");
 				document.getElementById('euserName').value = localStorage.getItem("TOKEN_ELEMENTNAME");
-						
+			}
+		</script>
+<script src="../js/beecloud.js">
+	</script>
+<script type="text/javascript">
+	
+			/*
+			 * 输入金额格式验证
+			 */
+			function iseMoney(echarge){
+				var reg = /^-?\d+$/;
+				console.log(echarge.length);
 				
-				document.getElementById("chargeBtn").addEventListener('tap',function(){
-					var enumber=localStorage.getItem("TOKEN_ELEMENTNUMBER");
-					var echarge=document.getElementById('eChargeMoney').value;
-					var flag=isLegal(echarge);
-					if(flag)
-					{
-						mui.ajax(localStorage.getItem("url")+'/demo/ElementCharage',{
+					if (echarge.length!=0 && reg.test(echarge) && echarge>0 ) {
+				          return true;
+				     }else 
+				     	{
+				     	if(echarge.length==0){
+				     		mui.alert('金额不能为空');
+				     		return false;
+				     	}
+				     	else{
+				     		mui.alert('请输入大于零的整数');
+				     		return false;
+				     	}
+				     				         
+				     };
+			}
+				
+	
+		mui('.mui-button-row').on('tap', '.btn', function() {
+			var channel_id = 'ALI_APP';
+			beecloudPay(channel_id);
+//			document.getElementById("channel").innerHTML = channel_id;
+//			document.getElementById("total_fee").innerHTML = document.getElementById('total').value;
+//			document.getElementById("bill_no").innerHTML = beecloud.genBillNo();
+//		console.log(document.getElementById("status").value);
+			
+//			if(document.getElementById("status").innerHTML == 'success')
+//			{console.log(FLAG);
+			var enumber=localStorage.getItem("TOKEN_ELEMENTNUMBER");
+			var echarge=document.getElementById('eChargeMoney').value;
+			console.log(echarge);
+			var flag = iseMoney(echarge);
+			console.log(flag);
+			if(flag){
+			mui.ajax(localStorage.getItem("url")+'/demo/ElementCharage',{
 						data:{element_number:enumber,chargemoney:echarge},
 						dataType:'json',
 						type:'GET',
 						timeout:10000,
 						success:function(data){
-							mui.alert("充值成功", "温馨提示", "关闭"); ;
-
-							document.getElementById('eChargeMoney').value="";	
-							
+							//console.log(FLAG);
+							//mui.alert("充值成功", "温馨提示", "关闭"); ;
+							console.log("success!");
+							document.getElementById("eChargeMoney").value="";	
+							//localStorage.setItem("THIS_CHARGE",eChargeMoney);
 							//localStorage.setItem("TOKEN_CURRENTELECTRICITY",data.result.currentelement);
 	                    	//document.getElementById('oldpwd').value = localStorage.getItem("TOKEN_CURRENTELECTRICITY");
-//							localStorage.setItem("TOKEN_CURRENTELECTRICITY",data.result.currentelement);
-//							console.log( localStorage.getItem("TOKEN_CURRENTELECTRICITY"));
-//							console.log(data.result.currentelement);
-//							console.log(localStorage.getItem("TOKEN_CURRENTELEMENT"));
-							mui.back();
+////							localStorage.setItem("TOKEN_CURRENTELECTRICITY",data.result.currentelement);
+////							console.log( localStorage.getItem("TOKEN_CURRENTELECTRICITY"));
+////							console.log(data.result.currentelement);
+////							console.log(localStorage.getItem("TOKEN_CURRENTELEMENT"));
+  							// mui.back();	
+  							console.log(localStorage.getItem("TOKEN_CURRENTELEMENT"));
 						},
 						error:function(xhr,type,errorThrown){
 							console.log(xhr);
@@ -145,14 +248,94 @@
 							console.log(errorThrown);
 						}
 					})
-					}
+					var nstay=localStorage.getItem("TOKEN_ELEMENTNAME");		
+					mui.ajax(localStorage.getItem("url")+'/demo/findElement',{
 				
-					
-				})
-				
-			})
-		</script>
-		
-	</body>
+						data:{stay_number:nstay},
+						dateType:'json',
+						type:'get',
+						timeout:10000,
+						success:function(data){
+							if(data.state!=true)
+							{
+								mui.alert("所属用户不存在！", "错误", "关闭");  // 
+	        			        return;  
+							}
+							//记住寝室号
+							localStorage.setItem("electricUser",nstay);
+							
+							//localStorage.setItem("userAddress",data.Student.studentAddress);
+							
+							localStorage.setItem("TOKEN_ELEMENTNUMBER",data.result.elementNumber);
+							localStorage.setItem("TOKEN_ELEMENTNAME",data.result.elmentuser);
+							localStorage.setItem("TOKEN_CURRENTELEMENT1",data.result.currentelement);
+//							console.log(localStorage.getItem("TOKEN_CURRENTELEMENT"));
+							//清空信息
+//							document.getElementById("eUser").value="";	
+							console.log(localStorage.getItem("TOKEN_CURRENTELEMENT1"));
+							setInterval(wait,1800);
+							function wait()
+							{
+								document.getElementById('balance').value = localStorage.getItem("TOKEN_CURRENTELEMENT1");
+							}
+							
+					},
+						error:function(xhr,type,errorThrown){
+							console.log(type)
+					},
+				 })			
+	}
+			
+})
 
-</html>
+		function beecloudPay(bcChannel) {
+			//因DCloud尚未申请银联账号，故支付宝、微信使用的是DCloud的appid，银联暂时使用BeeCloud的appid，开发者这里无需判断，直接写一个appid即可；
+//			var _appid = bcChannel == "44f01a13-965f-4b27-ba9f-da678b47f3f5"
+			/* 
+			 * 构建支付参数
+			 * 
+			 * app_id: BeeCloud控制台上创建的APP的appid，必填 
+			 * title: 订单标题，32个字节，最长支持16个汉字；必填
+			 * total_fee: 支付金额，以分为单位，大于0的整数，必填
+			 * bill_no: 订单号，8~32位数字和/或字母组合,确保在商户系统中唯一，必填
+			 * optional: 扩展参数,可以传入任意数量的key/value对来补充对业务逻辑的需求;此参数会在webhook回调中返回; 选填
+			 * bill_timeout: 订单失效时间,必须为非零正整数，单位为秒，必须大于360。选填 
+			 */
+			var payData = {
+				app_id: "44f01a13-965f-4b27-ba9f-da678b47f3f5",
+				channel: bcChannel,
+				title: "公寓电费",
+				total_fee: document.getElementById('eChargeMoney').value *100,
+				bill_no: beecloud.genBillNo(),
+				optional: {
+					'uerId': 'beecloud',
+					'phone': '4006280728'
+				},
+				bill_timeout: 360,
+				return_url: "http://www.dcloud.io/demo/pay" //wap支付成功后的回跳地址
+			};
+			/*
+			 *  发起支付
+			 *  payData: 支付参数
+			 *  cbsuccess: 支付成功回调
+			 *  cberror: 支付失败回调
+			 */
+			beecloud.payReq(payData, function(result) {
+				document.getElementById("status").innerHTML = 'success';
+				document.getElementById("status").style.color = 'green'
+				document.getElementById("status_msg").innerHTML = "-------- 支付成功 --------" + "\n感谢您的支持,我们会继续努力完善产品";
+				console.log(result);
+			
+
+			}, function(e) {
+				document.getElementById("status").innerHTML = 'failed';
+				document.getElementById("status").style.color = 'red'
+				document.getElementById("status_msg").innerHTML = "-------- 支付失败 --------\n" + "错误码：" + e.code + '\n' + e.message;
+			});
+	
+			
+		}
+		
+	</script>
+
+</html> 

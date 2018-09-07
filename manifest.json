@@ -204,6 +204,13 @@
 					"html/electricityCharge.html"
 				],
 				"priority": 0
+			},
+			"html/electricityCharge.html": {
+				"resources": [],
+				"refer": [
+					"html/webPay.html"
+				],
+				"priority": 0
 			}
 		},
 		"idle": {

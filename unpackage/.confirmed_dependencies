@@ -65,5 +65,10 @@
 		"refer": [
 			"html/electricityCharge.html"
 		]
+	},
+	"html/electricityCharge.html": {
+		"refer": [
+			"html/webPay.html"
+		]
 	}
 }
