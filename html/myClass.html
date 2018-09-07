@@ -122,12 +122,13 @@ th:first-child {
         /*border-style: solid;*/
     }
     .my-table td, .my-table th {
-        padding: 20px .625em .625em .625em;
-        height: 150px;
+        padding: 10px .625em .625em .625em;
+        height: 120px;
         vertical-align: middle;
         box-sizing: border-box;
-        /*overflow-x: hidden;
-        overflow-y: auto;*/
+        /*overflow-x: hidden;*/
+        /*overflow-y: auto;*/
+        overflow: hidden;
         white-space:pre-line;
 	    word-wrap: break-word;
         word-break: break-all;
@@ -140,7 +141,8 @@ th:first-child {
         text-align: left;
         border-bottom: 1px solid #f7f7f9;
         width: 40px;
-        line-height: 100px;
+        line-height: 90px;
+        padding-left: 13px;
     }
     .my-table tbody tr {
         display: table-cell;
@@ -354,10 +356,6 @@ th:first-child {
 				<li><img src="../images/myClass/clock.png"/></li>
 			</ul>
 		</div>
-		<!--<div id="mytxta">
-			<textarea class="editInput" id="edit" name="" rows="1" cols="" placeholder="你的书评"></textarea>
-			<button type="button" class="commentBtn" id="submit">提交</button>
-		</div>-->
 		<div id="class-info-input" class="input-group" style="display: none;">
 			<div class="mui-input-row">
 				<input id='class-name' type="text" maxlength="16" placeholder="请输入课程名">
@@ -373,41 +371,63 @@ th:first-child {
 		<script type="text/javascript">
 			mui.init();
 			
+			var Cell="";
+			var whichCell="";
 			var oTds = document.getElementsByTagName("td");
 			var oMyEdit = document.getElementById("myEdit");	
 			var oClass_info_input = document.getElementById("class-info-input");
 			var oButton = document.getElementById("button-ok");
 			var oSelect = oMyEdit.getElementsByTagName("li");
-			var a = new Array();
-            for(var i=1;i<10;i++){        //一维长度为9
-                a[i] = new Array();
-                for(var j=1;j<8;j++){    //二维长度为7
-                    a[i][j] = i+j;
-                }
-            }
+//			var a = new Array();
+//			a.length = 63;
+//          for(var i=1;i<10;i++){        //一维长度为9
+//              a[i] = new Array();
+//              for(var j=1;j<8;j++){    //二维长度为7
+//                  a[i][j] = i+j;
+//              }
+//          }
+//          localStorage.setItem("myClass",a);            
+            addCellListener();
+            
 			//给每个单元格增加点击事件
-			for(var i=1;i<=7;i++){
-				for(var j=i*10-1;j>i*10-10;j--){
-					oTds[j].addEventListener("tap",function(){
-						if(oMyEdit.style.display=="block"){
-							oMyEdit.style.display="none";						
-						}
-						else if(oMyEdit.style.display=="none" && oClass_info_input.style.display=="none"){
-							oMyEdit.style.display="block";
-							edit(this);
-						}						
-					});
+			function addCellListener(){
+				for(var i=1;i<=7;i++){
+					for(var j=i*10-1;j>i*10-10;j--){
+						oTds[j].innerHTML=localStorage.getItem(j.toString());
+						cellListener(j);
+					}			
 				}
+			}
 			
+			
+			//单元格点击事件
+			function cellListener(j){
+				oTds[j].addEventListener("tap",function(){
+					if(oMyEdit.style.display=="block"){
+						oMyEdit.style.display="none";						
+					}
+					else if(oMyEdit.style.display=="none" && oClass_info_input.style.display=="none"){
+						oMyEdit.style.display="block";
+						whichCell=j;
+						Cell=this;
+						edit();
+					}
+					else if(oMyEdit.style.display=="none" && oClass_info_input.style.display=="block"){
+						document.getElementById("class-place").value="";
+						document.getElementById("class-name").value="";
+						oClass_info_input.style.display="none";
+					}
+				});
 			}
 			
 			//编辑单元格事件
-			function edit(Cell){
+			function edit(){
 				var oBianJi = oSelect[0];
 				oBianJi.addEventListener("tap",function(){
 					if(oMyEdit.style.display=="block"){
 						oClass_info_input.style.display="block";
 						oMyEdit.style.display="none";
+//						button_ok();						
 					}
 				
 				});
@@ -415,34 +435,77 @@ th:first-child {
 			
 			
 			//删除单元格事件
+				var oTrash = oSelect[1];
+				oTrash.addEventListener("tap",function(){
+					mui.toast("清除成功！");
+					localStorage.setItem(whichCell.toString(),"");
+					Cell.innerHTML="";
+					oMyEdit.style.display="none";
+				});
+			
 			
 			//设置闹钟事件
 			function setClock(){
-				var oClock = oSelect[1];
+				var oClock = oSelect[2];
 				oClock.addEventListener("tap",function(){
 					
 				});
 			}
 			
 			//课程输入窗口确认按钮事件
-			function button_ok(){
-				oButton.addEventListener("tap",function(){
+			oButton.addEventListener("tap",function(){
 				var className = document.getElementById("class-name").value;
 				var classRoom = document.getElementById("class-place").value;
 				if(className==""){
 					oClass_info_input.style.display="none";
+					document.getElementById("class-place").value="";
 					mui.toast("课程名不能为空");
 				}
 				else if(classRoom==""){
 					oClass_info_input.style.display="none";
+					document.getElementById("class-name").value="";
 					mui.toast("教师地点不能为空");				
 				}
-				else {
-					
-				}
-			});
-			}
+					else {
+						localStorage.setItem(whichCell.toString(),"《"+className+"》"+"<br>"+classRoom);
+						Cell.innerHTML="《"+className+"》"+"<br>"+classRoom;
+						oClass_info_input.style.display="none";
+						document.getElementById("class-place").value="";
+						document.getElementById("class-name").value="";
+					}
+				});
 			
+			mui.plusReady(function(){
+				var NotifyID = 1;
+var main = plus.android.runtimeMainActivity();
+var Context = plus.android.importClass("android.content.Context");
+var Noti = plus.android.importClass("android.app.Notification");
+var NotificationManager = plus.android.importClass("android.app.NotificationManager");
+var nm = main.getSystemService(Context.NOTIFICATION_SERVICE)
+var Notification = plus.android.importClass("android.app.Notification");
+var mNotification = new Notification.Builder(main);
+// 新增 810726685@qq.com 的代码
+var Intent = plus.android.importClass("android.content.Intent");
+var PendingIntent = plus.android.importClass("android.app.PendingIntent");
+var intent = new Intent(main, main.getClass());
+var pendingIntent = PendingIntent.getActivity(main, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+// 新增代码
+var r = plus.android.importClass("android.R");
+
+mNotification.setOngoing(true);
+mNotification.setContentTitle("Hbuilder")
+mNotification.setContentText("MUI & 5+ 好！")
+
+// 新增代码
+mNotification.setSmallIcon(r.drawable.ic_notification_overlay)
+mNotification.setTicker("PadInfo")
+
+// 新增 810726685@qq.com 的代码
+mNotification.setContentIntent(pendingIntent);
+mNotification.setNumber(10)
+var mNb = mNotification.build()
+nm.notify(NotifyID, mNb);
+			});
 			
 			
 			
