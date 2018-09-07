@@ -172,7 +172,7 @@
 				var myDate = new Date();
 				localStorage.setItem("prestentDate",myDate.getFullYear()+'-'+(myDate.getMonth()+1)+'-'+myDate.getDate());
 				document.getElementById('chargeDate').value = localStorage.getItem("prestentDate");
-				document.getElementById('balance').value = localStorage.getItem("TOKEN_CURRENTELEMENT1");
+				
 				document.getElementById('Station').value =localStorage.getItem("chargeStation");
 				document.getElementById('euserNumber').value = localStorage.getItem("TOKEN_ELEMENTNUMBER");
 				document.getElementById('euserName').value = localStorage.getItem("TOKEN_ELEMENTNAME");
@@ -181,7 +181,7 @@
 <script src="../js/beecloud.js">
 	</script>
 <script type="text/javascript">
-	
+	document.getElementById('balance').value = localStorage.getItem("TOKEN_CURRENTELEMENT");
 			/*
 			 * 输入金额格式验证
 			 */
@@ -219,9 +219,9 @@
 			var enumber=localStorage.getItem("TOKEN_ELEMENTNUMBER");
 			var echarge=document.getElementById('eChargeMoney').value;
 			console.log(echarge);
-			var flag = iseMoney(echarge);
-			console.log(flag);
-			if(flag){
+//			var flag = iseMoney(echarge);
+//			console.log(flag);
+			//if(flag){
 			mui.ajax(localStorage.getItem("url")+'/demo/ElementCharage',{
 						data:{element_number:enumber,chargemoney:echarge},
 						dataType:'json',
@@ -284,7 +284,7 @@
 							console.log(type)
 					},
 				 })			
-	}
+	//}
 			
 })
 
