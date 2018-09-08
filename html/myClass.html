@@ -367,7 +367,7 @@ th:first-child {
 		</div>
 		
 		
-		<script src="../js/mui.js"></script>
+		<script src="../js/mui.js"></script>		
 		<script type="text/javascript">
 			mui.init();
 			
@@ -444,13 +444,36 @@ th:first-child {
 				});
 			
 			
-			//设置闹钟事件
-			function setClock(){
+			//设置闹钟事件			
 				var oClock = oSelect[2];
 				oClock.addEventListener("tap",function(){
-					
+					if (Cell.innerHTML!="") { 
+						var myDate = new Date();//获取系统当前时间
+						var timeDifference = "";
+						var day = myDate.getDate();					
+						var week_now = myDate.getDay(); //获取当前星期X(0-6,0代表星期天)
+						if(week_now==0){
+							week_now = week_now+7;
+						}
+						var week_point = parseInt(whichCell/10)+1;
+						if(week_now>=week_point){
+							timeDifference = week_now-week_point;
+							day = day - timeDifference;
+						}
+						else {
+							timeDifference = week_point-week_now;
+							day = day + timeDifference;
+						}
+						addEvent(day);
+					}
+//					if(Cell.innerHeight==""){
+//						mui.toast("课程内容为空，请先设置课程！");
+//					}	
+					else {
+						mui.toast("课程内容为空，请先设置课程！");
+					}
+//					
 				});
-			}
 			
 			//课程输入窗口确认按钮事件
 			oButton.addEventListener("tap",function(){
@@ -473,42 +496,87 @@ th:first-child {
 						document.getElementById("class-place").value="";
 						document.getElementById("class-name").value="";
 					}
-				});
+			});	
 			
-			mui.plusReady(function(){
-				var NotifyID = 1;
-var main = plus.android.runtimeMainActivity();
-var Context = plus.android.importClass("android.content.Context");
-var Noti = plus.android.importClass("android.app.Notification");
-var NotificationManager = plus.android.importClass("android.app.NotificationManager");
-var nm = main.getSystemService(Context.NOTIFICATION_SERVICE)
-var Notification = plus.android.importClass("android.app.Notification");
-var mNotification = new Notification.Builder(main);
-// 新增 810726685@qq.com 的代码
-var Intent = plus.android.importClass("android.content.Intent");
-var PendingIntent = plus.android.importClass("android.app.PendingIntent");
-var intent = new Intent(main, main.getClass());
-var pendingIntent = PendingIntent.getActivity(main, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-// 新增代码
-var r = plus.android.importClass("android.R");
-
-mNotification.setOngoing(true);
-mNotification.setContentTitle("Hbuilder")
-mNotification.setContentText("MUI & 5+ 好！")
-
-// 新增代码
-mNotification.setSmallIcon(r.drawable.ic_notification_overlay)
-mNotification.setTicker("PadInfo")
-
-// 新增 810726685@qq.com 的代码
-mNotification.setContentIntent(pendingIntent);
-mNotification.setNumber(10)
-var mNb = mNotification.build()
-nm.notify(NotifyID, mNb);
-			});
-			
-			
-			
+		    var calanderURL = "content://com.android.calendar/calendars";
+	        var calanderEventURL = "content://com.android.calendar/events";
+	        var calanderRemiderURL = "content://com.android.calendar/reminders";
+	        var calId;
+	
+	        function addEvent(day) {
+	            var Cursor = plus.android.importClass("android.database.Cursor");
+	            var Uri = plus.android.importClass("android.net.Uri");
+	            var Calendar = plus.android.importClass("java.util.Calendar");
+	            var main = plus.android.runtimeMainActivity();
+	            var userCursor = plus.android.invoke(main.getContentResolver(), "query", Uri.parse(calanderURL), null, null, null, null);
+	            if (plus.android.invoke(userCursor, "getCount") <= 0) {
+	                console.log("添加账号" + plus.android.invoke(userCursor, "getCount"));
+	                initCalendars();
+	            } else {
+	                console.log("开始插入：" + plus.android.invoke(userCursor, "getCount"));
+	                plus.android.invoke(userCursor, "moveToLast");
+	                calId = plus.android.invoke(userCursor, "getString", plus.android.invoke(userCursor, "getColumnIndex", "_id"));
+	                var ContentValues = plus.android.importClass("android.content.ContentValues");
+	                var events = new ContentValues();
+	                events.put("title", str = Cell.innerHTML.replace("<br>",""));
+	                events.put("description", "快上课啦！");
+	                // 插入账户
+	                events.put("calendar_id", calId);
+	                console.log(calId);
+	                events.put("eventLocation", "地球-华夏");
+	                var mCalendar = Calendar.getInstance();
+	                plus.android.invoke(mCalendar, 'set', Calendar.DATE, day);
+	                plus.android.invoke(mCalendar, "set", Calendar.HOUR_OF_DAY, 21);
+	                plus.android.invoke(mCalendar, "set", Calendar.MINUTE, 49);
+	                var start = plus.android.invoke(plus.android.invoke(mCalendar, "getTime"), "getTime");
+	                var end = plus.android.invoke(plus.android.invoke(mCalendar, "getTime"), "getTime");
+	                events.put("dtstart", start);
+	                events.put("dtend", end);
+	                events.put("hasAlarm", 1);
+	                events.put("eventTimezone", "Asia/Shanghai"); // 这个是时区，必须有，
+	                // 添加事件  
+	                var newEvent = plus.android.invoke(plus.android.runtimeMainActivity().getContentResolver(), "insert", Uri.parse(calanderEventURL), events);
+	                // 事件提醒的设定
+	                var id = plus.android.invoke(newEvent, "getLastPathSegment");
+	                var values = new ContentValues();
+	                values.put("event_id", id);
+	                // 提前10分钟有提醒
+	                values.put("minutes", "10");
+	                values.put("method", "1");
+	                plus.android.invoke(main.getContentResolver(), "insert", Uri.parse(calanderRemiderURL), values);
+	                mui.toast("插入事件成功，可打开本地日历查看");
+	            }
+	        }
+	            //添加账户
+	
+	        function initCalendars() {
+	            var TimeZone=plus.android.importClass("java.util.TimeZone");
+	            var timeZone = TimeZone.getDefault();
+	            var  ContentValues=plus.android.importClass("android.content.ContentValues");   
+	            var value = new ContentValues();
+	            var Calendars=plus.android.importClass("android.provider.CalendarContract.Calendars");
+	            value.put("name", "yy");
+	            value.put("account_name", "hehe@gmail.com");
+	            value.put("account_type", "com.android.exchange");
+	            value.put("calendar_displayName", "mytt");
+	            value.put("visible", 1);
+	            value.put("calendar_color", -9206951);
+	            value.put("calendar_access_level","700");
+	            value.put("sync_events", 1);
+	            value.put("calendar_timezone",plus.android.invoke(timeZone, "getID"));
+	            value.put("ownerAccount","hehe@gmail.com");
+	            value.put("canOrganizerRespond", 0);
+	            var Uri=plus.android.importClass("android.net.Uri");
+	            var calendarUri=Uri.parse("content://com.android.calendar/calendars");
+	            var buildUpon = plus.android.invoke(calendarUri, "buildUpon");
+	            var CalendarContract = plus.android.importClass("android.provider.CalendarContract");
+	            plus.android.invoke(buildUpon, "appendQueryParameter", CalendarContract.CALLER_IS_SYNCADAPTER, "true");
+	            plus.android.invoke(buildUpon, "appendQueryParameter", "account_name", "hehe@gmail.com");
+	            plus.android.invoke(buildUpon, "appendQueryParameter", "account_type", "com.android.exchange");
+	            calendarUri = plus.android.invoke(buildUpon, "build");
+	            plus.android.invoke(plus.android.runtimeMainActivity().getContentResolver(), "insert", calendarUri, value);
+	            mui.toast("添加账号成功");
+	        }
 		</script>
 	</body>
 
