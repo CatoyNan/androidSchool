@@ -472,6 +472,7 @@
 						var timeDifference = "";
 						var day = myDate.getDate();					
 						var week_now = myDate.getDay(); //获取当前星期X(0-6,0代表星期天)
+						var clock_hou_min = clockTime(whichCell);
 						if(week_now==0){
 							week_now = week_now+7;
 						}
@@ -485,7 +486,7 @@
 							day = day + timeDifference;
 						}
 						oMyEdit.style.display="none";					
-						addEvent(day);
+						addEvent(day,clock_hou_min);
 					}
 					else {
 						oMyEdit.style.display="none";	
@@ -558,7 +559,23 @@
 ////				}, false);
 //			}
 			
-			
+			//判断课程时间段
+			function clockTime(c){
+				var time = c-parseInt(c/10)*10;
+				var hor_min = new Array;
+				switch (time){
+					case 1:hor_min[0]=8;hor_min[1]=0;break;
+					case 2:hor_min[0]=10;hor_min[1]=0;break;
+					case 3:hor_min[0]=12;hor_min[1]=0;break;
+					case 4:hor_min[0]=15;hor_min[1]=50;break;
+					case 5:hor_min[0]=18;hor_min[1]=40;break;
+					case 6:hor_min[0]=20;hor_min[1]=30;break;
+					case 7:hor_min[0]=20;hor_min[1]=50;break;
+					case 8:hor_min[0]=20;hor_min[1]=45;break;
+					case 9:hor_min[0]=20;hor_min[1]=40;break;						   
+				}
+				return hor_min;
+			}
 			
 			//日历提醒
 		    var calanderURL = "content://com.android.calendar/calendars";
@@ -566,7 +583,7 @@
 	        var calanderRemiderURL = "content://com.android.calendar/reminders";
 	        var calId;
 	
-	        function addEvent(day) {
+	        function addEvent(day,clock_hou_min) {
 	            var Cursor = plus.android.importClass("android.database.Cursor");
 	            var Uri = plus.android.importClass("android.net.Uri");
 	            var Calendar = plus.android.importClass("java.util.Calendar");
@@ -589,8 +606,8 @@
 	                events.put("eventLocation", "地球-华夏");
 	                var mCalendar = Calendar.getInstance();
 	                plus.android.invoke(mCalendar, 'set', Calendar.DATE, day);
-	                plus.android.invoke(mCalendar, "set", Calendar.HOUR_OF_DAY, 21);
-	                plus.android.invoke(mCalendar, "set", Calendar.MINUTE, 49);
+	                plus.android.invoke(mCalendar, "set", Calendar.HOUR_OF_DAY, clock_hou_min[0]);
+	                plus.android.invoke(mCalendar, "set", Calendar.MINUTE, clock_hou_min[1]);
 	                var start = plus.android.invoke(plus.android.invoke(mCalendar, "getTime"), "getTime");
 	                var end = plus.android.invoke(plus.android.invoke(mCalendar, "getTime"), "getTime");
 	                events.put("dtstart", start);
