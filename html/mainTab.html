@@ -44,7 +44,7 @@
 		</header>
 		<nav id='barTab' class="mui-bar mui-bar-tab">
 		    <a class="mui-tab-item mui-active" id="one">
-		        <img id='homeicon' src="../images/tabicon/home_hover.png" style="top: 2px;"/>
+		        <img id='homeicon' src="../images/tabicon/homeHover.png" style="top: 2px;"/>
 		        <span class="mui-tab-label">校园动态</span>
 		    </a>
 		    <a class="mui-tab-item" id="tow">
@@ -107,10 +107,7 @@
 				]
 			});
 			mui.plusReady(function(){
-//				var currentView = plus.webview.currentWebview();
-//				currentView.show('slide-in-right', 300);
-//				plus.nativeUI.closeWaiting();
-			//	plus.webview.currentWebview().opener().close();//关闭父页面
+				plus.webview.currentWebview().opener().close();//关闭父页面
 				var newsPage = plus.webview.getWebviewById('newsPage');
 				var advisory = plus.webview.getWebviewById('advisory');
 				var work = plus.webview.getWebviewById('work');
@@ -123,7 +120,7 @@
 					advisory.hide();
 					work.hide();
 					setting.hide();
-					homeicon.src='../images/tabicon/home_hover.png';
+					homeicon.src='../images/tabicon/homeHover.png';
 					advidoryicon.src='../images/tabicon/advidory.png';
 					jobicon.src='../images/tabicon/job.png';
 					settingicon.src='../images/tabicon/setting.png';
@@ -132,7 +129,7 @@
 				})
 				document.getElementById('tow').addEventListener('tap',function(){
 					advisory.show();
-					advidoryicon.src='../images/tabicon/advidory_hover.png';
+					advidoryicon.src='../images/tabicon/advidoryHover.png';
 					homeicon.src='../images/tabicon/home.png';
 					jobicon.src='../images/tabicon/job.png';
 					settingicon.src='../images/tabicon/setting.png';
@@ -142,7 +139,7 @@
 					work.show();
 					advidoryicon.src='../images/tabicon/advidory.png';
 					homeicon.src='../images/tabicon/home.png';
-					jobicon.src='../images/tabicon/jab_hover.png';
+					jobicon.src='../images/tabicon/jabHover.png';
 					settingicon.src='../images/tabicon/setting.png';
 //					mui.alert(3);
 				})
@@ -153,9 +150,9 @@
 					jobicon.src='../images/tabicon/job.png';
 					settingicon.src='../images/tabicon/setting_hover.png';
 //					mui.alert(4);
-				})
-				
-      });
+				})				
+      		});
+//    		
 
 		</script>
 	</body>

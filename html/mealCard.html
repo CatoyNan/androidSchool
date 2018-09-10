@@ -132,7 +132,7 @@ function getDefaultData() {
 			 * 输入金额格式验证
 			 */
 			function isMoney(money){
-				var reg = /^-?\d+$/;
+				var reg = /^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/;
 				console.log(money);
 					if (money.length!=0 && reg.test(money) && money>0 && money<=1000) {
 				          return true;
