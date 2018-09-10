@@ -94,19 +94,12 @@
 			}
 			
 			.mui-pull-top-tips .mui-pull-loading {
-				/*-webkit-backface-visibility: hidden;
-				-webkit-transition-duration: 400ms;
-				transition-duration: 400ms;*/
 				margin: 0;
 			}
 			
 			.mui-pull-top-wrapper .mui-icon,
 			.mui-pull-top-wrapper .mui-spinner {
 				margin-top: 7px;
-			}
-			
-			.mui-pull-top-wrapper .mui-icon.mui-reverse {
-				/*-webkit-transform: rotate(180deg) translateZ(0);*/
 			}
 			
 			.mui-pull-bottom-tips {
@@ -132,58 +125,33 @@
 			}
 			
 			.mui-slider-indicator.mui-segmented-control.mui-segmented-control-inverted{
-				/*background-color: #efeff4;*/
 				height: 40px;
-				/*background-color:rgb(1,128,207) ;*/
-				/*background-color:red;*/
 			}
-			/*.extre
-			{*/
-			/*background-color: black;
-			margin padding-right: 300px;
- 			padding-left: 100px;
- 			color: red;
- 			}*/
  			
  			
  		
 			 
-			  .mui-segmented-control .mui-scroll1 .mui-control-item
+		    .mui-segmented-control .mui-scroll1 .mui-control-item
 			 {
 			 	color:rgb(198,207,209);
 			 	text-align: center;
 			 	font-family: "微软雅黑";
-			 	/*border-bottom: dashed yellow;
-			 	border-right: solid yellow;
-				border: dashed;*/
 				height: 40px;
-				
-				/*padding-bottom: 10px;*/
-				/*margin-bottom:6px;*/
-				
-			/*	border-bottom: 1px solid red;*/
 				background-color: rgb(1,100,139) !important;
 			 	}
 			 .mui-fullscreen1
 			 {
 			 	height:40px;
-			 	/*border: solid black;*/
-			 	/*background-color:red;*/
 			 	}
 			 .mui-content1{
 			 	height:40px;
 			 	background-color: rgb(1,100,139) !important;
 			 	}	
 			 .test{
- 				
-			/* 	margin-bottom: 10px;*/
 			 	height: 40px;
 			 	font-family: "微软雅黑";
-			/* 	padding-top: 8px;*/
-				/*border-bottom: 1px solid red;*/
 				background-color: rgb(239,239,244) !important;
-				margin:0;
-				
+				margin:0;				
  			}
  			
  			.mui-active{
@@ -197,14 +165,7 @@
 		<link href="../css/news.css" rel="stylesheet"  />
 	</head>
 	
-	<body>
-			
-	<!--<div class="test">
-		<p> test </p>
-		<p></p>
-	</div>	-->
-	
-		
+	<body>		
 	 <div class="mui-content" id="news">	
 	 	<!--轮播图-->
 		<div id="slider" class="mui-slider" >
@@ -212,7 +173,7 @@
 				<!-- 额外增加的一个节点(循环轮播：第一个节点是最后一张轮播) -->
 				<div class="mui-slider-item mui-slider-item-duplicate">
 					<a href="#">
-						<img src="../images/school_img/use_7.jpg">
+						<img src="../images/schoolImg/use7.jpg">
 					</a>
 					<p class="main">
 					<span class="content">望星空，浩瀚之下的深思，燃起少年心中的梦</span>
@@ -221,7 +182,7 @@
 				<!-- 第一张 -->
 				<div class="mui-slider-item">
 					<a href="#">
-						<img src="../images/school_img/use_5.jpg">
+						<img src="../images/schoolImg/use5.jpg">
 					</a>
 				<p class="main">
 				<span class="content">新学期就开始了，暑假的狂欢之余大家是否也没曾忘记学习</span>
@@ -231,7 +192,7 @@
 				<!-- 第二张 -->
 				<div class="mui-slider-item">
 					<a href="#">
-						<img src="../images/school_img/use_2.jpg">
+						<img src="../images/schoolImg/use2.jpg">
 					</a>
 					<p class="main">
 					<span class="content">开学季玩转校园，一起了解大学寝室四大必备神器</span>
@@ -240,7 +201,7 @@
 				<!-- 第三张 -->
 				<div class="mui-slider-item">
 					<a href="#">
-						<img src="../images/school_img/use_4.jpg">
+						<img src="../images/schoolImg/use4.jpg">
 					</a>
 
 					<p class="main">
@@ -251,7 +212,7 @@
 				<!-- 第四张 -->
 				<div class="mui-slider-item">
 					<a href="#">
-						<img src="../images/school_img/use_7.jpg">
+						<img src="../images/schoolImg/use7.jpg">
 					</a>
 					<p class="main">
 					<span class="content">望星空，浩瀚之下的深思，点燃少年心中的梦</span>
@@ -260,7 +221,7 @@
 				<!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
 				<div class="mui-slider-item mui-slider-item-duplicate">
 					<a href="#">
-						<img src="../images/school_img/use_5.jpg">
+						<img src="../images/schoolImg/use5.jpg">
 					</a>
 				<p class="main">
 				<span class="content">新学期就开始了，暑假的狂欢之余大家是否也没曾忘记学习</span>
@@ -502,46 +463,7 @@
 				}
 				return newItems;
 			}
-			/**
-			 * 格式化时间的辅助类，将一个时间转换成x小时前、y天前等
-			 */
-//			var dateUtils = {
-//				UNITS: {
-//					'年': 31557600000,
-//					'月': 2629800000,
-//					'天': 86400000,
-//					'小时': 3600000,
-//					'分钟': 60000,
-//					'秒': 1000
-//				},
-//				humanize: function(milliseconds) {
-//					var humanize = '';
-//					mui.each(this.UNITS, function(unit, value) {
-//						if(milliseconds >= value) {
-//							humanize = Math.floor(milliseconds / value) + unit + '前';
-//							return false;
-//						}
-//						return true;
-//					});
-//					return humanize || '刚刚';
-//				},
-//				format: function(dateStr) {
-//					var date = this.parse(dateStr)
-//					var diff = Date.now() - date.getTime();
-//					if(diff < this.UNITS['天']) {
-//						return this.humanize(diff);
-//					}
-//
-//					var _format = function(number) {
-//						return(number < 10 ? ('0' + number) : number);
-//					};
-//					return date.getFullYear() + '/' + _format(date.getMonth() + 1) + '/' + _format(date.getDay()) + '-' + _format(date.getHours()) + ':' + _format(date.getMinutes());
-//				},
-//				parse: function(str) { //将"yyyy-mm-dd HH:MM:ss"格式的字符串，转化为一个Date对象
-//					var a = str.split(/[^0-9]/);
-//					return new Date(a[0], a[1] - 1, a[2], a[3], a[4], a[5]);
-//				}
-//			};
+			
 			function dateChange(time){  
 			    var year=time.getFullYear(); 
 			    var mon = time.getMonth()+1; 
