@@ -1,75 +1,78 @@
 {
-  "index.html": {
-    "refer": [
-      "main.html",
-      "mainTab.html",
-      "html/mainTab.html"
-    ],
-    "resources": [
-      "/css/mui.min.css",
-      "/js/mui.min.js",
-      "images/login/1.png",
-      "images/login/f!.png",
-      "images/login/background.png"
-    ]
-  },
-  "html/mainTab.html": {
-    "resources": [
-      "html/news.html"
-    ],
-    "refer": [
-      "html/news.html",
-      "html/advisory.html",
-      "html/mySetting.html"
-    ]
-  },
-  "html/news.html": {
-    "refer": [
-      "html/newsDetal.html"
-    ],
-    "resources": []
-  },
-  "html/advisory.html": {
-    "refer": [
-      "html/mealCard.html",
-      "html/book.html",
-      "html/apartmentElectricity.html",
-      "html/myClass.html"
-    ],
-    "resources": []
-  },
-  "html/mealCard.html": {
-    "refer": [
-      "html/mealCard.html"
-    ],
-    "resources": []
-  },
-  "html/mySetting.html": {
-    "refer": [
-      "html/myInfo.html",
-      "html/updatePwd.html"
-    ],
-    "resources": []
-  },
-  "html/book.html": {
-    "refer": [
-      "html/bookDetal.html"
-    ],
-    "resources": []
-  },
-  "html/updatePwd.html": {
-    "refer": [
-      "html/mySetting.html"
-    ]
-  },
-  "html/apartmentElectricity.html": {
-    "refer": [
-      "html/electricityCharge.html"
-    ]
-  },
-  "html/electricityCharge.html": {
-    "refer": [
-      "html/webPay.html"
-    ]
-  }
+	"index.html": {
+		"refer": [
+			"main.html",
+			"mainTab.html",
+			"html/mainTab.html"
+		],
+		"resources": [
+			"/css/mui.min.css",
+			"/js/mui.min.js",
+			"images/login/1.png",
+			"images/login/f!.png",
+			"images/login/background.png"
+		]
+	},
+	"html/mainTab.html": {
+		"resources": [
+			"html/news.html"
+		],
+		"refer": [
+			"html/news.html",
+			"html/advisory.html",
+			"html/mySetting.html"
+		]
+	},
+	"html/news.html": {
+		"refer": [
+			"html/newsDetal.html",
+			"html/tab-top-subpage-1.html"
+		],
+		"resources": [
+			"html/tab-top-subpage-1.html"
+		]
+	},
+	"html/advisory.html": {
+		"refer": [
+			"html/mealCard.html",
+			"html/book.html",
+			"html/apartmentElectricity.html",
+            "html/myClass.html"
+		],
+		"resources": []
+	},
+	"html/mealCard.html": {
+		"refer": [
+			"html/mealCard.html"
+		],
+		"resources": []
+	},
+	"html/mySetting.html": {
+		"refer": [
+			"html/myInfo.html",
+			"html/updatePwd.html"
+		],
+		"resources": []
+	},
+	"html/book.html": {
+		"refer": [
+			"html/bookDetal.html"
+		],
+		"resources": []
+	},
+	"html/updatePwd.html": {
+		"refer": [
+			"html/mySetting.html"
+		]
+	},
+	"html/apartmentElectricity.html": {
+		"refer": [
+			"html/electricityCharge.html"
+		]
+	},
+	"html/electricityCharge.html": {
+		"refer": [
+			"html/webPay.html"
+		]
+	}
 }

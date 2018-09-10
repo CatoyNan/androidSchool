@@ -239,7 +239,9 @@
 				"priority": 0
 			},
 			"html/news.html": {
-				"resources": [],
+				"resources": [
+					"html/tab-top-subpage-1.html"
+				],
 				"refer": [
 					"html/newsDetal.html"
 				],

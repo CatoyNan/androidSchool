@@ -1,0 +1,9 @@
+.main{clear:both;overflow:hidden;width: 100%;oline-height:30px;position:absolute;bottom:0px;left:0;width:100%;height:auto;
+ 	margin:0;
+ 	text-align:left;opacity:.8;background-color:#000;}
+
+.content{padding-left:4px;color:white;float:left;line-height:20px;display: inline-block;}
+
+/*.title{width: 50px;}*/
+
+.content{width: 70%;}
