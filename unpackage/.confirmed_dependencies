@@ -25,9 +25,12 @@
 	},
 	"html/news.html": {
 		"refer": [
-			"html/newsDetal.html"
+			"html/newsDetal.html",
+			"html/tab-top-subpage-1.html"
 		],
-		"resources": []
+		"resources": [
+			"html/tab-top-subpage-1.html"
+		]
 	},
 	"html/advisory.html": {
 		"refer": [
