@@ -126,12 +126,7 @@
 			
 			.mui-slider-indicator.mui-segmented-control.mui-segmented-control-inverted{
 				height: 40px;
-			}
- 			
- 			.mui-segmented-control .mui-scroll1 .mui-control-item:hover {
- 				color: red;
- 			}
- 		
+			}		
 			 
 		    .mui-segmented-control .mui-scroll1 .mui-control-item
 			 {
@@ -242,20 +237,20 @@
 	 	<div class="mui-content1">
 			<div id="slider" class="mui-slider mui-fullscreen1">
 				<div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
-					<div class="mui-scroll1">
-						<a class="mui-control-item mui-active test" href="#item1mobile" data-wid="tab-top-subpage-1.html">
+					<div id="news_bar" class="mui-scroll1">
+						<a class="mui-control-item mui-active test" data-wid="tab-top-subpage-1.html">
 							头条
 						</a>
-						<a class="mui-control-item" href="#item2mobile" data-wid="tab-top-subpage-2.html">
+						<a class="mui-control-item" data-wid="tab-top-subpage-2.html">
 							热点
 						</a>
-						<a class="mui-control-item" href="#item3mobile" data-wid="tab-top-subpage-3.html">
+						<a class="mui-control-item" data-wid="tab-top-subpage-3.html">
 							公告
 						</a>
-						<a class="mui-control-item" href="#item4mobile" data-wid="tab-top-subpage-4.html">
+						<a class="mui-control-item" data-wid="tab-top-subpage-4.html">
 							社会
 						</a>
-						<a class="mui-control-item" href="#item5mobile" data-wid="tab-top-subpage-5.html">
+						<a class="mui-control-item" data-wid="tab-top-subpage-5.html">
 							娱乐 
 						</a>
 					</div>
@@ -291,6 +286,7 @@
 		<script src="../js/mui.min.js"></script>
 		<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
+			var newsType = "头条";
 			var webview_detail = null; //详情页webview
 			var titleNView = { //详情页原生导航配置
 				backgroundColor:'azure', //导航栏背景色
@@ -310,7 +306,18 @@
 				}
 			});
 
-		
+			//slider新闻条事件
+			var oSlider = document.getElementById("news_bar");
+			var oType = oSlider.getElementsByTagName("a");
+			for(var i=0;i<oType.length;i++){
+				oType[i].addEventListener("tap",function(){
+//					alert("123");
+					newsType=this.innerHTML;
+					news.items.length=0;
+					getNews(newsType);
+				});
+			}
+			
 			mui.init({
 				pullRefresh: {//配置下拉刷新
 					container: '#list',//下拉刷新标识
@@ -342,21 +349,9 @@
 
 				var data = {
 					column: "state,result" //需要的字段名
-				}
-				
-
+				}				
 				//请求最新列表信息流
-				mui.getJSON(localStorage.getItem("url")+'/demo/findAllNewsListtitleRecent', function(msg) {
-					mui('#list').pullRefresh().endPulldownToRefresh();//加载完新数据后，需要执行endPullupToRefresh()方法，结束转雪花进度条的“正在加载...”过程
-					if(msg.state) {	
-						 	if(news.items==''){
-						 		news.items = convert1(msg).concat(news.items);//数组拼接
-						 	}
-						 	else{
-						 		news.items = convert2(msg).concat(news.items);//数组拼接
-						 	}
-					}
-				});
+				getNews(newsType)
 			}
 	
 			/**
@@ -366,24 +361,9 @@
 				var data = {
 					column: "id,post_id,title,author_name,cover,published_at" //需要的字段名
 				};
-
 				//请求历史列表信息流
-				mui.getJSON(localStorage.getItem("url")+'/demo/findAllNewsListtitleRecent', data, function(msg) {
-					if(msg.state) {	
-						 	if(news.items==''){
-						 		news.items = convert1(msg).concat(news.items);//数组拼接
-						 	}
-						 	else{
-						 		news.items = convert2(msg).concat(news.items);//数组拼接
-						 	}
-					}
-					setTimeout(function(){
-						mui('#list').pullRefresh().endPullupToRefresh();
-					},2000);
-					
-				});
+				getNews(newsType);
 			}
-			
 			
 			mui.plusReady(function() {
 				//预加载详情页
@@ -474,6 +454,25 @@
 			    var minu = time.getMinutes(); 
 			    var sec = time.getSeconds(); 
 				return year+'-'+mon+'-'+day+' '+hours+':'+minu+':'+sec; 
+			}
+			
+			function getNews(news_type){
+				//请求最新列表信息流
+				mui.getJSON(localStorage.getItem("url")+'/demo/findAllNewsListtitleRecentByType?news_type='+news_type, function(msg) {
+					mui('#list').pullRefresh().endPulldownToRefresh();//加载完新数据后，需要执行endPullupToRefresh()方法，结束转雪花进度条的“正在加载...”过程
+					if(msg.state) {	
+						 	if(news.items==''){
+						 		news.items = convert1(msg).concat(news.items);//数组拼接
+						 	}
+						 	else{
+						 		news.items = convert2(msg).concat(news.items);//数组拼接
+						 	}
+						 	
+					}
+					setTimeout(function(){
+						mui('#list').pullRefresh().endPullupToRefresh();
+					},2000)
+				});
 			}
 		   
 			
